@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Product} from "../model/product";
+import {Product, ProductRequest} from "../model/product";
 import {environment} from "../../environments/environment";
 // import { Product } from '../models/product.model';
 
@@ -28,7 +28,7 @@ export class ProductsService {
   //   return this.http.put(`${this.PRODUCT_URL}/${id}`, newProperties);
   // }
 
-  createProduct(product: Product) {
+  createProduct(product: ProductRequest) {
     return this.http.post('${this.PRODUCT_URL}', product);
 
   }

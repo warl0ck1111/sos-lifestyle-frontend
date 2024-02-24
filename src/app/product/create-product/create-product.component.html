@@ -1,5 +1,4 @@
-<form formGroup=createProductFormGroup>
-  <div class="container">
+ <div [formGroup]=createProductFormGroup class="container">
     <mat-card style="display: flex">
       <mat-card-header>
         <mat-card-title>Create Product</mat-card-title>
@@ -10,7 +9,7 @@
     <mat-card style="display: flex">
 
 
-      <mat-card-content>
+      <mat-card-content >
         <mat-form-field appearance="outline">
           <mat-label>Product Name</mat-label>
           <input formControlName="productName" required matInput placeholder="name">
@@ -22,7 +21,7 @@
 
       <mat-card-content>
         <mat-form-field appearance="outline">
-          <mat-label>Product Name</mat-label>
+          <mat-label>Description</mat-label>
           <input formControlName="description" matInput placeholder="description">
         </mat-form-field>
       </mat-card-content>
@@ -31,7 +30,7 @@
       <mat-card-content>
         <mat-form-field appearance="outline">
           <mat-label>Price</mat-label>
-          <input formControlName="price" matInput class="example-right-align" placeholder="0">
+          <input formControlName="price" matInput class="example-right-align" placeholder="50 000">
           <span matTextPrefix>₦&nbsp;</span>
           <span matTextSuffix>.00</span>
 <!--          <mat-error *ngIf="this.profileForm.controls['price'].invalid">{{'invalid price amount'}}</mat-error>-->
@@ -58,52 +57,43 @@
 
       <mat-card-content>
         <mat-form-field appearance="outline">
-          <mat-label>CategoryId</mat-label>
-          <input formControlName="categoryId" matInput placeholder="categoryId">
-        </mat-form-field>
-      </mat-card-content>
-
-
-      <mat-card-content>
-        <mat-form-field appearance="outline">
 
           <mat-label>Color</mat-label>
           <mat-select formControlName="color">
-            <mat-option value="primary">Primary</mat-option>
-            <mat-option value="accent">Accent</mat-option>
-            <mat-option value="warn">Warn</mat-option>
+            <mat-option *ngFor="let color of colors; index as i;" value="{{color.id}}">{{color.name}}</mat-option>
+
           </mat-select>
         </mat-form-field>
       </mat-card-content>
 
-  <mat-card-content>
+       <mat-card-content>
         <mat-form-field appearance="outline">
 
-          <mat-label>Color</mat-label>
+          <mat-label>Category</mat-label>
           <mat-select formControlName="categoryId">
-            <mat-option *ngFor="let color in colors" value="primary">{{color.name}}</mat-option>
+            <mat-option *ngFor="let category of categories; index as i;" value="{{category.id}}">{{category.name}}</mat-option>
 
           </mat-select>
         </mat-form-field>
       </mat-card-content>
 
-
-      <mat-card-content>
+       <mat-card-content>
         <mat-form-field appearance="outline">
-          <mat-label>Color</mat-label>
-          <input formControlName="color" matInput placeholder="color">
+
+          <mat-label>Brand</mat-label>
+          <mat-select formControlName="brand">
+            <mat-option *ngFor="let brand of brands; index as i;" value="{{brand.id}}">{{brand.name}}</mat-option>
+
+          </mat-select>
         </mat-form-field>
-      </mat-card-content>
+
+         <button (click)="createProduct()" mat-raised-button color="primary">Create Product </button>
+
+       </mat-card-content>
 
 
-      <mat-card-content>
-        <mat-form-field appearance="outline">
-          <mat-label>Size</mat-label>
-          <input formControlName="size" matInput placeholder="size">
-        </mat-form-field>
-      </mat-card-content>
+
 
 
     </mat-card>
   </div>
-</form>

@@ -8,6 +8,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Brand} from "../../model/brand";
 import {ColorService} from "../../services/color.service";
 import {Color} from "../../model/color";
+import {ProductsService} from "../../services/products.service";
+import {ProductRequest} from "../../model/product";
+import {Sizes} from "../../model/size";
 
 @Component({
   selector: 'app-create-product',
@@ -15,18 +18,26 @@ import {Color} from "../../model/color";
   styleUrls: ['./create-product.component.scss']
 })
 export class CreateProductComponent {
-  private createProductFormGroup: FormGroup<{ quantity: FormControl<string | null>; color: FormControl<string | null>; size: FormControl<string | null>; price: FormControl<string | null>; brandId: FormControl<string | null>; description: FormControl<string | null>; productName: FormControl<string | null>; categoryId: FormControl<string | null>; barCode: FormControl<string | null> }>;
+  createProductFormGroup!: FormGroup;
 
 
 
 
 
-  constructor(private categoryService:CategoryService, private colorService:ColorService,
+  constructor(private categoryService:CategoryService,private productService:ProductsService, private colorService:ColorService,
               private brandService:BrandService, private _snackBar: MatSnackBar) {
+
+  }
+
+  ngOnInit(){
+    this.getCategories();
+    this.getColors();
+    this.getBrands();
+
     this.createProductFormGroup = new FormGroup({
       productName: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      barCode: new FormControl('', [Validators.required]),
+      barcode: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
       quantity: new FormControl('', [Validators.required]),
       categoryId: new FormControl('', [Validators.required]),
@@ -34,12 +45,6 @@ export class CreateProductComponent {
       color: new FormControl('' ),
       size: new FormControl(''),
     });
-  }
-
-  ngOnInit(){
-    this.getCategories();
-    this.getColors();
-    this.getBrands();
   }
 
   categories:Category[] = [];
@@ -98,5 +103,38 @@ colors:Color[] = [];
       duration: 3000
     });
   }
+
+  createProduct() {
+
+    //if property doesnt match then do this
+    // this.user.Name = this.userForm.get('name').value;
+    let productRequest = this.buildProductRequest();
+    console.log("createProduct/productRequest:"+JSON.stringify(productRequest))
+    this.productService.createProduct(productRequest).pipe(finalize(()=>{
+
+    })).subscribe((result:any)=>{
+      this.openSnackBar("product successfully created ", "Dismiss");
+    },
+      (error:any) => {
+        this.openSnackBar(error.message, "Dismiss");
+
+      })
+  }
+
+   buildProductRequest():ProductRequest {
+    return{
+      quantity:this.createProductFormGroup?.get('quantity')?.value as unknown as number,
+      size:this.createProductFormGroup?.get('size')?.value as unknown as Sizes,
+      price:this.createProductFormGroup?.get('price')?.value as unknown as number,
+      color:this.createProductFormGroup?.get('color')?.value as unknown as string,
+      brandId:this.createProductFormGroup?.get('brandId')?.value as unknown as number,
+      categoryId:this.createProductFormGroup?.get('categoryId')?.value as unknown as number,
+      barCode:this.createProductFormGroup?.get('barcode')?.value as unknown as string,
+      description:this.createProductFormGroup?.get('description')?.value as unknown as string,
+      name:this.createProductFormGroup?.get('name')?.value as unknown as string ,
+
+    }
+  }
+
 
 }
