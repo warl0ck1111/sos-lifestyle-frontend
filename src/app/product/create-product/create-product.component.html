@@ -1,0 +1,110 @@
+<!--<form formGroup=profileForm>-->
+  <div class="container">
+    <mat-card style="display: flex">
+      <mat-card-header>
+        <mat-card-title>Create Product</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+
+
+    <mat-card style="display: flex">
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Product Name</mat-label>
+          <input formControlName="productName" required matInput placeholder="name">
+          <!--      @if (productName.invalid) {-->
+          <!--      <mat-error>{{getErrorMessage()}}</mat-error>-->
+          <!--      }-->
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Product Name</mat-label>
+          <input formControlName="description" matInput placeholder="description">
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input formControlName="price" matInput class="example-right-align" placeholder="0">
+          <span matTextPrefix>₦&nbsp;</span>
+          <span matTextSuffix>.00</span>
+<!--          <mat-error *ngIf="this.profileForm.controls['price'].invalid">{{'invalid price amount'}}</mat-error>-->
+
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Quantity</mat-label>
+          <input formControlName="quantity" matInput placeholder="quantity">
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Barcode</mat-label>
+          <input formControlName="barcode" matInput placeholder="barcode">
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>CategoryId</mat-label>
+          <input formControlName="categoryId" matInput placeholder="categoryId">
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+
+          <mat-label>Color</mat-label>
+          <mat-select formControlName="color">
+            <mat-option value="primary">Primary</mat-option>
+            <mat-option value="accent">Accent</mat-option>
+            <mat-option value="warn">Warn</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+
+  <mat-card-content>
+        <mat-form-field appearance="outline">
+
+          <mat-label>Color</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option value="primary">Primary</mat-option>
+            <mat-option value="accent">Accent</mat-option>
+            <mat-option value="warn">Warn</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Color</mat-label>
+          <input formControlName="color" matInput placeholder="color">
+        </mat-form-field>
+      </mat-card-content>
+
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Size</mat-label>
+          <input formControlName="size" matInput placeholder="size">
+        </mat-form-field>
+      </mat-card-content>
+
+
+    </mat-card>
+  </div>
+<!--</form>-->

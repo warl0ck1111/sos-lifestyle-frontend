@@ -11,7 +11,6 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatInputModule} from "@angular/material/input";
-import {ProductsService} from "./product/products.service";
 import {HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {SalesService} from "../services/sales.service";
@@ -25,6 +24,10 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {SalesComponent} from "./sales/sales.component";
 import {MatCardModule} from "@angular/material/card";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { CreateProductComponent } from './create-product/create-product.component';
+import {ProductsService} from "../services/products.service";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -32,7 +35,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ProductComponent,
     DashboardComponent,
     MenuBarComponent,
-    SalesComponent
+    SalesComponent,
+    CreateProductComponent
   ],
   imports: [
     CommonModule,
@@ -40,9 +44,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ProductRoutingModule, ReactiveFormsModule, MatFormFieldModule,
     MatIconModule, NgbPagination,
     FormsModule, NgbHighlight, MatTableModule,
-    MatPaginatorModule, MatSortModule, MatInputModule, HttpClientModule, MatButtonModule, NgbTooltip, PagesModule, MatSidenavModule, MatListModule, MatMenuModule, MatToolbarModule, MatBadgeModule, MatCardModule
+    MatPaginatorModule, MatSortModule, MatInputModule, HttpClientModule,
+    MatButtonModule, NgbTooltip, PagesModule, MatSidenavModule, MatListModule,
+    MatMenuModule, MatToolbarModule, MatBadgeModule, MatCardModule, MatOptionModule, MatSelectModule,
   ],
-  providers:[DecimalPipe, ProductsService, SalesService
-]
+  providers:[DecimalPipe, ProductsService, SalesService]
 })
 export class ProductModule { }
