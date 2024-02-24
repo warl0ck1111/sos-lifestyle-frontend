@@ -1,0 +1,82 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 col-12 left-side d-none d-md-block">
+      <div class="tx-white pd-md-y-150 pd-md-x-50 pd-lg-x-80 uba-bg">
+        <p class="tx-64 tx-bold text-height-1">
+          SOS LIFESTYLE
+        </p>
+        <p class="tx-20 col-md-9 pd-x-0">Elevate your style, embrace your life.</p>
+      </div>
+    </div>
+    <div class="col-lg-7 min-hei  bg-main">
+      <div class="container pd-lg-x-100 pd-xl-x-120 pd-y-30 pd-x-20">
+        <nav class="navbar navbar-expand-lg bg-transparent">
+          <ul class="navbar-nav ml-auto">
+            <img src="../../../assets/img/sos-small-dark-no-bg.png" class="img-fluid" alt="" srcset="">
+          </ul>
+        </nav>
+        <main>
+          <div class="pd-md-t-80 pd-t-30 pd-lg-l-50">
+            <p class="tx-32 tx-bold mg-b-0">Login</p>
+            <p class="tx-subdued tx-14">Please enter your information to login.</p>
+            <div class="col-lg-9 col-md-10 pd-x-0 pd-y-10">
+              <form [formGroup]="loginForm"  class="pd-md-b-60 pd-b-30">
+                <div class="form-group required mg-b-15">
+                  <label  class="d-block control-label tx-medium mg-b-3">Username/Email</label>
+                  <input formControlName="username" type="email" class="form-control" placeholder="">
+                </div>
+                <div class="form-group required mg-b-5">
+                  <label  class="d-block control-label tx-medium mg-b-3">Password</label>
+                  <div class="input-group" id="show_hide_password">
+                    <input formControlName="password" type="password" class="form-control bd-r-0">
+                    <div class="input-group-append bd-0">
+                          <span class="input-group-text bd-l-0 bg-white" id="basic-addon2">
+                          <i class="fa fa-eye-slash" id="togglePassword"></i>
+                          </span>
+                    </div>
+                  </div>
+                </div>
+                <a href="./forgot-password.html" class="tx-medium tx-subdued" style="text-decoration: underline;">Forgot Password? </a>
+
+                <div class=" mg-t-30">
+                  <button
+                    type="button"
+                    id="submit"
+                    (click)="gotoCreateProduct()" style="background-color: #0c0e13; color: white;" class="w-100 tx-16">Login</button>
+
+                  <div class="tx-center mg-t-15">
+                    <a href="./register.html" class="tx-primary tx-12 mb-0 tx-semibold"> <span class="tx-subdued tx-normal"> Don’t have an account? </span>Signup</a>
+                  </div>
+                </div>
+              </form>
+              <div class="">
+                <hr class="">
+                <div class="d-flex">
+                  <a href="" class="tx-blue-900 tx-semibold mg-b-0 tx-14">Need Help</a>
+                  <img src="../../../assets/img/live_help_24px.svg" alt="" class="img-fluid pd-l-15" srcset="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+  </div>
+</div>
+<footer >
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2024 Copyright:
+    <a href="#"> soslifestyle.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+
+<!--<script src="assets/lib/jquery/jquery.min.js"></script>-->
+<!--<script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+<!--<script src="assets/lib/feather-icons/feather.min.js"></script>-->
+<!--<script src="assets/js/dashforge.js"></script>-->
+
