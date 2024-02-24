@@ -1,11 +1,11 @@
-export class Brand{
+export class Color{
   id: number = 0;
   name?:string;
   description?:string;
 }
 
 
-export interface BrandRequest{
+export interface ColorRequest{
   name:string;
   description:string;
 }

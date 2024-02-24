@@ -1,13 +1,13 @@
 import {Component, HostListener, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
-import {ProductsService} from "./products.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {CartItem, Product} from "../../model/product";
 import {SalesService} from "../../services/sales.service";
 import {finalize} from "rxjs";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Invoice} from "../../model/invoice";
+import {ProductsService} from "../../services/products.service";
 
 declare function printLabel(invoice:Invoice, inches:number ): void; // Declare the external function
 @Component({

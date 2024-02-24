@@ -73,5 +73,4 @@ export class SalesComponent {
     });
   }
 
-  protected readonly formatDate = formatDate;
 }
