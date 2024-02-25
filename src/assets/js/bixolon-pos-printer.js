@@ -3,44 +3,35 @@
   var issueID = 1;
   var tmp = "123456789"
   var _inch = 3;
+  var p_name = "Printer1"
 
   function changeInch() {
   _inch = type_inch.value;
 }
 
   function viewResult(result) {
-  p_result.value = result;
+    console.log("viewResult:"+result)
+  // p_result.value = result;
 }
 
-  function ringAlarm(){
-  setPosId(issueID);
-  checkPrinterStatus();
-
-  setAlarm(alarm_count.value);
-
-  var strSubmit = getPosData();
-  console.log(strSubmit);
-
-  issueID++;
-  requestPrint(p_name.value, strSubmit, viewResult);
-}
 
   function PrintReceipt(invoice, inches) {
-
+    console.log("PrintReceipt:invoice"+invoice)
+    console.log("PrintReceipt:inches"+inches)
   setPosId(issueID);
   checkPrinterStatus();
 
-  printText("\n\nSOS Lifestyle,\nSampyeong-dong, Bundang-gu,\nSeongnam-si, Gyeonggi-do,\n463-400, Korea\n\n\n", 0, 0, false, false, false, 0, 1);
+  printText("\n\nSOS Lifestyle,\nElevate Your Style, Embrace Your Life,\n 463-400, Wuse 2 Abuja\n\n\n", 0, 0, false, false, false, 0, 1);
 
-  if(_inch == 2) {
+
     var counter =0;
   // 2inch sample
   printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
-    printText("Item name      Q'ty       price \n", 0, 0, false, false, false, 0, 0);
+    printText("Item name          Q'ty      price \n", 0, 0, false, false, false, 0, 0);
 
     for (const cartItem of invoice.cartItems) {
 counter++;
-      printText("Items "+counter+"          "+cartItem.quantity+"        "+cartItem.price*cartItem.quantity+"\n", 0, 0, false, false, false, 0, 0);
+      printText(cartItem.name+"         "+cartItem.quantity+"     "+cartItem.price*cartItem.quantity+"\n", 0, 0, false, false, false, 0, 0);
       counter = 0;//reset counter
     }
    printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
@@ -51,47 +42,10 @@ counter++;
   printText("                ----------------\n", 0, 0, false, false, false, 0, 0);
   printText("                 Total   "+invoice.total+"\n", 0, 1, true, false, false, 0, 0);
   printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
-} else if(_inch == 3) {
-  // 3inch sample
-  printText("------------------------------------------\n", 0, 0, false, false, false, 0, 0);
-  printText("Item name             Q'ty          price \n", 0, 0, false, false, false, 0, 0);
-  printText("Items 1                 1           100.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 2                 1           200.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 3                 1           300.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 4                 1           400.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 5                 1           500.00\n", 0, 0, false, false, false, 0, 0);
-  printText("------------------------------------------\n", 0, 0, false, false, false, 0, 0);
-  printText("                           Sub-Total 895.0\n", 0, 1, true, false, false, 0, 0);
-  printText("                           Discount    5.0\n", 0, 1, true, false, false, 0, 0);
-  printText("                          ----------------\n", 0, 0, false, false, false, 0, 0);
-  printText("                           Tax Total 200.0\n", 0, 1, true, false, false, 0, 0);
-  printText("                          ----------------\n", 0, 0, false, false, false, 0, 0);
-  printText("                           Total   1,000.0\n", 0, 1, true, false, false, 0, 0);
-  printText("------------------------------------------\n", 0, 0, false, false, false, 0, 0);
-} else if(_inch == 4) {
-  // 4inch sample
-  printText("--------------------------------------------------------------\n", 0, 0, false, false, false, 0, 0);
-  printText("Item name                         Q'ty                  price \n", 0, 0, false, false, false, 0, 0);
-  printText("Items 1                             1                   100.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 2                             1                   200.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 3                             1                   300.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 4                             1                   400.00\n", 0, 0, false, false, false, 0, 0);
-  printText("Items 5                             1                   500.00\n", 0, 0, false, false, false, 0, 0);
-  printText("--------------------------------------------------------------\n", 0, 0, false, false, false, 0, 0);
-  printText("                                               Sub-Total 895.0\n", 0, 1, true, false, false, 0, 0);
-  printText("                                               Discount    5.0\n", 0, 1, true, false, false, 0, 0);
-  printText("                                              ----------------\n", 0, 0, false, false, false, 0, 0);
-  printText("                                               Tax Total 200.0\n", 0, 1, true, false, false, 0, 0);
-  printText("                                              ----------------\n", 0, 0, false, false, false, 0, 0);
-  printText("                                               Total   1,000.0\n", 0, 1, true, false, false, 0, 0);
-  printText("--------------------------------------------------------------\n", 0, 0, false, false, false, 0, 0);
-} else {
-  // error
-  return;
-}
 
-  printText("Tel : 000 - 0000 - 0000\n", 0, 0, true, false, false, 0, 0);
-  printText("Homepage : www.soslifestyle.com\n\n\n\n", 0, 0, false, false, false, 0, 0);
+
+  printText("Tel : 080 - 1234 - 5678\n", 0, 0, true, false, false, 0, 0);
+  printText("Homepage : www.instagram.com/sos_lifestyle_/\n\n\n\n", 0, 0, false, false, false, 0, 0);
 
   printQRCode("https://www.instagram.com/sos_lifestyle_/",0,1,7,0);
   print1DBarcode("01234567890",0,4,70,2,1);
@@ -103,8 +57,8 @@ counter++;
   console.log(strSubmit);
 
   issueID++;
-  requestPrint(p_name.value, strSubmit, viewResult);
-
+  requestPrint("Printer1", strSubmit, viewResult);
+    console.log("reached end i guess...")
   return true;
 }
 
@@ -133,7 +87,7 @@ counter++;
   console.log(strSubmit);
 
   issueID++;
-  requestPrint(p_name.value, strSubmit, viewResult);
+  requestPrint("Printer1", strSubmit, viewResult);
 }
 
   function PrintImageFile() {
@@ -152,7 +106,7 @@ counter++;
 
   issueID++;
 
-  requestPrint(p_name.value, strSubmit, viewResult);
+  requestPrint("Printer1", strSubmit, viewResult);
 }
 
   function PrintCanvas() {
@@ -179,7 +133,7 @@ counter++;
   console.log(strSubmit);
 
   issueID++;
-  requestPrint(p_name.value, strSubmit, viewResult);
+  requestPrint("Printer1", strSubmit, viewResult);
 }
 
   function PrintPagemode() {
@@ -231,7 +185,7 @@ counter++;
   var strSubmit = getPosData();
 
   issueID++;
-  requestPrint(p_name.value, strSubmit, viewResult);
+  requestPrint("Printer1", strSubmit, viewResult);
 }
 
   function onImageWidthSelectChange() {

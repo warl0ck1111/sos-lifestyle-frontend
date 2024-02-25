@@ -9,8 +9,9 @@ import {Brand} from "../../model/brand";
 import {ColorService} from "../../services/color.service";
 import {Color} from "../../model/color";
 import {ProductsService} from "../../services/products.service";
-import {ProductRequest} from "../../model/product";
+import {Product, ProductRequest} from "../../model/product";
 import {Sizes} from "../../model/size";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-product',
@@ -24,7 +25,9 @@ export class CreateProductComponent {
 
 
 
-  constructor(private categoryService:CategoryService,private productService:ProductsService, private colorService:ColorService,
+  constructor(private categoryService:CategoryService,private productService:ProductsService,
+              private router:Router,
+              private colorService:ColorService,
               private brandService:BrandService, private _snackBar: MatSnackBar) {
 
   }
@@ -79,6 +82,7 @@ brands:Brand[] = [];
 
 
 colors:Color[] = [];
+  nameSearchIsLoading: boolean = false;
   getColors(){
     this.colorService.getAllColors().pipe(finalize(()=>{
 
@@ -108,12 +112,13 @@ colors:Color[] = [];
 
     //if property doesnt match then do this
     // this.user.Name = this.userForm.get('name').value;
-    let productRequest = this.buildProductRequest();
+    let productRequest:ProductRequest = this.buildProductRequest();
     console.log("createProduct/productRequest:"+JSON.stringify(productRequest))
     this.productService.createProduct(productRequest).pipe(finalize(()=>{
 
     })).subscribe((result:any)=>{
       this.openSnackBar("product successfully created ", "Dismiss");
+      this.router.navigateByUrl("product")
     },
       (error:any) => {
         this.openSnackBar(error.message, "Dismiss");
@@ -131,10 +136,29 @@ colors:Color[] = [];
       categoryId:this.createProductFormGroup?.get('categoryId')?.value as unknown as number,
       barCode:this.createProductFormGroup?.get('barcode')?.value as unknown as string,
       description:this.createProductFormGroup?.get('description')?.value as unknown as string,
-      name:this.createProductFormGroup?.get('name')?.value as unknown as string ,
+      name:this.createProductFormGroup?.get('productName')?.value as unknown as string ,
 
     }
   }
 
 
+  searchProductName() {
+    this.nameSearchIsLoading = true;
+    var productName = this.createProductFormGroup.get('productName')?.value
+    this.productService.searchProductByName(productName).pipe(finalize(()=>{
+      this.nameSearchIsLoading = false;
+    }))
+      .subscribe((result:any)=>{
+      if(result != null){
+        this.initializeFormData(result);
+      }
+    },
+        (error:any) => {
+        this.openSnackBar(error.message, "Dismiss");
+        })
+  }
+
+  private initializeFormData(result: Product) {
+
+  }
 }

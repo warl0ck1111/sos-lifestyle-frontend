@@ -33,6 +33,7 @@ export interface ProductRequest {
 }
 
 export interface CartItem {
+  productId:number;
   name: string;
   description: string;
   barCode: string;
@@ -43,4 +44,7 @@ export interface CartItem {
   brandId: number;
   color: string;
   size: string;
+
+
 }
+

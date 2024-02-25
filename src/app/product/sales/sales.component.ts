@@ -5,8 +5,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SalesService} from "../../services/sales.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {finalize} from "rxjs";
-import {Sale} from "../../model/sale.model";
 import {formatDate} from "@angular/common";
+import {Sale} from "../../model/sale";
 
 @Component({
   selector: 'app-sales',

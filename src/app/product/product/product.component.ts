@@ -8,8 +8,9 @@ import {finalize} from "rxjs";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Invoice} from "../../model/invoice";
 import {ProductsService} from "../../services/products.service";
+import {SaleDetail, SalesRequest} from "../../model/sale";
 
-declare function printLabel(invoice:Invoice, inches:number ): void; // Declare the external function
+declare function PrintReceipt(invoice:Invoice, inches:number ):string; // Declare the external function
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -22,7 +23,7 @@ export class ProductComponent {
   cart: CartItem[] = [];
   products: Product[] = [];
 
-  displayedProductListColumns: string[] = ['position', 'name', 'description', 'quantity', 'action'];
+  displayedProductListColumns: string[] = ['position', 'name', 'description', 'quantity', 'price', 'action'];
   displayedCartListColumns: string[] = ['position', 'name', 'quantity', 'action'];
   productListDataSource = new MatTableDataSource<Product>();
   cartListDataSource = new MatTableDataSource<CartItem>();
@@ -44,9 +45,10 @@ export class ProductComponent {
               private productService: ProductsService,
               private saleService: SalesService,
               private _snackBar: MatSnackBar) {
-    this.getProducts();
+   this.initializeData()
     console.log("constructor/products length:" + this.products.length);
-    this.cart = [];
+
+
 
   }
 
@@ -141,6 +143,7 @@ export class ProductComponent {
 
   buildCartItem(product: Product): CartItem {
     let cartItem: CartItem = {
+      productId:product.id,
       name: product.name,
       description: product.description,
       barCode: product.barCode,
@@ -150,7 +153,8 @@ export class ProductComponent {
       categoryId: product.category.id,
       brandId: product.brand.id,
       color: product.color,
-      size: product.size
+      size: product.size,
+
     };
     return cartItem;
   }
@@ -173,14 +177,16 @@ export class ProductComponent {
 
 
   postItemsForSale() {
-    console.log("postItemsForSale/cart:" + JSON.stringify(this.cart))
-    console.log("postItemsForSale/cart.size:" + this.cart.length)
+    if (window.confirm("Are you sure you want to proceed")) {
+      console.log("postItemsForSale/cart:" + JSON.stringify(this.cart))
+      console.log("postItemsForSale/cart.size:" + this.cart.length)
 
-    if (this.cart.length != 0) {
-      this.postSales(this.cart);
-    } else {
+      if (this.cart.length != 0) {
+        this.postSales(this.cart);
+      } else {
 
-      console.log("postItemsForSale/cart is empty")
+        console.log("postItemsForSale/cart is empty")
+      }
     }
   }
 
@@ -244,7 +250,8 @@ export class ProductComponent {
   }
 
   postSales(cartItems:CartItem[]) {
-    this.saleService.createSales(cartItems).pipe(finalize(() => {
+    let salesRequestFromCartItem = this.getSalesRequestFromCartItem();
+    this.saleService.createSales(salesRequestFromCartItem).pipe(finalize(() => {
 
     })).subscribe((result: any) => {
 
@@ -254,7 +261,9 @@ export class ProductComponent {
 
 
         let invoice = this.buildInvoice(cartItems);
-        printLabel(invoice, 2) //todo chage hardcoded value
+        PrintReceipt(invoice, 2) //todo chage hardcoded value
+
+      this.initializeData();
       },
       error => {this.openSnackBar(error.message, 'Dismiss')
         console.log("getProducts/there was an error getting products")
@@ -262,21 +271,41 @@ export class ProductComponent {
       })
   }
 
+  private getSalesRequestFromCartItem():SalesRequest {
+    var saleDetails:SaleDetail[] = []
+    for (const cartItem of this.cart) {
+      saleDetails.push(this.buildSalesDetailFromCartItem(cartItem))
+    }
+    return{ items:saleDetails
+
+    }
+  }
+  buildSalesDetailFromCartItem(cartItem:CartItem):SaleDetail{
+    return{
+      productId:cartItem.productId,
+      quantity:cartItem.quantity,
+      barCodeNumber: cartItem.barCode
+    }
+  }
+
   buildInvoice(cartItems: CartItem[]):Invoice {
     return {
       cartItems:cartItems,
       discount:0.0,
-      subTotal:this.getSubTotalFromCartItems(cartItems),
+      subTotal:this.getSubTotalFromCartItems(),
       taxTotal:0.0,
-      total:this.getSubTotalFromCartItems(cartItems)
+      total:this.getSubTotalFromCartItems()
     }
 
   }
 
-  getSubTotalFromCartItems(cartItems:CartItem[]):number{
+  getDiscountAmount():number{
+    return 0.00
+  }
+  getSubTotalFromCartItems():number{
 
     let subTotal = 0;
-    for (const cartItem of cartItems) {
+    for (const cartItem of this.cart) {
       subTotal += (cartItem.quantity * cartItem.price);
     }
 
@@ -288,6 +317,8 @@ export class ProductComponent {
   }
 
 
-
-
+  private initializeData() {
+    this.getProducts();
+    this.cart = [];
+  }
 }

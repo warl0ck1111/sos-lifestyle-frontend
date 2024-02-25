@@ -12,11 +12,10 @@
       <mat-card-content >
         <mat-form-field appearance="outline">
           <mat-label>Product Name</mat-label>
-          <input formControlName="productName" required matInput placeholder="name">
-          <!--      @if (productName.invalid) {-->
-          <!--      <mat-error>{{getErrorMessage()}}</mat-error>-->
-          <!--      }-->
+          <input (keydown)="searchProductName()" ) formControlName="productName" required matInput placeholder="name">
+
         </mat-form-field>
+<!--        <span *ngIf="nameSearchIsLoading">loading...</span>-->
       </mat-card-content>
 
       <mat-card-content>
@@ -66,6 +65,20 @@
         </mat-form-field>
       </mat-card-content>
 
+
+ <mat-card-content>
+        <mat-form-field appearance="outline">
+
+          <mat-label>Size</mat-label>
+          <mat-select formControlName="size">
+            <mat-option  value="LARGE">LARGE</mat-option>
+            <mat-option  value="MEDIUM">MEDIUM</mat-option>
+            <mat-option  value="SMALL">SMALL</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+
        <mat-card-content>
         <mat-form-field appearance="outline">
 
@@ -81,7 +94,7 @@
         <mat-form-field appearance="outline">
 
           <mat-label>Brand</mat-label>
-          <mat-select formControlName="brand">
+          <mat-select formControlName="brandId">
             <mat-option *ngFor="let brand of brands; index as i;" value="{{brand.id}}">{{brand.name}}</mat-option>
 
           </mat-select>
@@ -96,4 +109,12 @@
 
 
     </mat-card>
-  </div>
+
+
+
+
+
+
+
+
+   </div>

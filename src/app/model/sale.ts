@@ -1,4 +1,3 @@
-import { SaleDetail } from './sale-detail.model';
 import {Product} from "./product";
 
 export interface Sale {
@@ -7,5 +6,17 @@ export interface Sale {
     price: number,
     quantity: number,
     totalPrice: number,
-    date: Date
+
+}
+
+export interface SalesRequest{
+  items:SaleDetail[];
+}
+
+
+
+export interface SaleDetail {
+  productId:number;
+  barCodeNumber:string;
+  quantity:number;
 }
