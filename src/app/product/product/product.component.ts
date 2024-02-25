@@ -9,6 +9,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Invoice} from "../../model/invoice";
 import {ProductsService} from "../../services/products.service";
 import {SaleDetail, SalesRequest} from "../../model/sale";
+import {PRODUCTS} from "../products";
 
 declare function PrintReceipt(invoice:Invoice, inches:number ):string; // Declare the external function
 @Component({
@@ -21,7 +22,7 @@ export class ProductComponent {
 
 
   cart: CartItem[] = [];
-  products: Product[] = [];
+  products: Product[] = PRODUCTS;
 
   displayedProductListColumns: string[] = ['position', 'name', 'description', 'quantity', 'price', 'action'];
   displayedCartListColumns: string[] = ['position', 'name', 'quantity', 'action'];
@@ -239,8 +240,8 @@ export class ProductComponent {
     this.productService.getProducts().pipe(finalize(() => {
 
     })).subscribe((products: any) => {
-        this.products = products
-        this.productListDataSource.data = products;
+        this.products = PRODUCTS
+        this.productListDataSource.data = PRODUCTS;
         console.log("getProducts/finished getting products successfully")
       },
       error => {
@@ -318,7 +319,9 @@ export class ProductComponent {
 
 
   private initializeData() {
-    this.getProducts();
+    // this.getProducts();
+    this.products = PRODUCTS
+    this.productListDataSource.data = PRODUCTS;
     this.cart = [];
   }
 }

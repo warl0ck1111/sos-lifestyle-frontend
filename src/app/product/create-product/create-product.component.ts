@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../../services/category.service";
 import {BrandService} from "../../services/brand.service";
 import {finalize} from "rxjs";
@@ -20,10 +20,6 @@ import {Router} from "@angular/router";
 })
 export class CreateProductComponent {
   createProductFormGroup!: FormGroup;
-
-
-
-
 
   constructor(private categoryService:CategoryService,private productService:ProductsService,
               private router:Router,
