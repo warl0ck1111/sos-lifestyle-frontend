@@ -1,0 +1,83 @@
+<mat-card *ngIf="this.cart.length > 0">
+  <!--  <mat-card-header>-->
+  <!--    <mat-card-title>Cart</mat-card-title>-->
+  <!--  </mat-card-header>-->
+  <mat-card-content>
+    <p *ngIf="this.cart.length > 0" class="tx-20 tx-bold mg-b-0">Cart Items</p>
+    <table
+      *ngIf="this.cart.length > 0"
+      mat-table
+      [dataSource]="cartListDataSource"
+    >
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            (click)="removeFromCart(element)"
+            color="accent"
+            mat-icon-button
+          >
+            <mat-icon>restore_from_trash</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Qty</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="decreaseQuantity(element)">-</button>
+
+          {{ element.quantity }}
+          <button
+            [disabled]="element.quantityInStock == element.quantity"
+            mat-button
+            (click)="increaseQuantity(element)"
+          >
+            +
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedCartListColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedCartListColumns"></tr>
+    </table>
+
+    <mat-paginator *ngIf="this.cart.length > 0" [pageSizeOptions]="[3, 10, 20]">
+    </mat-paginator>
+
+    <p>
+      Sub-Total: {{ (getSubTotalFromCartItems() | currency : "₦" : "symbol" :
+      "1.2-2") || "N/A" }}
+    </p>
+    <p>
+      Discount-Total: {{ (getDiscountAmount() | currency : "₦" : "symbol" :
+      "1.2-2") || "N/A" }}
+    </p>
+    <p>
+      Total-Total: {{ (getSubTotalFromCartItems() | currency : "₦" : "symbol" :
+      "1.2-2") || "N/A" }}
+    </p>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="this.cart.length > 0"
+      type="button"
+      (click)="postItemsForSale()"
+    >
+      Post Sale
+    </button>
+  </mat-card-content>
+</mat-card>
