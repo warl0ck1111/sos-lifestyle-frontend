@@ -1,9 +1,9 @@
  <div [formGroup]=createProductFormGroup class="container">
-    <mat-card style="display: flex">
+    <mat-card-header style="display: flex">
       <mat-card-header>
         <mat-card-title>Create Product</mat-card-title>
       </mat-card-header>
-    </mat-card>
+    </mat-card-header>
 
 
     <mat-card style="display: flex">
@@ -100,7 +100,7 @@
           </mat-select>
         </mat-form-field>
 
-         <button (click)="createProduct()" mat-raised-button color="primary">Create Product </button>
+         <button (click)="createProduct()" mat-raised-button color="primary">{{createUpdateButtonTitle}}</button>
 
        </mat-card-content>
 

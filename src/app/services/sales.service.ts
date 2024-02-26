@@ -27,7 +27,7 @@ export class SalesService {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsImp0aSI6ImQ0YTc1MjBmLWJhYzQtNGYwMC04MjU1LWQxNjQ3MmQ5ODcyNyIsImlhdCI6MTcwODc5MzAwNSwiZXhwIjoxNzA5Mzk3ODA1fQ.S8ZTziIiC4hitj5ra4Ur_oP6Cz6vSNrqoOuTaUBUnzo'
+        'Authorization': `Bearer ${localStorage.getItem("sos-lifestyle-app")}`
 
       })
     };

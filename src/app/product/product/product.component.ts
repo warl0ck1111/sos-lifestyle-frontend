@@ -10,6 +10,7 @@ import {Invoice} from "../../model/invoice";
 import {ProductsService} from "../../services/products.service";
 import {SaleDetail, SalesRequest} from "../../model/sale";
 import {PRODUCTS} from "../products";
+import {AuthService} from "../../services/auth.service";
 
 declare function PrintReceipt(invoice:Invoice, inches:number ):string; // Declare the external function
 @Component({
@@ -45,11 +46,14 @@ export class ProductComponent {
               private router: Router,
               private productService: ProductsService,
               private saleService: SalesService,
+              private authService: AuthService,
               private _snackBar: MatSnackBar) {
    this.initializeData()
     console.log("constructor/products length:" + this.products.length);
 
-
+    console.log("constructor/authService/getLoggedInUser:"+ authService.getLoggedInUser());
+    console.log("constructor/authService/isUserLoggedIn$:"+ JSON.stringify(authService.isUserLoggedIn$));
+    console.log("constructor/authService/isUserLoggedIn$:"+ JSON.stringify(authService.userAccessToken$));
 
   }
 
@@ -323,5 +327,9 @@ export class ProductComponent {
     this.products = PRODUCTS
     this.productListDataSource.data = PRODUCTS;
     this.cart = [];
+  }
+
+  goToCreateProduct() {
+    this.router.navigateByUrl("product/create")
   }
 }

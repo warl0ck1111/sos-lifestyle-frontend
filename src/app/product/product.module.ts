@@ -14,7 +14,7 @@ import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {SalesService} from "../services/sales.service";
-import {PagesModule} from "../pages/pages.module";
+// import {PagesModule} from "../pages/pages.module";
 import {MenuBarComponent} from "./menu-bar/menu-bar.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
@@ -31,6 +31,9 @@ import {MatSelectModule} from "@angular/material/select";
 import {ColorService} from "../services/color.service";
 import {BrandService} from "../services/brand.service";
 import {CategoryService} from "../services/category.service";
+import { ColorComponent } from './color/color.component';
+import { BrandComponent } from './brand/brand.component';
+import { CategoryComponent } from './category/category.component';
 
 
 @NgModule({
@@ -39,7 +42,10 @@ import {CategoryService} from "../services/category.service";
     DashboardComponent,
     MenuBarComponent,
     SalesComponent,
-    CreateProductComponent
+    CreateProductComponent,
+    ColorComponent,
+    BrandComponent,
+    CategoryComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +54,7 @@ import {CategoryService} from "../services/category.service";
     MatIconModule, NgbPagination,
     FormsModule, NgbHighlight, MatTableModule,
     MatPaginatorModule, MatSortModule, MatInputModule, HttpClientModule,
-    MatButtonModule, NgbTooltip, PagesModule, MatSidenavModule, MatListModule,
+    MatButtonModule, NgbTooltip, MatSidenavModule, MatListModule,
     MatMenuModule, MatToolbarModule, MatBadgeModule, MatCardModule, MatOptionModule, MatSelectModule,
   ],
   providers:[DecimalPipe, ProductsService, SalesService, ColorService, BrandService, CategoryService]

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../../services/category.service";
 import {BrandService} from "../../services/brand.service";
@@ -11,7 +11,8 @@ import {Color} from "../../model/color";
 import {ProductsService} from "../../services/products.service";
 import {Product, ProductRequest} from "../../model/product";
 import {Sizes} from "../../model/size";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {HttpErrorResponse} from "../../model/http-response";
 
 @Component({
   selector: 'app-create-product',
@@ -20,82 +21,79 @@ import {Router} from "@angular/router";
 })
 export class CreateProductComponent {
   createProductFormGroup!: FormGroup;
+  productId!: string | null;
+  createUpdateButtonTitle:string = 'Create Product';
 
-  constructor(private categoryService:CategoryService,private productService:ProductsService,
-              private router:Router,
-              private colorService:ColorService,
-              private brandService:BrandService, private _snackBar: MatSnackBar) {
+  constructor(private categoryService: CategoryService, private productService: ProductsService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private colorService: ColorService,
+              private brandService: BrandService, private _snackBar: MatSnackBar) {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.productId = this.route.snapshot.paramMap.get('id');
+    this.initializeFormDataWithoutValues()
     this.getCategories();
     this.getColors();
     this.getBrands();
 
-    this.createProductFormGroup = new FormGroup({
-      productName: new FormControl('', [Validators.required]),
-      description: new FormControl(''),
-      barcode: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
-      quantity: new FormControl('', [Validators.required]),
-      categoryId: new FormControl('', [Validators.required]),
-      brandId: new FormControl('', [Validators.required]),
-      color: new FormControl('' ),
-      size: new FormControl(''),
-    });
+    if (this.productId != null) {
+      this.createUpdateButtonTitle = "Update Product"
+      this.getProduct(this.productId)
+    } else {
+      this.initializeFormDataWithoutValues()
+    }
   }
 
-  categories:Category[] = [];
-  getCategories(){
-    this.categoryService.getAllCategories().pipe(finalize(()=>{
+  categories: Category[] = [];
 
-    })).subscribe((result:any)=>{
-      this.categories = result
-        this.openSnackBar("Success", "Dismiss")
+  getCategories() {
+    this.categoryService.getAllCategories().pipe(finalize(() => {
 
+    })).subscribe((result: any) => {
+        this.categories = result
       },
-      (error:any)=>{
-        this.openSnackBar(error.message, "Dismiss")
+      (error: HttpErrorResponse) => {
+        this.openSnackBar(error.error.message, "Dismiss")
 
       })
   }
 
-brands:Brand[] = [];
-  getBrands(){
-    this.brandService.getAllBrands().pipe(finalize(()=>{
+  brands: Brand[] = [];
 
-    })).subscribe((result:any)=>{
-      this.brands = result
+  getBrands() {
+    this.brandService.getAllBrands().pipe(finalize(() => {
+
+    })).subscribe((result: any) => {
+        this.brands = result
         // this.openSnackBar("Success", "Dismiss")
 
       },
-      (error:any)=>{
-        this.openSnackBar(error.message, "Dismiss")
+      (error: any) => {
+        this.openSnackBar(error.error.message, "Dismiss")
 
       })
   }
 
 
-colors:Color[] = [];
+  colors: Color[] = [];
   nameSearchIsLoading: boolean = false;
-  getColors(){
-    this.colorService.getAllColors().pipe(finalize(()=>{
 
-    })).subscribe((result:any)=>{
-      this.colors = result
+  getColors() {
+    this.colorService.getAllColors().pipe(finalize(() => {
+
+    })).subscribe((result: any) => {
+        this.colors = result
         // this.openSnackBar("Success", "Dismiss")
 
       },
-      (error:any)=>{
-        this.openSnackBar(error.message, "Dismiss")
+      (error: HttpErrorResponse) => {
+        this.openSnackBar(error.error.message, "Dismiss")
 
       })
   }
-
-
-
-
 
 
   openSnackBar(message: string, action: string) {
@@ -108,31 +106,31 @@ colors:Color[] = [];
 
     //if property doesnt match then do this
     // this.user.Name = this.userForm.get('name').value;
-    let productRequest:ProductRequest = this.buildProductRequest();
-    console.log("createProduct/productRequest:"+JSON.stringify(productRequest))
-    this.productService.createProduct(productRequest).pipe(finalize(()=>{
+    let productRequest: ProductRequest = this.buildProductRequest();
+    console.log("createProduct/productRequest:" + JSON.stringify(productRequest))
+    this.productService.createProduct(productRequest).pipe(finalize(() => {
 
-    })).subscribe((result:any)=>{
-      this.openSnackBar("product successfully created ", "Dismiss");
-      this.router.navigateByUrl("product")
-    },
-      (error:any) => {
+    })).subscribe((result: any) => {
+        this.openSnackBar("product successfully created ", "Dismiss");
+        this.router.navigateByUrl("product")
+      },
+      (error: any) => {
         this.openSnackBar(error.message, "Dismiss");
 
       })
   }
 
-   buildProductRequest():ProductRequest {
-    return{
-      quantity:this.createProductFormGroup?.get('quantity')?.value as unknown as number,
-      size:this.createProductFormGroup?.get('size')?.value as unknown as Sizes,
-      price:this.createProductFormGroup?.get('price')?.value as unknown as number,
-      color:this.createProductFormGroup?.get('color')?.value as unknown as string,
-      brandId:this.createProductFormGroup?.get('brandId')?.value as unknown as number,
-      categoryId:this.createProductFormGroup?.get('categoryId')?.value as unknown as number,
-      barCode:this.createProductFormGroup?.get('barcode')?.value as unknown as string,
-      description:this.createProductFormGroup?.get('description')?.value as unknown as string,
-      name:this.createProductFormGroup?.get('productName')?.value as unknown as string ,
+  buildProductRequest(): ProductRequest {
+    return {
+      quantity: this.createProductFormGroup?.get('quantity')?.value as unknown as number,
+      size: this.createProductFormGroup?.get('size')?.value as unknown as Sizes,
+      price: this.createProductFormGroup?.get('price')?.value as unknown as number,
+      color: this.createProductFormGroup?.get('color')?.value as unknown as string,
+      brandId: this.createProductFormGroup?.get('brandId')?.value as unknown as number,
+      categoryId: this.createProductFormGroup?.get('categoryId')?.value as unknown as number,
+      barCode: this.createProductFormGroup?.get('barcode')?.value as unknown as string,
+      description: this.createProductFormGroup?.get('description')?.value as unknown as string,
+      name: this.createProductFormGroup?.get('productName')?.value as unknown as string,
 
     }
   }
@@ -141,20 +139,65 @@ colors:Color[] = [];
   searchProductName() {
     this.nameSearchIsLoading = true;
     var productName = this.createProductFormGroup.get('productName')?.value
-    this.productService.searchProductByName(productName).pipe(finalize(()=>{
+    this.productService.searchProductByName(productName).pipe(finalize(() => {
       this.nameSearchIsLoading = false;
     }))
-      .subscribe((result:any)=>{
-      if(result != null){
-        this.initializeFormData(result);
-      }
-    },
-        (error:any) => {
-        this.openSnackBar(error.message, "Dismiss");
+      .subscribe((result: Product) => {
+          if (result != null) {
+            this.initializeFormDataWithValues(result);
+          }
+        },
+        (error: any) => {
+          this.openSnackBar(error.message, "Dismiss");
         })
   }
 
-  private initializeFormData(result: Product) {
+  getProduct(productId: string) {
+    this.nameSearchIsLoading = true;
+    this.productService.getProduct(productId).pipe(finalize(() => {
+    }))
+      .subscribe((result: Product) => {
+          if (result != null) {
+            this.initializeFormDataWithValues(result);
+          }
+        },
+        (error: HttpErrorResponse) => {
+          this.openSnackBar(error.error.message, "Dismiss");
+        })
+  }
+
+  private initializeFormDataWithValues(product: Product) {
+
+
+    this.createProductFormGroup = new FormGroup({
+      productName: new FormControl(product.name, [Validators.required]),
+      description: new FormControl(product.description),
+      barcode: new FormControl(product.barCode, [Validators.required]),
+      price: new FormControl(product.price, [Validators.required, Validators.pattern('^[0-9]*$')]),
+      quantity: new FormControl(product.quantity, [Validators.required]),
+      categoryId: new FormControl(product.category.id, [Validators.required]),
+      brandId: new FormControl(product.brand.id, [Validators.required]),
+      color: new FormControl(product.color),
+      size: new FormControl(product.size),
+    });
+  }
+
+  private initializeFormDataWithoutValues() {
+      this.createProductFormGroup = new FormGroup({
+        productName: new FormControl('', [Validators.required]),
+        description: new FormControl(''),
+        barcode: new FormControl('', [Validators.required]),
+        price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+        quantity: new FormControl('', [Validators.required]),
+        categoryId: new FormControl('', [Validators.required]),
+        brandId: new FormControl('', [Validators.required]),
+        color: new FormControl(''),
+        size: new FormControl(''),
+      });
 
   }
+
+
+
+
 }

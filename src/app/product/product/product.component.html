@@ -1,23 +1,24 @@
-  <mat-card-header>
+
+<mat-card-header>
     <mat-card-title></mat-card-title>
   </mat-card-header>
 
   <div class="container">
-    <mat-card style="display: flex">
+    <mat-card >
       <mat-card-header>
         <mat-card-title>Product Search</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
+      <mat-card-content style="align-content: space-between">
         <mat-form-field>
           <input matInput [(ngModel)]="barcodeValue" autofocus (keyup)="applyProductListFilter($event)" placeholder="Search or Scan product barcode here" #input/>
         </mat-form-field>
+
+        <button (click)="goToCreateProduct()" mat-fab color="warn" aria-label="Example icon button with a home icon">
+          <mat-icon></mat-icon>
+        </button>
       </mat-card-content>
 
-<!--      <mat-card-content>-->
-<!--        <button mat-fab color="warn" aria-label="Example icon button with a home icon">-->
-<!--          <mat-icon>home</mat-icon>-->
-<!--        </button>-->
-<!--      </mat-card-content>-->
+
     </mat-card>
 
     <mat-card-header>

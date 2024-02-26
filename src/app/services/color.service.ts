@@ -38,7 +38,9 @@ export class ColorService {
   private getHeaders(): { headers: HttpHeaders } {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("sos-lifestyle-app")}`
+
       })
     };
   }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
+import {AuthGuard} from "./guards/auth.guard";
 
 const routes: Routes = [
 
@@ -9,7 +10,9 @@ const routes: Routes = [
   {path:'auth', loadChildren:()=> import('./auth/auth.module').then(m=>m.AuthModule)},
   {path: '', loadChildren:()=> import('./auth/auth.module').then(m=>m.AuthModule)},
   {path: '', loadChildren:()=> import('./auth/auth.module').then(m=>m.AuthModule)},
-  {path: 'product', loadChildren:()=> import('./product/product.module').then(m=>m.ProductModule)},
+  {path: 'product',
+   canActivate: [AuthGuard],
+    loadChildren:()=> import('./product/product.module').then(m=>m.ProductModule)},
   {path: '**', component: PageNotFoundComponent}
 ];
 

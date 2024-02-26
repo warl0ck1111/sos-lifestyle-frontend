@@ -1,0 +1,35 @@
+
+<div>
+    <mat-toolbar *ngIf="userIsLoggedIn">
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>SOS LifeStyle</span>
+      <span class="example-spacer"></span>
+<!--      <span class="example-spacer"></span>-->
+      <button class="menu-buttons" (click)="goToProducts()" mat-raised-button color="primary">Products
+      </button>
+      <button class="menu-buttons"  (click)="goToSales()" mat-raised-button color="primary">Sales
+      </button>
+      <button class="menu-buttons" (click)="logout()" mat-raised-button color="primary">Logout
+      </button>
+
+
+    </mat-toolbar>
+</div>
+
+
+<!--<mat-sidenav-container class="example-container">-->
+<!--  <mat-sidenav #sidenav mode="side" opened class="example-sidenav"-->
+<!--               [fixedInViewport]="false" [fixedTopGap]="0"-->
+<!--               [fixedBottomGap]="0">-->
+<!--    {{options.value.fixed ? 'Fixed' : 'Non-fixed'}} Sidenav-->
+<!--  </mat-sidenav>-->
+
+<!--  <mat-sidenav-content [formGroup]="options">-->
+   <router-outlet></router-outlet>
+<!--    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>-->
+<!--  </mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
+<!--<mat-toolbar class="example-footer">Footer</mat-toolbar>-->

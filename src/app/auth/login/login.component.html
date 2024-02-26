@@ -18,42 +18,45 @@
         </nav>
         <main>
           <div class="pd-md-t-80 pd-t-30 pd-lg-l-50">
-            <p class="tx-32 tx-bold mg-b-0">Login</p>
+            <p style="color: #666666" class="tx-32 tx-bold mg-b-0">Login</p>
             <p class="tx-subdued tx-14">Please enter your information to login.</p>
-            <div class="col-lg-9 col-md-10 pd-x-0 pd-y-10">
-              <form [formGroup]="loginForm"  class="pd-md-b-60 pd-b-30">
-                <div class="form-group required mg-b-15">
-                  <label  class="d-block control-label tx-medium mg-b-3">Username/Email</label>
-                  <input formControlName="username" type="email" class="form-control" placeholder="">
-                </div>
-                <div class="form-group required mg-b-5">
-                  <label  class="d-block control-label tx-medium mg-b-3">Password</label>
-                  <div class="input-group" id="show_hide_password">
-                    <input formControlName="password" type="password" class="form-control bd-r-0">
-                    <div class="input-group-append bd-0">
-                          <span class="input-group-text bd-l-0 bg-white" id="basic-addon2">
-                          <i class="fa fa-eye-slash" id="togglePassword"></i>
-                          </span>
-                    </div>
-                  </div>
-                </div>
-                <a href="./forgot-password.html" class="tx-medium tx-subdued" style="text-decoration: underline;">Forgot Password? </a>
+            <div >
+              <mat-card >
+              <form [formGroup]="loginForm"  >
 
-                <div class=" mg-t-30">
-                  <button
-                    type="button"
-                    id="submit"
-                    (click)="gotoCreateProduct()" style="background-color: #0c0e13; color: white;" class="w-100 tx-16">Login</button>
+                <mat-card-content>
+                <mat-form-field appearance="outline">
+                  <mat-label>Username</mat-label>
+                  <input type="email" matInput placeholder="username" formControlName="username">
 
-                  <div class="tx-center mg-t-15">
-                    <a href="./register.html" class="tx-primary tx-12 mb-0 tx-semibold"> <span class="tx-subdued tx-normal"> Don’t have an account? </span>Signup</a>
-                  </div>
-                </div>
+                  <mat-error *ngIf="username.touched && username.hasError('required')">Username is required</mat-error>
+                  <mat-error *ngIf="username.touched && username.hasError('username')">Username must be valid</mat-error>
+                </mat-form-field>
+                </mat-card-content>
+
+
+                <mat-card-content>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Enter your password</mat-label>
+                  <input  type="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password">
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="password.touched && password.hasError('required')">Password is required</mat-error>
+                </mat-form-field>
+                </mat-card-content>
+
+                <mat-card-content>
+
+                  <button mat-button (click)="login()" color="primary" [disabled]="!loginForm.valid">Login</button>
+                </mat-card-content>
               </form>
+                </mat-card>
               <div class="">
                 <hr class="">
                 <div class="d-flex">
-                  <a href="" class="tx-blue-900 tx-semibold mg-b-0 tx-14">Need Help</a>
+                  <a href="" class="tx-blue-900 tx-semibold mg-b-0 tx-14" routerLink='/register'>Create Account</a>
                   <img src="../../../assets/img/live_help_24px.svg" alt="" class="img-fluid pd-l-15" srcset="">
                 </div>
               </div>
@@ -65,15 +68,7 @@
 
   </div>
 </div>
-<footer >
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2024 Copyright:
-    <a href="#"> soslifestyle.com</a>
-  </div>
-  <!-- Copyright -->
-
-</footer>
+<app-footer></app-footer>
 
 <!--<script src="assets/lib/jquery/jquery.min.js"></script>-->
 <!--<script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>-->

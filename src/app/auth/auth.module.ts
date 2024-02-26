@@ -16,19 +16,34 @@ import {MatRadioModule} from "@angular/material/radio";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {RouterModule} from "@angular/router";
+import {RegisterComponent} from "./register/register.component";
+import {FooterComponent} from "../pages/footer/footer.component";
+import {AuthService} from "../services/auth.service";
+import {HttpClientModule} from "@angular/common/http";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    FooterComponent
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    RouterModule,
-    ReactiveFormsModule,
-    MatNativeDateModule,MatDatepickerModule,MatIconModule,MatButtonModule,MatCheckboxModule, MatToolbarModule,FormsModule, MatCardModule,MatFormFieldModule,MatInputModule,MatListModule,MatRadioModule,
+    exports: [
+        LoginComponent,
+    ],
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        RouterModule,
+        ReactiveFormsModule,
+        MatNativeDateModule, MatDatepickerModule,
+      MatIconModule, MatButtonModule, MatCheckboxModule,
+      MatToolbarModule, FormsModule, MatCardModule, MatFormFieldModule,
+      MatInputModule, MatListModule, MatRadioModule,HttpClientModule,
 
-]
+
+    ],
+  providers:[AuthService, JwtHelperService]
 })
 export class AuthModule { }

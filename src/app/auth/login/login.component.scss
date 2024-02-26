@@ -8,12 +8,13 @@
 }
 
 
-.login-form {
+.mat-card  {
   background-color: rgba(255, 255, 255, 0.8); /* Add transparency to the login form */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px #666666;
   text-align: center;
+
 }
 
 .login-form h2 {
@@ -36,17 +37,17 @@
   border: 1px solid #ccc;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+//button {
+//  padding: 10px 20px;
+//  background-color: #007bff;
+//  color: #fff;
+//  border: none;
+//  border-radius: 5px;
+//  cursor: pointer;
+//  transition: background-color 0.3s;
+//}
 
-button:hover {
-  background-color: #666666 !important;
-  color:white;
-}
+//button:hover {
+//  background-color: #666666 !important;
+//  color:white;
+//}

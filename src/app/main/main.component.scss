@@ -1,0 +1,31 @@
+.example-container {
+  width: 100vw;
+  height: 100vh;
+
+  border: 1px solid black;
+}
+
+mat-drawer-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.mat-sidenav-container{
+  z-index: -3;
+}
+
+
+.mat-toolbar{
+  position: fixed;
+}
+
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+.menu-buttons{
+  margin:8pxs
+}
