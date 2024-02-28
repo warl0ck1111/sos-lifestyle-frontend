@@ -37,7 +37,6 @@ export class CreateProductComponent {
     this.initializeFormDataWithoutValues()
     this.getCategories();
     this.getColors();
-    this.getBrands();
 
     if (this.productId != null) {
       this.createUpdateButtonTitle = "Update Product"
@@ -56,22 +55,6 @@ export class CreateProductComponent {
         this.categories = result
       },
       (error: HttpErrorResponse) => {
-        this.openSnackBar(error.error.message, "Dismiss")
-
-      })
-  }
-
-  brands: Brand[] = [];
-
-  getBrands() {
-    this.brandService.getAllBrands().pipe(finalize(() => {
-
-    })).subscribe((result: any) => {
-        this.brands = result
-        // this.openSnackBar("Success", "Dismiss")
-
-      },
-      (error: any) => {
         this.openSnackBar(error.error.message, "Dismiss")
 
       })
@@ -126,9 +109,9 @@ export class CreateProductComponent {
       size: this.createProductFormGroup?.get('size')?.value as unknown as Sizes,
       price: this.createProductFormGroup?.get('price')?.value as unknown as number,
       color: this.createProductFormGroup?.get('color')?.value as unknown as string,
-      brandId: this.createProductFormGroup?.get('brandId')?.value as unknown as number,
+      brand: this.createProductFormGroup?.get('brand')?.value as unknown as string,
       categoryId: this.createProductFormGroup?.get('categoryId')?.value as unknown as number,
-      barCode: this.createProductFormGroup?.get('barcode')?.value as unknown as string,
+      barCode: this.createProductFormGroup?.get('barCode')?.value as unknown as string,
       description: this.createProductFormGroup?.get('description')?.value as unknown as string,
       name: this.createProductFormGroup?.get('productName')?.value as unknown as string,
 
@@ -172,11 +155,11 @@ export class CreateProductComponent {
     this.createProductFormGroup = new FormGroup({
       productName: new FormControl(product.name, [Validators.required]),
       description: new FormControl(product.description),
-      barcode: new FormControl(product.barCode, [Validators.required]),
+      barCode: new FormControl(product.barCode, [Validators.required]),
       price: new FormControl(product.price, [Validators.required, Validators.pattern('^[0-9]*$')]),
       quantity: new FormControl(product.quantity, [Validators.required]),
       categoryId: new FormControl(product.category.id, [Validators.required]),
-      brandId: new FormControl(product.brand.id, [Validators.required]),
+      brand: new FormControl(product.brand, ),
       color: new FormControl(product.color),
       size: new FormControl(product.size),
     });
@@ -186,11 +169,11 @@ export class CreateProductComponent {
       this.createProductFormGroup = new FormGroup({
         productName: new FormControl('', [Validators.required]),
         description: new FormControl(''),
-        barcode: new FormControl('', [Validators.required]),
+        barCode: new FormControl('', [Validators.required]),
         price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
         quantity: new FormControl('', [Validators.required]),
         categoryId: new FormControl('', [Validators.required]),
-        brandId: new FormControl('', [Validators.required]),
+        brand: new FormControl('', ),
         color: new FormControl(''),
         size: new FormControl(''),
       });

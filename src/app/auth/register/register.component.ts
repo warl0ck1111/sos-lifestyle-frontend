@@ -27,9 +27,16 @@ export class RegisterComponent {
   },
     { validators: CustomValidators.passwordsMatching }
   );
+    private userIsLoggedIn!: boolean;
 
   constructor(private userService: AuthService, private router: Router,
-              private snackbar: MatSnackBar) { }
+              private snackbar: MatSnackBar) {
+
+      this.userIsLoggedIn = localStorage.getItem("sos-lifestyle-isUserLoggedIn") != null ;
+      if (this.userIsLoggedIn){
+          this.router.navigate(["product"])
+      }
+  }
 
   register() {
     if (this.registrationForm.valid) {

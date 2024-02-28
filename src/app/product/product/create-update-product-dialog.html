@@ -1,0 +1,126 @@
+<h2 mat-dialog-title>{{createUpdateButtonTitle}}</h2>
+<mat-dialog-content>
+
+    <!--###########################################################-->
+
+
+    <p [formGroup]=createProductFormGroup>
+        <mat-card style="display: flex">
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Barcode</mat-label>
+                    <input (change)="searchProductBarcode($event)" #input formControlName="barCode" matInput
+                           placeholder="barcode">
+                </mat-form-field>
+                <span *ngIf="barcodeSearchIsLoading">loading...</span>
+
+            </mat-card-content>
+
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Product Name</mat-label>
+                    <input (change)="searchProductName()" formControlName="productName" required matInput
+                           placeholder="name">
+
+                </mat-form-field>
+                <span *ngIf="nameSearchIsLoading">loading...</span>
+            </mat-card-content>
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <input formControlName="description" matInput placeholder="description">
+                </mat-form-field>
+            </mat-card-content>
+
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Price</mat-label>
+                    <input formControlName="price" matInput class="example-right-align" placeholder="50 000">
+                    <span matTextPrefix>₦&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                    <!--          <mat-error *ngIf="this.profileForm.controls['price'].invalid">{{'invalid price amount'}}</mat-error>-->
+
+                </mat-form-field>
+            </mat-card-content>
+
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Quantity</mat-label>
+                    <input formControlName="quantity" matInput placeholder="quantity">
+                </mat-form-field>
+            </mat-card-content>
+
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+
+                    <mat-label>Color</mat-label>
+                    <input formControlName="color" matInput placeholder="e.g Red, Tan, Blue...">
+                </mat-form-field>
+            </mat-card-content>
+
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+
+                    <mat-label>Size</mat-label>
+                    <mat-select formControlName="size">
+                        <mat-option value="XXL">XXL</mat-option>
+                        <mat-option value="XL">XL</mat-option>
+                        <mat-option value="LARGE">LARGE</mat-option>
+                        <mat-option value="MEDIUM">MEDIUM</mat-option>
+                        <mat-option value="SMALL">SMALL</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="categoryId">
+                        <mat-option *ngFor="let category of categories" value="{{category.id}}">{{category.name | titlecase}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+
+
+                        <mat-card-content>
+                            <mat-form-field appearance="outline">
+
+                                <mat-label>Brand</mat-label>
+                                <input formControlName="brand" matInput placeholder="brand">
+                            </mat-form-field>
+
+                        </mat-card-content>
+
+            <mat-card-content>
+                <button mat-raised-button (click)="createUpdateProduct()" color="primary"
+                        [disabled]="!createProductFormGroup.valid" [mat-dialog-close]="data.animal"
+                        cdkFocusInitial>{{createUpdateButtonTitle}}</button>
+
+            </mat-card-content>
+
+        </mat-card>
+
+
+    </p>
+    <!--###########################################################-->
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button [disabled]="!createProductFormGroup.pristine" (click)="initializeFormDataWithoutValues()" mat-raised-button
+    >Clear
+    </button>
+
+</mat-dialog-actions>
+

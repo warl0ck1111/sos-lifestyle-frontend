@@ -17,7 +17,7 @@ export class SalesComponent {
 
 
 
-  displayedSaleListColumns: string[] = ['position', 'name', 'description', 'quantity', 'price', 'totalPrice', 'saleDate', 'action'];
+  displayedSaleListColumns: string[] = ['position', 'name', 'description', 'quantity', 'price', 'totalPrice', 'saleDate'];
   salesListDataSource = new MatTableDataSource<Sale>();
 
   @ViewChild(MatPaginator) salesListPaginator!: MatPaginator;
@@ -52,16 +52,16 @@ export class SalesComponent {
 
   getSales(): void {
     this.salesService.getAllSales().pipe(finalize(() => {
-
+//do nothing for now todo
     })).subscribe((result: any) => {
         this.salesListDataSource.data = result;
         console.log("getSales/finished getting sales successfully/result:"+JSON.stringify(result))
-        this.openSnackBar("Success", "Dismiss")
+        // this.openSnackBar("Success", "Dismiss")
 
       },
       error => {
         this.openSnackBar(error.message, "Dismiss")
-        console.log("getSales/there was an error getting sales")
+        console.log("getSales/there was an error getting sales report list")
 
       })
   }

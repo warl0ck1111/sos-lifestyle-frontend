@@ -19,7 +19,7 @@ export class ProductsService {
   }
 
   getProducts() {
-    return this.http.get(`$(this.PRODUCT_URL)/`, this.getHeaders());
+    return this.http.get(`${this.PRODUCT_URL}/`, this.getHeaders());
   }
 
   getProduct(id: string):Observable<Product> {
@@ -33,12 +33,12 @@ export class ProductsService {
     return this.http.get<Product>(`${this.PRODUCT_URL}/barcode/${barcode}`, this.getHeaders());
   }
   //
-  // updateProduct(id: number, ProductRequest) {
-  //   return this.http.put(`${this.PRODUCT_URL}/${id}`, ProductRequest,this.getHeaders());
-  // }
+  updateProduct(id: number, productRequest:ProductRequest) {
+    return this.http.put(`${this.PRODUCT_URL}/${id}`, productRequest,this.getHeaders());
+  }
 
   createProduct(product: ProductRequest) {
-    return this.http.post(`${this.PRODUCT_URL}`, product, this.getHeaders());
+    return this.http.post(`${this.PRODUCT_URL}/`, product, this.getHeaders());
 
   }
 

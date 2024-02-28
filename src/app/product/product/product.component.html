@@ -1,167 +1,174 @@
+<div class="container">
+    <mat-card>
+        <mat-card-header class="page-title">
+            <mat-card-title class="page-title">Product Search</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field color="accent" appearance="outline" >
+                <mat-label>Search</mat-label>
+                <input matInput [(ngModel)]="barcodeValue" autofocus (keyup)="applyProductListFilter($event)"
+                       placeholder="Search or Scan barcode here" #input/>
+                <mat-icon matSuffix color="accent">search</mat-icon>
+            </mat-form-field>
 
-<mat-card-header>
-    <mat-card-title></mat-card-title>
-  </mat-card-header>
-
-  <div class="container">
-    <mat-card >
-      <mat-card-header>
-        <mat-card-title>Product Search</mat-card-title>
-      </mat-card-header>
-      <mat-card-content style="align-content: space-between">
-        <mat-form-field>
-          <input matInput [(ngModel)]="barcodeValue" autofocus (keyup)="applyProductListFilter($event)" placeholder="Search or Scan product barcode here" #input/>
-        </mat-form-field>
-
-        <button (click)="goToCreateProduct()" mat-fab color="warn" aria-label="Example icon button with a home icon">
-          <mat-icon></mat-icon>
-        </button>
-      </mat-card-content>
+            <button style="margin-left: 8px" (click)="openDialog()" mat-fab color="accent">
+                <mat-icon >add</mat-icon>
+            </button>
+        </mat-card-content>
 
 
     </mat-card>
 
     <mat-card-header>
-      <mat-card-title></mat-card-title>
+        <mat-card-title></mat-card-title>
     </mat-card-header>
 
 
     <mat-card>
-      <mat-card-header>
-        <mat-card-title>Product List</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <table mat-table [dataSource]="productListDataSource">
+        <mat-card-header>
+            <mat-card-title>Product List</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <table mat-table [dataSource]="productListDataSource">
 
-          <!-- Position Column -->
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> No.</th>
-            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-          </ng-container>
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> No.</th>
+                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name</th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
 
-          <!-- Weight Column -->
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Description</th>
-            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-          </ng-container>
+                <!-- Weight Column -->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef> Description</th>
+                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
 
-          <!-- Qty in stock Column -->
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef> Qty in stock</th>
-            <td mat-cell *matCellDef="let element">
-              {{element.quantity ==0 ? 'out of stock' : element.quantity}}
-
-
-            </td>
-          </ng-container>
-
- <!--Price Column -->
-          <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef> Price</th>
-            <td mat-cell *matCellDef="let element">
-              {{(element.price | currency: '₦':'symbol':'1.2-2' ) || 'N/A'}}
-            </td>
-          </ng-container>
-
-          <!-- Action Column -->
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef> Action</th>
-            <td mat-cell *matCellDef="let element">
-              <button [ngbTooltip]="element.quantity <= 0 ? 'product is out of stock' : 'add product to cart' "
-                      [disabled]="element.quantity <= 0" (click)="addToCart(element)" color="accent"
-                      mat-icon-button>
-                <mat-icon>shopping_cart</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedProductListColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedProductListColumns;"></tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[3, 10, 20]"
-                       showFirstLastButtons
-                       aria-label="Select page of periodic elements">
-        </mat-paginator>
+                <!-- Qty in stock Column -->
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef> Qty in stock</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.quantity == 0 ? 'out of stock' : element.quantity}}
 
 
-      </mat-card-content>
+                    </td>
+                </ng-container>
+
+                <!--Price Column -->
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef> Price</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{(element.price | currency: '₦':'symbol':'1.2-2') || 'N/A'}}
+                    </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action</th>
+                    <td mat-cell *matCellDef="let element">
+                       <span style="display: flex"> <button
+                               [ngbTooltip]="element.quantity <= 0 ? 'product is out of stock' : 'add product to cart' "
+                               [disabled]="element.quantity <= 0" (click)="addToCart(element)" color="accent"
+                               mat-icon-button>
+                            <mat-icon>add_shopping_cart</mat-icon>
+                        </button>
+                        <button [ngbTooltip]="'update product'" (click)="openDialog(element)" color="accent"
+                                mat-icon-button>
+                            <mat-icon>update</mat-icon>
+                        </button></span>
+                    </td>
+
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedProductListColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedProductListColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[3, 10, 20]"
+                           showFirstLastButtons
+                           aria-label="Select page of periodic elements">
+            </mat-paginator>
+
+
+        </mat-card-content>
     </mat-card>
 
     <mat-card-header>
-      <mat-card-title></mat-card-title>
+        <mat-card-title></mat-card-title>
     </mat-card-header>
 
 
     <mat-card *ngIf="this.cart.length>0">
-      <!--  <mat-card-header>-->
-      <!--    <mat-card-title>Cart</mat-card-title>-->
-      <!--  </mat-card-header>-->
-      <mat-card-content>
-        <p *ngIf="this.cart.length>0" class="tx-20 tx-bold mg-b-0">Cart Items</p>
-        <table *ngIf="this.cart.length>0" mat-table [dataSource]="cartListDataSource">
+        <!--  <mat-card-header>-->
+        <!--    <mat-card-title>Cart</mat-card-title>-->
+        <!--  </mat-card-header>-->
+        <mat-card-content>
+            <p *ngIf="this.cart.length>0" class="tx-20 tx-bold mg-b-0">Cart Items</p>
+            <table *ngIf="this.cart.length>0" mat-table [dataSource]="cartListDataSource">
 
-          <!-- Position Column -->
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> No.</th>
-            <td mat-cell *matCellDef="let   element"> {{element.position}} </td>
-          </ng-container>
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> No.</th>
+                    <td mat-cell *matCellDef="let   element"> {{element.position}} </td>
+                </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name</th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
-
-
-          <!-- Action Column -->
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef> Action</th>
-            <td mat-cell *matCellDef="let element">
-              <button (click)="removeFromCart(element)" color="accent" mat-icon-button>
-                <mat-icon>restore_from_trash</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef> Qty</th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-button (click)="decreaseQuantity(element)">-</button>
-
-              {{element.quantity}}
-              <button [disabled]="element.quantityInStock == element.quantity" mat-button
-                      (click)="increaseQuantity(element)">+
-              </button>
-
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedCartListColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedCartListColumns;"></tr>
-        </table>
-
-        <mat-paginator *ngIf="this.cart.length>0" [pageSizeOptions]="[3, 10, 20]">
-        </mat-paginator>
-
-        <p >Sub-Total: {{(getSubTotalFromCartItems() | currency: '₦':'symbol':'1.2-2' ) || 'N/A'}}</p>
-        <p>Discount-Total: {{(getDiscountAmount() | currency: '₦':'symbol':'1.2-2' ) || 'N/A'}}</p>
-        <p>Total-Total: {{(getSubTotalFromCartItems() | currency: '₦':'symbol':'1.2-2' ) || 'N/A'}}</p>
-        <button mat-raised-button color="primary" *ngIf="this.cart.length>0"
-                type="button"
-                (click)="postItemsForSale()" >Post Sale</button>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
 
 
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button (click)="removeFromCart(element)" color="accent" mat-icon-button>
+                            <mat-icon>restore_from_trash</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef> Qty</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button (click)="decreaseQuantity(element)">-</button>
 
-      </mat-card-content>
+                        {{element.quantity}}
+                        <button [disabled]="element.quantityInStock == element.quantity" mat-button
+                                (click)="increaseQuantity(element)">+
+                        </button>
+
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedCartListColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedCartListColumns;"></tr>
+            </table>
+
+            <mat-paginator *ngIf="this.cart.length>0" [pageSizeOptions]="[3, 10, 20]">
+            </mat-paginator>
+
+            <p>Sub-Total: {{(getSubTotalFromCartItems() | currency: '₦':'symbol':'1.2-2') || 'N/A'}}</p>
+            <p>Discount-Total: {{(getDiscountAmount() | currency: '₦':'symbol':'1.2-2') || 'N/A'}}</p>
+            <p>Total-Total: {{(getSubTotalFromCartItems() | currency: '₦':'symbol':'1.2-2') || 'N/A'}}</p>
+            <button mat-raised-button color="primary" *ngIf="this.cart.length>0"
+                    type="button"
+                    (click)="postItemsForSale()">Post Sale
+            </button>
+
+
+        </mat-card-content>
+
+
     </mat-card>
 
 
-  </div>
+</div>
 

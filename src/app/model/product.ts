@@ -11,7 +11,7 @@ export interface Product {
   price: number;
   quantity: number;
   category: Category;
-  brand: Brand;
+  brand: string;
   color: string;
   size: string;
   timeCreated: string;
@@ -26,7 +26,7 @@ export interface ProductRequest {
   price: number;
   quantity: number;
   categoryId: number;
-  brandId: number;
+  brand: string;
   color: string;
   size: Sizes;
 
@@ -41,7 +41,7 @@ export interface CartItem {
   quantityInStock:number;
   quantity: number;
   categoryId: number;
-  brandId: number;
+  brand: string;
   color: string;
   size: string;
 

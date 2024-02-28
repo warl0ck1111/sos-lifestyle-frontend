@@ -18,6 +18,8 @@
 
 
 
+
+
 main {
   width: 100%;
   min-height: 100%;
@@ -58,8 +60,10 @@ main {
 
 
 //////////////////
+
 .container {
   //display: flex;
+  margin-top: 64px;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Adjust as needed */

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, computed, signal} from '@angular/core';
 import {SidebarService} from "../services/sidebar/sidebar.service";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
@@ -10,18 +10,19 @@ import {Router} from "@angular/router";
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  isSidebarVisible = true;
   constructor(private sidebarService: SidebarService,
               private authService:AuthService,
               private router:Router,
-              private _formBuilder: FormBuilder) {}
-  options = this._formBuilder.group({
-    bottom: 0,
-    fixed: false,
-    top: 0,
-  });
-  userIsLoggedIn:boolean= false;
+              private _formBuilder: FormBuilder) {
+    this.userIsLoggedIn = localStorage.getItem("sos-lifestyle-isUserLoggedIn") != null ;
+    console.log("this.authService.isUserLoggedIn$.value:"+JSON.stringify(this.authService.isUserLoggedIn$.value))
 
+  }
+
+  userIsLoggedIn!:boolean;
+
+  collapsed = signal (false);
+  sidenavWidth = computed(() => this.collapsed() ? '65px' : '250px');
 
 
   ngOnInit() {
@@ -30,7 +31,6 @@ export class MainComponent {
     //    this.isSidebarVisible = isVisible;
     // });
 
-    this.userIsLoggedIn = this.authService.isUserLoggedIn$.value
   }
 
   logout() {
@@ -39,11 +39,11 @@ export class MainComponent {
   }
 
   goToProducts() {
-    this.router.navigateByUrl("../products")
+    this.router.navigate(["product"])
   }
 
   goToSales() {
-    this.router.navigateByUrl("../product/sales")
+    this.router.navigate(["product/sales"])
 
   }
 }

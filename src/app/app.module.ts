@@ -23,7 +23,10 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {JwtModule} from "@auth0/angular-jwt";
-// import {PagesModule} from "./pages/pages.module";
+import { SummarizePipe } from './pipes/summarize.pipe';
+import {MatDialogModule} from "@angular/material/dialog";
+import { CustomSideNavComponent } from './custom-side-nav/custom-side-nav.component';
+import {MatListModule} from "@angular/material/list";
 
 
 export function tokenGetter() {
@@ -36,35 +39,39 @@ export function tokenGetter() {
     MainComponent,
     RouterLinkActiveExactDirective,
     HeaderComponent,
-    SideNavComponent
+    SideNavComponent,
+    SummarizePipe,
+    CustomSideNavComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    AuthModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgbModule,
-    MatGridListModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    // PagesModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:3000']
-      }
-    })
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        AuthModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgbModule,
+        MatGridListModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        // PagesModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ['localhost:8080']
+            }
+        }),
+        MatListModule
 
 
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

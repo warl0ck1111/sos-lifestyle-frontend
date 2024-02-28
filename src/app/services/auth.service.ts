@@ -32,6 +32,7 @@ export class AuthService {
     return this.http.post<ApiSuccessResponse<AuthenticationResponse>>(`${this.baseUrl}/`, user).pipe(
       tap((response: ApiSuccessResponse<AuthenticationResponse>) => {
         localStorage.setItem('sos-lifestyle-app', response.data.accessToken)
+        localStorage.setItem('sos-lifestyle-isUserLoggedIn', JSON.stringify(true))
         this.isUserLoggedIn$.next(true);
         this.userAccessToken$.next(response.data.accessToken);
         this.userRefreshAccessToken$.next(response.data.refreshToken);
@@ -69,6 +70,7 @@ export class AuthService {
 
   logoutUser() {
     localStorage.removeItem("sos-lifestyle-app")
+    localStorage.removeItem("sos-lifestyle-isUserLoggedIn")
     this.isUserLoggedIn$.next(false);
     this.userAccessToken$.next('');
     this.router.navigateByUrl('');
