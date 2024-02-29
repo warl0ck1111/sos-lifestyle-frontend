@@ -24,6 +24,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatSelectModule} from "@angular/material/select";
 import {CommonModule} from "@angular/common";
 import {CredentialsService} from "../../services/credentials.service";
+import {MatIconModule} from "@angular/material/icon";
 
 
 declare function PrintReceipt(invoice: Invoice, inches: number): string; // Declare the external function
@@ -126,6 +127,7 @@ export class ProductComponent {
             this.animal = result;
 
             this.refreshProductList()
+            this.getProducts();
         });
     }
 
@@ -451,7 +453,8 @@ export interface DialogData {
         MatButtonModule,
         MatCardModule,
         MatSelectModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatIconModule
     ]
 })
 export class DialogOverviewExampleDialog {

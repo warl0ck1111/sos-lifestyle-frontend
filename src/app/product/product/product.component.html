@@ -166,7 +166,7 @@
             <p>Total-Total: {{(getSubTotalFromCartItems() | currency: '₦':'symbol':'1.2-2') || 'N/A'}}</p>
             <button mat-raised-button color="primary" *ngIf="this.cart.length>0"
                     type="button"
-                    (click)="postItemsForSale()">Post Sale
+                    (click)="postItemsForSale()">Post Sale &nbsp;<mat-icon>shopping_cart_checkout</mat-icon>
             </button>
 
 

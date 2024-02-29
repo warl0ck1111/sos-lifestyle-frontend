@@ -40,7 +40,7 @@ export class CustomSideNavComponent {
 
         {icon: 'dashboard', label: 'Dashboard', route: 'product/dashboard'},
         {icon: 'products', label: 'Products', route: '/product'},
-        {icon: 'Sales', label: 'Sales', route: 'product/sales'}
+        {icon: 'shopping_cart', label: 'Sales', route: 'product/sales'}
         // {icon: 'Category', label: 'Category', route: 'product/category'},
         // {icon: 'color', label: 'Color', route: 'product/color'},
         ]
