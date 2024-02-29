@@ -1,4 +1,6 @@
 import {Component, computed, Input, signal} from '@angular/core';
+import {AuthService} from "../services/auth.service";
+import {CredentialsService} from "../services/credentials.service";
 
 
 export type MenuItem = {
@@ -14,6 +16,17 @@ export type MenuItem = {
 })
 export class CustomSideNavComponent {
 
+    fullName!:string;
+    role!:string;
+    constructor(private credentialService:CredentialsService,
+                private authService:AuthService
+                ) {
+      console.log("CustomSideNavComponent/constructor/called")
+        let firstName =credentialService.credentials?.firstName
+        let lastName =credentialService.credentials?.lastName
+        this.role =`${credentialService.credentials?.role}`
+        this.fullName = `${firstName} ${lastName}`
+    }
     sideNavCollapsed = signal(false);
 
     @Input() set collapsed(val: boolean) {
@@ -32,4 +45,10 @@ export class CustomSideNavComponent {
         // {icon: 'color', label: 'Color', route: 'product/color'},
         ]
     )
+
+    logout() {
+        if (window.confirm("Are you sure you want to log out")){
+            this.authService.logoutUser();
+        }
+    }
 }

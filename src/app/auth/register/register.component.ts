@@ -54,9 +54,7 @@ export class RegisterComponent {
         },
         (error:HttpErrorResponse)=>{
           console.log("login/error:"+JSON.stringify(error))
-          this.snackbar.open(error.error.message, 'Close', {
-            duration: 3000, horizontalPosition: 'right', verticalPosition: 'top'
-          })
+          this.snackbar.open(error.error.message, 'Close')
         })
     }
   }

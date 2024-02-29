@@ -1,76 +1,178 @@
-import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, Inject} from '@angular/core';
+import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {tap} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
 import {ApiSuccessResponse, AuthenticationResponse} from "../../model/user-auth";
-import {BehaviorSubject} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpErrorResponse} from "../../model/http-response";
-import {hide} from "@popperjs/core";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CustomValidators} from "../../_helpers/custom-validators";
+import {CredentialsService} from "../../services/credentials.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  hide = true;
+    hide = true;
 
 
-  loginForm:FormGroup = new FormGroup({
-    username: new FormControl('',Validators.required),
-    password: new FormControl('', Validators.required),
+    loginForm: FormGroup = new FormGroup({
+        username: new FormControl('', Validators.required),
+        password: new FormControl('', Validators.required),
 
-  });
-  private userIsLoggedIn!: boolean;
+    });
+    private userIsLoggedIn!: boolean;
 
-  constructor(private authService: AuthService, private router: Router,
-              private snackbar: MatSnackBar, ) {
-    this.userIsLoggedIn = localStorage.getItem("sos-lifestyle-isUserLoggedIn") != null ;
-    if (this.userIsLoggedIn){
-      this.router.navigate(["product"])
+    constructor(private authService: AuthService, private router: Router,
+                private snackbar: MatSnackBar, public dialog: MatDialog,
+                private credentialService:CredentialsService
+                ) {
+        this.userIsLoggedIn = credentialService.isAuthenticated()
+
+
     }
-  }
 
-  login() {
-    if (this.loginForm.valid) {
-      this.authService.login({
-        username: this.username.value,
-        password: this.password.value
-      }).pipe(
-        tap(() => this.gotoCreateProduct())
-      ).subscribe((response:ApiSuccessResponse<AuthenticationResponse>)=>{
-        console.log("login/response:"+JSON.stringify(response));
-
-      },
-        (error:HttpErrorResponse)=>{
-          console.log("login/error:"+JSON.stringify(error))
-          this.snackbar.open(error.error.message, 'Close', {
-            duration: 3000, horizontalPosition: 'right', verticalPosition: 'top'
-          })
-        })
+    ngOnInit(){
+        if (this.userIsLoggedIn) {
+            console.log("userIsLoggedIn:"+this.userIsLoggedIn);
+            this.router.navigateByUrl("/product").then(() => window.location.reload());
+        }
     }
-  }
 
-  get username(): FormControl {
-    return this.loginForm.get('username') as FormControl;
-  }
+    login() {
+        if (this.loginForm.valid) {
+            this.authService.login({
+                username: this.username.value,
+                password: this.password.value
+            }).pipe(
+                tap(() => this.router.navigate(['/product']).then(() => window.location.reload()))
+            ).subscribe((response: ApiSuccessResponse<AuthenticationResponse>) => {
+                    console.log("login/response:" + JSON.stringify(response));
 
-  get password(): FormControl {
-    return this.loginForm.get('password') as FormControl;
-  }
+                },
+                (error: HttpErrorResponse) => {
+                    console.log("login/error:" + JSON.stringify(error))
+                    this.snackbar.open(error.error.message, 'Close')
+                })
+        }
+    }
+
+    get username(): FormControl {
+        return this.loginForm.get('username') as FormControl;
+    }
+
+    get password(): FormControl {
+        return this.loginForm.get('password') as FormControl;
+    }
 
 
-  gotoCreateProduct() {
-    console.log("gotoCreateProduct/clicked")
-    // this.router.navigate(['/heroes', { id: heroId }]);
 
-    this.router.navigate(['/product']);
-  }
+    openDialog(): void {
+        const dialogRef = this.dialog.open(RegistrationDialogComponent, {
+            data: {},
+        });
 
-  goToMainPage() {
-    this.router.navigate(['/product']);
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+        });
+    }
+
+}
+
+
+export interface DialogData2 {
+    animal: string;
+    name: string;
+}
+
+@Component({
+    selector: 'registration-dialog',
+    templateUrl: 'registration-dialog.html',
+
+})
+export class RegistrationDialogComponent {
+    constructor(private userService: AuthService, private router: Router,
+                private snackbar: MatSnackBar,
+                public dialogRef: MatDialogRef<RegistrationDialogComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: DialogData2,
+    ) {
+
+    }
+
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
+
+    registrationForm: FormGroup = new FormGroup({
+            email: new FormControl('', [Validators.required, Validators.email]),
+            username: new FormControl('', [Validators.required]),
+            firstName: new FormControl('', [Validators.required]),
+            lastName: new FormControl('', [Validators.required]),
+            role: new FormControl(null, [Validators.required]),
+            password: new FormControl('', [Validators.required]),
+            passwordConfirm: new FormControl('', [Validators.required])
+        },
+        {validators: CustomValidators.passwordsMatching}
+    );
+    private userIsLoggedIn!: boolean;
+
+
+    register() {
+        if (this.registrationForm.valid) {
+            this.userService.register({
+                firstName: this.firstName.value,
+                lastName: this.lastName.value,
+                username: this.lastName.value,
+                email: this.email.value,
+                password: this.password.value,
+                role: 'EMPLOYEE',
+            }).pipe(
+                tap(() => this.onNoClick()
+                )
+            ).subscribe((response: ApiSuccessResponse<AuthenticationResponse>) => {
+                    console.log("register/response:" + JSON.stringify(response));
+                },
+                (error: HttpErrorResponse) => {
+                    console.log("login/error:" + JSON.stringify(error))
+                    this.snackbar.open(error.error.message, 'Close', {
+                        duration: 3000, horizontalPosition: 'right', verticalPosition: 'top'
+                    })
+                })
+        }
+    }
+
+    get firstName(): FormControl {
+        return this.registrationForm.get('firstName') as FormControl;
+    }
+
+    get lastName(): FormControl {
+        return this.registrationForm.get('lastName') as FormControl;
+    }
+
+    get role(): FormControl {
+        return this.registrationForm.get('role') as FormControl;
+    }
+
+    get username(): FormControl {
+        return this.registrationForm.get('username') as FormControl;
+    }
+
+    get email(): FormControl {
+        return this.registrationForm.get('email') as FormControl;
+    }
+
+
+    get password(): FormControl {
+        return this.registrationForm.get('password') as FormControl;
+    }
+
+    get passwordConfirm(): FormControl {
+        return this.registrationForm.get('passwordConfirm') as FormControl;
+    }
 
 }

@@ -1,8 +1,8 @@
 <div class="sidenav-header">
     <img [width]="profilePicSize2()" [height]="profilePicSize2()" src="/assets/images/profile_photo.jpeg" alt=""/>
     <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
-        <h2>Your Page</h2>
-        <p>Bashir Okala</p>
+        <h2>{{role}}</h2>
+        <p>{{fullName}}</p>
     </div>
 </div>
 
@@ -13,4 +13,18 @@
         <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
         <span matListItemTitle *ngIf="!sideNavCollapsed()">{{item.label}}</span>
     </a>
+
+
+    <div style="margin-top: 50px">
+        <a [routerLink]="'/users'" mat-list-item>
+            <mat-icon matListItemIcon>profile</mat-icon>
+            <span matListItemTitle *ngIf="!sideNavCollapsed()">Profile</span>
+        </a>
+
+        <a mat-list-item (click)="logout()">
+            <mat-icon matListItemIcon>logout</mat-icon>
+            <span matListItemTitle *ngIf="!sideNavCollapsed()">Logout</span>
+        </a>
+
+    </div>
 </mat-nav-list>

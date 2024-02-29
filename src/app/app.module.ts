@@ -14,35 +14,29 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { MainComponent } from './main/main.component';
-import {RouterLinkActiveExactDirective} from "./main/appRouterLinkActiveExact.directive";
 import {HeaderComponent} from "./header/header.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {SideNavComponent} from "./side-nav/side-nav.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {JwtModule} from "@auth0/angular-jwt";
-import { SummarizePipe } from './pipes/summarize.pipe';
 import {MatDialogModule} from "@angular/material/dialog";
 import { CustomSideNavComponent } from './custom-side-nav/custom-side-nav.component';
 import {MatListModule} from "@angular/material/list";
 
 
 export function tokenGetter() {
-  return localStorage.getItem("sos-lifestyle-app");
+  return localStorage.getItem("sos-lifestyle-app-accessToken");
 }
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageNotFoundComponent,
-    MainComponent,
-    RouterLinkActiveExactDirective,
-    HeaderComponent,
-    SideNavComponent,
-    SummarizePipe,
-    CustomSideNavComponent
-  ],
+    declarations: [
+        AppComponent,
+        PageNotFoundComponent,
+        MainComponent,
+        HeaderComponent,
+        CustomSideNavComponent,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -72,8 +66,10 @@ export function tokenGetter() {
 
 
     ],
-  providers: [],
-  bootstrap: [AppComponent]
+    providers: [],
+    exports: [
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

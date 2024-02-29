@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
+import {CredentialsService} from "../services/credentials.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private jwtService: JwtHelperService) { }
+  constructor(private router: Router, private jwtService: JwtHelperService,
+              private credentialService:CredentialsService
+              ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -19,7 +22,7 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['']);
       return false;
     }
-    else return localStorage.getItem("sos-lifestyle-app") != null;
+    else return this.credentialService.isAuthenticated();
   }
 
 }

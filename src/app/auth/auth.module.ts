@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AuthRoutingModule } from './auth-routing.module';
-import { LoginComponent } from './login/login.component';
+import {AuthRoutingModule} from './auth-routing.module';
+import {LoginComponent, RegistrationDialogComponent} from './login/login.component';
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
@@ -21,29 +21,33 @@ import {FooterComponent} from "../pages/footer/footer.component";
 import {AuthService} from "../services/auth.service";
 import {HttpClientModule} from "@angular/common/http";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    FooterComponent
+    FooterComponent,
+    RegistrationDialogComponent
   ],
-    exports: [
-        LoginComponent,
-    ],
-    imports: [
-        CommonModule,
-        AuthRoutingModule,
-        RouterModule,
-        ReactiveFormsModule,
-        MatNativeDateModule, MatDatepickerModule,
-      MatIconModule, MatButtonModule, MatCheckboxModule,
-      MatToolbarModule, FormsModule, MatCardModule, MatFormFieldModule,
-      MatInputModule, MatListModule, MatRadioModule,HttpClientModule,
+  exports: [
+    LoginComponent,
+    FooterComponent,
+  ],
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    RouterModule,
+    ReactiveFormsModule,
+    MatNativeDateModule, MatDatepickerModule,
+    MatIconModule, MatButtonModule, MatCheckboxModule,
+    MatToolbarModule, FormsModule, MatCardModule, MatFormFieldModule,
+    MatInputModule, MatListModule, MatRadioModule, HttpClientModule, MatDialogModule,
 
 
-    ],
-  providers:[AuthService, JwtHelperService]
+  ],
+  providers: [AuthService, JwtHelperService]
 })
-export class AuthModule { }
+export class AuthModule {
+}

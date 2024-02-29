@@ -49,14 +49,14 @@
 
                 <mat-card-content>
 
-                  <button mat-button (click)="login()" color="primary" [disabled]="!loginForm.valid">Login</button>
+                  <button mat-button  (click)="login()" color="warn" [disabled]="!loginForm.valid">Login</button>
                 </mat-card-content>
               </form>
                 </mat-card>
               <div class="">
                 <hr class="">
                 <div class="d-flex ">
-                  <a href=""  class="" routerLink='/register'>Create Account</a>
+                  <button (click)="openDialog()" class="" >Create Account</button>
                   <img src="../../../assets/img/live_help_24px.svg" alt="" class="img-fluid pd-l-15" srcset="">
                 </div>
               </div>
@@ -69,9 +69,3 @@
   </div>
 </div>
 <app-footer></app-footer>
-
-<!--<script src="assets/lib/jquery/jquery.min.js"></script>-->
-<!--<script src="assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>-->
-<!--<script src="assets/lib/feather-icons/feather.min.js"></script>-->
-<!--<script src="assets/js/dashforge.js"></script>-->
-

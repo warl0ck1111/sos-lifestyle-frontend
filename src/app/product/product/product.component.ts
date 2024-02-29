@@ -1,15 +1,14 @@
-import {AfterViewInit, Component, HostListener, Inject, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {CartItem, Product, ProductRequest} from "../../model/product";
 import {SalesService} from "../../services/sales.service";
-import {catchError, finalize, of, Subject, switchMap} from "rxjs";
+import {BehaviorSubject, catchError, finalize, of, Subject, switchMap, timer} from "rxjs";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Invoice} from "../../model/invoice";
 import {ProductsService} from "../../services/products.service";
 import {SaleDetail, SalesRequest} from "../../model/sale";
-import {AuthService} from "../../services/auth.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -19,22 +18,25 @@ import {ColorService} from "../../services/color.service";
 import {BrandService} from "../../services/brand.service";
 import {Category} from "../../model/category";
 import {HttpErrorResponse} from "../../model/http-response";
-import {Brand} from "../../model/brand";
 import {Color} from "../../model/color";
 import {Sizes} from "../../model/size";
 import {MatCardModule} from "@angular/material/card";
 import {MatSelectModule} from "@angular/material/select";
 import {CommonModule} from "@angular/common";
+import {CredentialsService} from "../../services/credentials.service";
 
 
 declare function PrintReceipt(invoice: Invoice, inches: number): string; // Declare the external function
+declare function getPosData(): string; // Declare the external function
+declare function checkPrinterStatus(): any; // Declare the external function
+
 @Component({
     selector: 'app-product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],
 })
 
-export class ProductComponent implements  AfterViewInit{
+export class ProductComponent {
 
 
     cart: CartItem[] = [];
@@ -52,33 +54,49 @@ export class ProductComponent implements  AfterViewInit{
     animal!: string;
     name!: string;
 
-    constructor(private route: ActivatedRoute,
-                private router: Router,
-                public dialog: MatDialog,
-                private productService: ProductsService,
-                private saleService: SalesService,
-                private authService: AuthService,
-                private _snackBar: MatSnackBar) {
-                this.getProducts();
-        // console.log("constructor/products length:" + this.products.length);
-        //
-        // console.log("constructor/authService/getLoggedInUser:" + authService.getLoggedInUser());
-        // console.log("constructor/authService/isUserLoggedIn$:" + JSON.stringify(authService.isUserLoggedIn$));
-        // console.log("constructor/authService/isUserLoggedIn$:" + JSON.stringify(authService.userAccessToken$));
+    count: number = 0;
 
+    constructor(
+        public dialog: MatDialog,
+        private productService: ProductsService,
+        private saleService: SalesService,
+        private _snackBar: MatSnackBar,
+        private credentialService: CredentialsService
+    ) {
+
+        console.log("ProductComponent/constructor/getPosData()" + getPosData());
+        console.log("ProductComponent/constructor/checkPrinterStatus()" + checkPrinterStatus())
+        this.userIsLoggedIn = credentialService.isAuthenticated();
+        console.log("ProductComponent/constructor/userIsLoggedIn" + this.userIsLoggedIn)
     }
 
-    ngOnInit(){
-        this.initializeData()
+    userIsLoggedIn!: boolean;
+
+
+    ngOnInit() {
+        this.getProducts()
     }
+
     ngAfterViewInit() {
+        console.log("still reached here...")
         this.productListDataSource.paginator = this.productListPaginator;
         this.cartListDataSource.paginator = this.cartListPaginator;
+    }
+
+    getCartIndex(element: CartItem): number {
+        // If not using pagination
+        // return this.dataSource.data.indexOf(element);
+
+        // If using pagination
+        const pageIndex = this.cartListPaginator.pageIndex;
+        const pageSize = this.cartListPaginator.pageSize;
+        return pageIndex * pageSize + this.cartListDataSource.data.indexOf(element) + 1;
     }
 
 
     @HostListener('window:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {
+        console.log("handleKeyboardEvent/event.key:" + event.key)
         if (event.key === 'Enter') {
             // Process the scanned barcode value
             console.log('Scanned barcode:', this.barcodeValue);
@@ -97,6 +115,7 @@ export class ProductComponent implements  AfterViewInit{
             this.productListDataSource.paginator.firstPage();
         }
     }
+
     openDialog(product?: Product): void {
         const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
             data: {product: product, animal: this.animal},
@@ -106,13 +125,9 @@ export class ProductComponent implements  AfterViewInit{
             console.log('The dialog was closed');
             this.animal = result;
 
-            this.getProducts();
-            this.productListDataSource.data = this.products;
+            this.refreshProductList()
         });
     }
-
-
-
 
 
     addToCart(product: Product) {
@@ -164,17 +179,12 @@ export class ProductComponent implements  AfterViewInit{
             cartItem.quantity = 1;
             this.cart.push(cartItem);
             this.cartListDataSource.data = this.cart;
-
-
 //subtract from product count
             this.products.forEach((productValue: Product, index: number, obj: any) => {
                 if (productValue.barCode === product.barCode) {
                     productValue.quantity -= 1;
                 }
             })
-            console.log("cart.size:" + this.cart.length)
-
-            console.log("cartListDataSource.data.size:" + this.cartListDataSource.data.length)
         }
 
 
@@ -217,15 +227,33 @@ export class ProductComponent implements  AfterViewInit{
 
 
     postItemsForSale() {
-        if (window.confirm("Are you sure you want to proceed")) {
-            console.log("postItemsForSale/cart:" + JSON.stringify(this.cart))
-            console.log("postItemsForSale/cart.size:" + this.cart.length)
 
-            if (this.cart.length != 0) {
-                this.postSales(this.cart);
-            } else {
+        if (this.printerIsAvailable()) {
 
-                console.log("postItemsForSale/cart is empty")
+
+            if (window.confirm("Are you sure you want to proceed")) {
+                console.log("postItemsForSale/cart:" + JSON.stringify(this.cart))
+                console.log("postItemsForSale/cart.size:" + this.cart.length)
+
+                if (this.cart.length != 0) {
+                    this.postSales(this.cart);
+                } else {
+
+                    console.log("postItemsForSale/cart is empty")
+                }
+            }
+        } else {
+
+            if (window.confirm("printer is unavailable, do you wish to proceed with sale?")) {
+                console.log("postItemsForSale/cart:" + JSON.stringify(this.cart))
+                console.log("postItemsForSale/cart.size:" + this.cart.length)
+
+                if (this.cart.length != 0) {
+                    this.postSales(this.cart);
+                } else {
+
+                    console.log("postItemsForSale/cart is empty")
+                }
             }
         }
     }
@@ -281,18 +309,49 @@ export class ProductComponent implements  AfterViewInit{
         }))
             .subscribe((products: any) => {
 
-                this.products = products;
-                this.productListDataSource.data = products;
-                console.log("getProducts/finished getting products successfully")
+                    this.products = products;
+                    this.productListDataSource.data = products;
+                    console.log("getProducts/finished getting products successfully")
 
-            },
-            error => {
-                console.log("getProducts/there was an error getting products")
+                },
+                error => {
+                    console.log("getProducts/there was an error getting products")
 
-            })
+                })
     }
 
+    getPrinterData(): any {
+        return JSON.parse(getPosData())
+    }
+
+    printerIsAvailable(): boolean {
+        return this.getPrinterData().id != 0
+    }
+
+    val: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+    listenToPrinter() {
+        timer(3000)
+            .subscribe(() => {
+                this.val.next(true);
+            });
+        do {
+            console.log("this.printerIsAvailable():" + this.printerIsAvailable())
+            this.printerIsAvailable()
+
+        } while (!this.val.value)
+    }
+
+// httpCheckPrinterStatus(){
+//     console.log("checking webCheckPrinterStatus....")
+//         this.httpClient.post(`http://127.0.0.1:18080/WebPrintSDK/printer1/checkStatus`, null).subscribe(result=>{
+//             console.log("webCheckPrinterStatus"+JSON.stringify(result))
+//         })
+// }
+
+
     postSales(cartItems: CartItem[]) {
+
         let salesRequestFromCartItem = this.getSalesRequestFromCartItem();
         this.saleService.createSales(salesRequestFromCartItem).pipe(finalize(() => {
 
@@ -367,8 +426,8 @@ export class ProductComponent implements  AfterViewInit{
         this.cart = [];
     }
 
-    goToCreateProduct() {
-        this.router.navigateByUrl("product/create")
+    refreshProductList() {
+        this.getProducts();
     }
 }
 
@@ -408,7 +467,6 @@ export class DialogOverviewExampleDialog {
                 private brandService: BrandService, private _snackBar: MatSnackBar) {
 
 
-
     }
 
 
@@ -423,7 +481,7 @@ export class DialogOverviewExampleDialog {
         this.getColors();
 
         if (this.data.product) {
-            console.log("ngOnInit/data:"+ JSON.stringify(this.data))
+            console.log("ngOnInit/data:" + JSON.stringify(this.data))
 
             this.createUpdateButtonTitle = "Update Product"
             this.isUpdate = true;
@@ -448,7 +506,7 @@ export class DialogOverviewExampleDialog {
         ).subscribe((result: Product | null) => {
             if (result !== null) {
                 this.initializeFormDataWithValues(result);
-                this.openSnackBar("Product already exist found, update it?", "Dismiss");
+                this.openSnackBar("Product already exist, update it instead", "Dismiss");
             }
         });
     }
@@ -466,7 +524,6 @@ export class DialogOverviewExampleDialog {
 
             })
     }
-
 
 
     colors: Color[] = [];
@@ -490,13 +547,11 @@ export class DialogOverviewExampleDialog {
 
 
     openSnackBar(message: string, action: string) {
-        this._snackBar.open(message, action, {
-            duration: 3000
-        });
+        this._snackBar.open(message, action, );
     }
 
     createUpdateProduct() {
-        if(this.isUpdate){
+        if (this.isUpdate) {
 
             //if property doesnt match then do this
             // this.user.Name = this.userForm.get('name').value;
@@ -512,7 +567,7 @@ export class DialogOverviewExampleDialog {
                     this.openSnackBar(error.message, "Dismiss");
 
                 })
-        }else{
+        } else {
 
             //if property doesnt match then do this
             // this.user.Name = this.userForm.get('name').value;
@@ -567,7 +622,7 @@ export class DialogOverviewExampleDialog {
         }))
             .subscribe((result: Product) => {
                     if (result != null) {
-                        this.openSnackBar("product found", "Dismiss");
+                        this.openSnackBar("product already exist, update instead", "Dismiss");
 
                         this.initializeFormDataWithValues(result);
                     }
@@ -576,7 +631,6 @@ export class DialogOverviewExampleDialog {
                     // this.openSnackBar(error.message, "Dismiss");
                 })
     }
-
 
 
     private initializeFormDataWithValues(product: Product) {
@@ -604,7 +658,7 @@ export class DialogOverviewExampleDialog {
             price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
             quantity: new FormControl('', [Validators.required]),
             categoryId: new FormControl('', [Validators.required]),
-            brand: new FormControl('', ),
+            brand: new FormControl('',),
             color: new FormControl(''),
             size: new FormControl(''),
         });

@@ -21,13 +21,13 @@
   setPosId(issueID);
   checkPrinterStatus();
 
-  printText("\n\nSOS Lifestyle,\nElevate Your Style, Embrace Your Life,\n 463-400, Wuse 2 Abuja\n\n\n", 0, 0, false, false, false, 0, 1);
+  printText("\n\nSOS Lifestyle,\nElevate Your Style, Embrace Your Life,\n 516 Tillabery close Wuse 2, Abuja\n\n\n", 0, 0, false, false, false, 0, 1);
 
 
     var counter =0;
   // 2inch sample
   printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
-    printText("Item name          Q'ty      price \n", 0, 0, false, false, false, 0, 0);
+    printText("Item name          Qty      price \n", 0, 0, false, false, false, 0, 0);
 
     for (const cartItem of invoice.cartItems) {
 counter++;
@@ -44,11 +44,11 @@ counter++;
   printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
 
 
-  printText("Tel : 080 - 1234 - 5678\n", 0, 0, true, false, false, 0, 0);
+  printText("Tel : +(234) 803 319 2757\n", 0, 0, true, false, false, 0, 0);
   printText("Homepage : www.instagram.com/sos_lifestyle_/\n\n\n\n", 0, 0, false, false, false, 0, 0);
 
   printQRCode("https://www.instagram.com/sos_lifestyle_/",0,1,7,0);
-  print1DBarcode("01234567890",0,4,70,2,1);
+  print1DBarcode("08033192757",0,4,70,2,1);
   printText("\n\n\n\n\n", 0, 0, false, false, false, 0, 0);
   cutPaper(1);
 

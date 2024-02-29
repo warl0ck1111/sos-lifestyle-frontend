@@ -1,0 +1,82 @@
+
+<h2 mat-dialog-title>Register New User</h2>
+<mat-dialog-content>
+<p [formGroup]="registrationForm">
+    <mat-card style="display: flex">
+
+                <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+                            <input type="firstName" matInput placeholder="First Name" formControlName="firstName">
+                            <mat-error *ngIf="firstName.touched && firstName.hasError('required')">First Name is required</mat-error>
+                            <mat-error *ngIf="firstName.touched && firstName.hasError('firstName')">First Name must be valid
+                            </mat-error>
+                        </mat-form-field>
+
+                </mat-card-content>
+        <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <input type="lastName" matInput placeholder="Last Name" formControlName="lastName">
+                            <mat-error *ngIf="lastName.touched && lastName.hasError('required')">Last Name is required</mat-error>
+                            <mat-error *ngIf="lastName.touched && lastName.hasError('lastName')">Last Name must be valid</mat-error>
+                        </mat-form-field>
+        </mat-card-content>
+        <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <input type="username" matInput placeholder="username" formControlName="username">
+                            <mat-error *ngIf="username.touched && username.hasError('required')">username is required</mat-error>
+                            <mat-error *ngIf="username.touched && username.hasError('username')">username must be valid</mat-error>
+                        </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <input type="role" matInput placeholder="role" formControlName="role">
+                            <mat-error *ngIf="email.touched && email.hasError('required')">role is required</mat-error>
+                            <mat-error *ngIf="email.touched && email.hasError('role')">role must be valid</mat-error>
+                        </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <input type="email" matInput placeholder="Email" formControlName="email">
+                            <mat-error *ngIf="email.touched && email.hasError('required')">Email is required</mat-error>
+                            <mat-error *ngIf="email.touched && email.hasError('email')">Email must be valid</mat-error>
+                        </mat-form-field>
+        </mat-card-content>
+        <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <input type="password" matInput placeholder="Password" formControlName="password">
+                            <mat-error *ngIf="password.touched && password.hasError('required')">Password is required</mat-error>
+                        </mat-form-field>
+        </mat-card-content>
+        <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <input type="password" matInput placeholder="Password Confirmation" formControlName="passwordConfirm">
+                        </mat-form-field>
+
+
+                        <mat-error *ngIf="passwordConfirm.dirty && registrationForm.hasError('passwordsNotMatching')"><small>Passwords
+                            are not
+                            matching</small></mat-error>
+        </mat-card-content>
+        <mat-card-content>
+        <mat-hint *ngIf="!registrationForm.valid"><small>Please fill out all needed information</small></mat-hint>
+        </mat-card-content>
+            <mat-card-content>
+                        <button mat-button (click)="register()" color="accent" [disabled]="!registrationForm.valid">Register
+                        </button>
+
+                </mat-card-content>
+
+            </mat-card>
+</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button  mat-raised-button
+    >Clear
+    </button>
+
+</mat-dialog-actions>

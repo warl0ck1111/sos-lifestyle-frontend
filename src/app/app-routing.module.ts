@@ -4,10 +4,8 @@ import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {AuthGuard} from "./guards/auth.guard";
 
 const routes: Routes = [
-
-
-
-    {path: '', pathMatch: "full", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+    {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+    {path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
     {
         path: 'product',
         canActivate: [AuthGuard],

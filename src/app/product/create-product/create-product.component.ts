@@ -80,9 +80,7 @@ export class CreateProductComponent {
 
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 3000
-    });
+    this._snackBar.open(message, action, );
   }
 
   createProduct() {

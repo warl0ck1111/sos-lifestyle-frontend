@@ -1,22 +1,27 @@
-<mat-toolbar class="mat-elevation-z3">
+<mat-toolbar *ngIf="userIsLoggedIn" class="mat-elevation-z3">
     <button mat-icon-button (click)="collapsed.set(!collapsed())" class="example-icon"
             aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-    <span class="title-span">SOS LifeStyle</span>
+    <span class="title-span">SOS Lifestyle</span>
     <span class="spacer"></span>
 
     <button (click)="logout()" mat-raised-button color="primary">Logout
     </button>
 </mat-toolbar>
 
-<mat-sidenav-container>
+<mat-sidenav-container *ngIf="userIsLoggedIn">
     <mat-sidenav opened mode="side"  [style.width]="sidenavWidth()">
         <app-custom-side-nav [collapsed] = "collapsed()"></app-custom-side-nav>
     </mat-sidenav>
-    <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
-        <router-outlet></router-outlet>
+  <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+    <router-outlet></router-outlet>
 
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 
 </mat-sidenav-container>
+<div  *ngIf="!userIsLoggedIn">
+
+
+  <router-outlet></router-outlet>
+</div>

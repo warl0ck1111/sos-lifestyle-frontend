@@ -77,3 +77,25 @@ main {
 p{
   color: white;
 }
+
+
+span>mat-icon{
+  margin: 2px;
+  padding: inherit;
+  width: 20px;
+  height: 20px;
+
+}
+
+span>mat-icon:hover{
+  cursor: pointer;
+  //background:#666666;
+  color: black;
+  box-shadow: black;
+
+  border-radius: 100%;
+}
+//.mat-column-description {
+//  width: 40%;
+//}
+

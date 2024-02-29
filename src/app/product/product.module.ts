@@ -14,7 +14,6 @@ import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {SalesService} from "../services/sales.service";
-// import {PagesModule} from "../pages/pages.module";
 import {MenuBarComponent} from "./menu-bar/menu-bar.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
@@ -34,18 +33,19 @@ import {CategoryService} from "../services/category.service";
 import { ColorComponent } from './color/color.component';
 import { BrandComponent } from './brand/brand.component';
 import { CategoryComponent } from './category/category.component';
+import {AppModule} from "../app.module";
 
 
 @NgModule({
   declarations: [
     ProductComponent,
-    DashboardComponent,
     MenuBarComponent,
-    SalesComponent,
     CreateProductComponent,
     ColorComponent,
     BrandComponent,
-    CategoryComponent
+    CategoryComponent,
+    SalesComponent,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
