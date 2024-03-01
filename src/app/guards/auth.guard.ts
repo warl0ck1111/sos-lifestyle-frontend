@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
 
 
     if (this.jwtService.isTokenExpired()) {
-      this.router.navigate(['']);
+      this.router.navigate(['']).then(() => window.location.reload());;
       return false;
     }
     else return this.credentialService.isAuthenticated();
