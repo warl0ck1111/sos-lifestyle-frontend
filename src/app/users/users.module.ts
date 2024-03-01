@@ -15,12 +15,18 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {MatSortModule} from "@angular/material/sort";
+import {MatCardModule} from "@angular/material/card";
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 
 @NgModule({
   declarations: [
     UserProfileComponent,
-    UsersComponent
+    UsersComponent,
+    ChangePasswordComponent
   ],
     imports: [
         CommonModule,
@@ -35,7 +41,11 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         MatIconModule,
         MatToolbarModule,
         MatTableModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        NgbTooltip,
+        MatSortModule,
+        MatCardModule,
+      MatFormFieldModule
     ]
 })
 export class UsersModule { }

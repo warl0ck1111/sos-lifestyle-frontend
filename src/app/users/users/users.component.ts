@@ -2,10 +2,13 @@ import {Component, ViewChild} from '@angular/core';
 import {UserProfileComponent} from "../user-profile/user-profile.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {MatSort, Sort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {PageableResponse} from "../../model/http-response";
+import {UsersListResponse} from "../../model/user.interface";
 
 @Component({
   selector: 'app-users',
@@ -19,15 +22,15 @@ export class UsersComponent {
     'firstName',
     'lastName',
     'email',
-    'dob',
+    'role',
     'gender',
-    'education',
-    'company',
-    'experience',
-    'package',
+    'status',
+    // 'company',
+    // 'experience',
+    // 'package',
     'action',
   ];
-  dataSource!: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<UsersListResponse> =  new MatTableDataSource<UsersListResponse>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -35,12 +38,14 @@ export class UsersComponent {
   constructor(
       private _dialog: MatDialog,
       private userService: UserService,
+      private _liveAnnouncer: LiveAnnouncer,
       private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.getEmployeeList();
   }
+
 
   openAddEditEmpForm() {
     const dialogRef = this._dialog.open(UserProfileComponent);
@@ -54,9 +59,10 @@ export class UsersComponent {
   }
 
   getEmployeeList() {
-    this.userService.getAllUsers(0,1000,'','').subscribe({
-      next: (res:any) => {
-        this.dataSource = new MatTableDataSource(res);
+    this.userService.getAllUsers(0,1000,'','')
+        .subscribe({
+      next: (res:PageableResponse<UsersListResponse>) => {
+        this.dataSource.data = res.content;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
@@ -98,4 +104,40 @@ export class UsersComponent {
   }
 
 
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
+
+  lockUserAccount(row:any) {
+
+    this.userService.lockUserAccount(row.email).subscribe((result:any)=>{
+      this.snackbar.open(`${row.email} account locked successfully`)
+      this.ngOnInit();
+      location.reload();
+
+    }, error => {
+      this.snackbar.open(`there was an error locking user account`)
+    })
+
+  }
+
+  unlockUserAccount(row:any) {
+    this.userService.unlockUserAccount(row.email).subscribe((result:any)=>{
+      this.snackbar.open(`${row.email} account unlocked successfully`)
+      this.ngOnInit();
+    }, error => {
+      this.snackbar.open(`there was an error locking user account`)
+    })
+  }
 }

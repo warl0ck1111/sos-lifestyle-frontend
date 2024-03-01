@@ -34,6 +34,7 @@ import { ColorComponent } from './color/color.component';
 import { BrandComponent } from './brand/brand.component';
 import { CategoryComponent } from './category/category.component';
 import {AppModule} from "../app.module";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import {AppModule} from "../app.module";
     FormsModule, NgbHighlight, MatTableModule,
     MatPaginatorModule, MatSortModule, MatInputModule, HttpClientModule,
     MatButtonModule, NgbTooltip, MatSidenavModule, MatListModule,
-    MatMenuModule, MatToolbarModule, MatBadgeModule, MatCardModule, MatOptionModule, MatSelectModule,
+    MatMenuModule, MatToolbarModule, MatBadgeModule, MatCardModule, MatOptionModule, MatSelectModule, MatGridListModule,
   ],
   providers:[DecimalPipe, ProductsService, SalesService, ColorService, BrandService, CategoryService]
 })

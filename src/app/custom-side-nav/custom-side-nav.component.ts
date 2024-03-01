@@ -23,9 +23,10 @@ export class CustomSideNavComponent {
                 ) {
       console.log("CustomSideNavComponent/constructor/called")
         let firstName =credentialService.credentials?.firstName
-        let lastName =credentialService.credentials?.lastName
-        this.role =`${credentialService.credentials?.role}`
-        this.fullName = `${firstName} ${lastName}`
+      let lastName =credentialService.credentials?.lastName
+      this.role =`${credentialService.credentials?.role}`
+      console.log("CustomSideNavComponent/constructor/role"+ this.role)
+      this.fullName = `${firstName} ${lastName}`
     }
     sideNavCollapsed = signal(false);
 
@@ -38,8 +39,7 @@ export class CustomSideNavComponent {
     profilePicSize = computed(() => this.sideNavCollapsed() ? '32' : '100');
     menuItems = signal<MenuItem[]>([
 
-        {icon: 'dashboard', label: 'Dashboard', route: 'product/dashboard'},
-        {icon: 'products', label: 'Products', route: '/product'},
+        {icon: 'list', label: 'Products', route: '/product'},
         {icon: 'shopping_cart', label: 'Sales', route: 'product/sales'}
         // {icon: 'Category', label: 'Category', route: 'product/category'},
         // {icon: 'color', label: 'Color', route: 'product/color'},
@@ -51,4 +51,8 @@ export class CustomSideNavComponent {
             this.authService.logoutUser();
         }
     }
+
+  changePassword() {
+
+  }
 }

@@ -21,6 +21,8 @@ export interface RegisterUserRequest {
   username: string;
   email: string;
   password: string;
+  dateOfBirth:string
+  gender:string
   role: string;
 }
 
@@ -38,7 +40,7 @@ export interface UpdateAppUserProfileRequest {
   firstName: string;
   lastName: string;
   username: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   dateOfBirth: string;
   gender: string;
 }
@@ -48,5 +50,34 @@ export interface UpdateAppUsersEmailRequest {
   newEmail: string;
 }
 
+
+
+
+
+export interface UsersListResponse {
+  id: number
+  firstName: string
+  lastName: string
+  username?: string
+  email: string
+  phoneNumber: any
+  role: string
+  dateOfBirth: any
+  gender: any
+  profilePhotoUrl: any
+  locked: boolean
+  enabled: boolean
+  lastLogin: string
+  timeCreated: string
+  timeUpdated: string
+  accountNonExpired: boolean
+  accountNonLocked: boolean
+  credentialsNonExpired: boolean
+  authorities: Authority[]
+}
+
+export interface Authority {
+  authority: string
+}
 
 

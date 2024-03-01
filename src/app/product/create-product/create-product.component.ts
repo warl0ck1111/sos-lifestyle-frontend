@@ -93,7 +93,7 @@ export class CreateProductComponent {
 
     })).subscribe((result: any) => {
         this.openSnackBar("product successfully created ", "Dismiss");
-        this.router.navigateByUrl("product")
+        this.router.navigateByUrl("product").then(() => window.location.reload());
       },
       (error: any) => {
         this.openSnackBar(error.message, "Dismiss");

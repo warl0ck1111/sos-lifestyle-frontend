@@ -27,7 +27,7 @@
     var counter =0;
   // 2inch sample
   printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
-    printText("Item name          Qty      price \n", 0, 0, false, false, false, 0, 0);
+    printText("Item name          Quantity      price \n", 0, 0, false, false, false, 0, 0);
 
     for (const cartItem of invoice.cartItems) {
 counter++;
@@ -44,6 +44,7 @@ counter++;
   printText("--------------------------------\n", 0, 0, false, false, false, 0, 0);
 
 
+  printText("Sold by :"+invoice.cashier+"\n\n", 0, 0, true, false, false, 0, 0);
   printText("Tel : +(234) 803 319 2757\n", 0, 0, true, false, false, 0, 0);
   printText("Homepage : www.instagram.com/sos_lifestyle_/\n\n\n\n", 0, 0, false, false, false, 0, 0);
 

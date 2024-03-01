@@ -21,13 +21,15 @@ import {AuthService} from "../services/auth.service";
 import {HttpClientModule} from "@angular/common/http";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {MatDialogModule} from "@angular/material/dialog";
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     FooterComponent,
-    RegistrationDialogComponent
+    RegistrationDialogComponent,
+    ForgotPasswordComponent
   ],
   exports: [
     LoginComponent,

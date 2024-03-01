@@ -7,6 +7,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {finalize} from "rxjs";
 import {formatDate} from "@angular/common";
 import {Sale} from "../../model/sale";
+import {MatSort, Sort} from "@angular/material/sort";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
 
 @Component({
   selector: 'app-sales',
@@ -17,12 +19,13 @@ export class SalesComponent {
 
 
 
-  displayedSaleListColumns: string[] = ['position', 'name', 'description', 'quantity', 'price', 'totalPrice', 'saleDate'];
+  displayedSaleListColumns: string[] = ['invoiceNo', 'name', 'cashier', 'quantity', 'price', 'totalPrice', 'saleDate'];
   salesListDataSource = new MatTableDataSource<Sale>();
 
   @ViewChild(MatPaginator) salesListPaginator!: MatPaginator;
-
+  @ViewChild(MatSort) sort!: MatSort;
   ngAfterViewInit() {
+    this.salesListDataSource.sort = this.sort;
     this.salesListDataSource.paginator = this.salesListPaginator;
   }
 
@@ -31,6 +34,7 @@ export class SalesComponent {
               private router: Router,
               private salesService: SalesService,
               private saleService: SalesService,
+              private _liveAnnouncer: LiveAnnouncer,
               private _snackBar: MatSnackBar) {
     this.getSales();
 
@@ -69,6 +73,21 @@ export class SalesComponent {
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
+  }
+
+
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
 }

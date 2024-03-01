@@ -1,5 +1,5 @@
 <div class="sidenav-header">
-    <img [width]="profilePicSize2()" [height]="profilePicSize2()" src="/assets/images/profile_photo.jpeg" alt=""/>
+    <img [width]="profilePicSize2()" [height]="profilePicSize2()" src="/assets/images/profile-photo.jpg" alt=""/>
     <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
         <h2>{{role}}</h2>
         <p>{{fullName}}</p>
@@ -7,8 +7,13 @@
 </div>
 
 <mat-nav-list>
-    <a
-            [routerLink]="item.route" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive"
+  <a *ngIf="role.toUpperCase().trim()== 'ADMIN'" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLink]="'product/dashboard'" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
+    <mat-icon matListItemIcon>dashboard</mat-icon>
+    <span matListItemTitle *ngIf="!sideNavCollapsed()">Dashboard</span>
+  </a>
+
+  <a
+            [routerLink]="item.route" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLinkActiveOptions]="{exact: true}"
             mat-list-item *ngFor="let item of menuItems()">
         <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
         <span matListItemTitle *ngIf="!sideNavCollapsed()">{{item.label}}</span>
@@ -16,12 +21,17 @@
 
 
     <div style="margin-top: 50px">
-        <a [routerLink]="'/users'" mat-list-item>
+        <a *ngIf="role.toUpperCase().trim()== 'ADMIN'" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLink]="'/users'" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
             <mat-icon matListItemIcon>assignment_ind</mat-icon>
             <span matListItemTitle *ngIf="!sideNavCollapsed()">Profile</span>
         </a>
 
-        <a mat-list-item (click)="logout()">
+        <a [routerLink]="'users/change-pwd'" routerLinkActive #rla="routerLinkActive"  mat-list-item (click)="changePassword()">
+            <mat-icon matListItemIcon>no_encryption</mat-icon>
+            <span matListItemTitle *ngIf="!sideNavCollapsed()">Change Password</span>
+        </a>
+
+ <a mat-list-item  (click)="logout()">
             <mat-icon matListItemIcon>logout</mat-icon>
             <span matListItemTitle *ngIf="!sideNavCollapsed()">Logout</span>
         </a>

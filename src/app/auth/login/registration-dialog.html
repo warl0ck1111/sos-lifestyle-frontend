@@ -30,13 +30,23 @@
 
         </mat-card-content>
         <mat-card-content>
-                        <mat-form-field appearance="outline">
-                            <input type="role" matInput placeholder="role" formControlName="role">
-                            <mat-error *ngIf="email.touched && email.hasError('required')">role is required</mat-error>
-                            <mat-error *ngIf="email.touched && email.hasError('role')">role must be valid</mat-error>
-                        </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Date of birth</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
         </mat-card-content>
+      <mat-card-content>
+
+        <mat-radio-group aria-label="Select an option" formControlName="gender">
+          <mat-label>Gender</mat-label>
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button value="female">Female</mat-radio-button>
+        </mat-radio-group>
+      </mat-card-content>
         <mat-card-content>
                         <mat-form-field appearance="outline">
                             <input type="email" matInput placeholder="Email" formControlName="email">
@@ -57,8 +67,8 @@
 
 
                         <mat-error *ngIf="passwordConfirm.dirty && registrationForm.hasError('passwordsNotMatching')"><small>Passwords
-                            are not
-                            matching</small></mat-error>
+                            do not
+                            match</small></mat-error>
         </mat-card-content>
         <mat-card-content>
         <mat-hint *ngIf="!registrationForm.valid"><small>Please fill out all needed information</small></mat-hint>
@@ -75,7 +85,7 @@
 
 <mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancel</button>
-    <button  mat-raised-button
+    <button (click)="initializeForm()" mat-raised-button
     >Clear
     </button>
 

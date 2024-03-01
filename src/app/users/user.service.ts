@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {RegisterUserRequest, UpdateAppUserProfileRequest} from "../model/user.interface";
+import {
+  RegisterUserRequest,
+  UpdateAppUserProfileRequest,
+  UsersListResponse
+} from "../model/user.interface";
 import {AuthService} from "../services/auth.service";
+import {PageableResponse} from "../model/http-response";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +40,7 @@ export class UserService {
     return this.http.put<void>(`${this.baseUrl}/users/${userId}/update_profile`, request,this.getHeaders());
   }
 
-  getAllUsers(page: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+  getAllUsers(page: number, pageSize: number, sortField: string, sortDirection: string): Observable<PageableResponse<UsersListResponse>> {
     const params = new HttpParams()
         .set('page', page.toString())
         .set('pageSize', pageSize.toString())

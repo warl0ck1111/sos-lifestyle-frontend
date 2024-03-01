@@ -103,8 +103,8 @@
 
             <mat-card-content>
                 <button mat-raised-button (click)="createUpdateProduct()" color="primary"
-                        [disabled]="!createProductFormGroup.valid" [mat-dialog-close]="data.animal"
-                        cdkFocusInitial>{{createUpdateButtonTitle}} <mat-icon>send</mat-icon></button>
+                        [disabled]="!createProductFormGroup.valid"
+                        cdkFocusInitial>{{createUpdateButtonTitle}} <mat-icon *ngIf="isUpdate">edit</mat-icon> <mat-icon *ngIf="!isUpdate">send</mat-icon></button>
 
             </mat-card-content>
 

@@ -4,6 +4,7 @@ export interface Sale {
     id: number,
     product: Product,
     price: number,
+    cashier:string,
     invoiceNo:number
     quantity: number,
     totalPrice: number,

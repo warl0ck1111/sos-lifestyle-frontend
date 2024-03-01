@@ -1,11 +1,4 @@
-export interface RegisterUserRequest {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-  role?: string; // Assuming role is optional
-}
+
 
 export interface AuthenticationRequest {
   username: string;

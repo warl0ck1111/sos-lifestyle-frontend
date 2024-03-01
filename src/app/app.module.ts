@@ -24,6 +24,9 @@ import {JwtModule} from "@auth0/angular-jwt";
 import {MatDialogModule} from "@angular/material/dialog";
 import { CustomSideNavComponent } from './custom-side-nav/custom-side-nav.component';
 import {MatListModule} from "@angular/material/list";
+import {MatExpansionModule} from "@angular/material/expansion";
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 export function tokenGetter() {
@@ -37,35 +40,38 @@ export function tokenGetter() {
         HeaderComponent,
         CustomSideNavComponent,
     ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        AuthModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgbModule,
-        MatGridListModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        // PagesModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter,
-                allowedDomains: ['localhost:8080']
-            }
-        }),
-        MatListModule
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AuthModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgbModule,
+    MatGridListModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    // PagesModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:8080']
+      }
+    }),
+    MatListModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatMenuModule
 
 
-    ],
+  ],
     providers: [],
     exports: [
     ],

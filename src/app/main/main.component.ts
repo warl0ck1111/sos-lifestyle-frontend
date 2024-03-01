@@ -53,7 +53,7 @@ export class MainComponent implements OnInit{
   }
 
   goToProducts() {
-    this.router.navigate(["product"])
+    this.router.navigate(["product"]).then(() => window.location.reload());
   }
 
   goToSales() {
