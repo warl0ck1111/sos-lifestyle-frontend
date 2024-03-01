@@ -8,10 +8,11 @@ import {
   ApiSuccessResponse,
   AuthenticationRequest,
   AuthenticationResponse,
-  RegisterUserRequest
+
 } from "../model/user-auth";
 import {Router} from "@angular/router";
 import {CredentialsService} from "./credentials.service";
+import {RegisterUserRequest} from "../model/user.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -71,8 +72,8 @@ export class AuthService {
   logoutUser() {
     this.credentialsService.setCredentials();
     this.credentialsService.clearStorage();
-    this.router.navigateByUrl('');
-    location.reload();
+    this.router.navigateByUrl('').then(() => window.location.reload());
+
 
 
     return of(true);

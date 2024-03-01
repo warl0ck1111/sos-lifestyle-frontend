@@ -16,7 +16,6 @@ import {MatRadioModule} from "@angular/material/radio";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {RouterModule} from "@angular/router";
-import {RegisterComponent} from "./register/register.component";
 import {FooterComponent} from "../pages/footer/footer.component";
 import {AuthService} from "../services/auth.service";
 import {HttpClientModule} from "@angular/common/http";
@@ -27,7 +26,6 @@ import {MatDialogModule} from "@angular/material/dialog";
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent,
     FooterComponent,
     RegistrationDialogComponent
   ],
