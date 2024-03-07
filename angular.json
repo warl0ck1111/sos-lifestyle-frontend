@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sos-life-style-frontend": {
+    "soslifestylefrontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sos-life-style-frontend",
+            "outputPath": "dist/soslifestylefrontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sos-life-style-frontend:build:production"
+              "browserTarget": "soslifestylefrontend:build:production"
             },
             "development": {
-              "browserTarget": "sos-life-style-frontend:build:development"
+              "browserTarget": "soslifestylefrontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sos-life-style-frontend:build"
+            "browserTarget": "soslifestylefrontend:build"
           }
         },
         "test": {
