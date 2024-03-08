@@ -6,9 +6,13 @@ const app = express();
 
 const port = process.env.PORT || 3001;
 
+// Serve static files from the 'dist' directory
 app.use(express.static(__dirname + '/dist/soslifestylefrontend'));
 
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
+// Define a catch-all route to serve the 'index.html' file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/dist/soslifestylefrontend/index.html'));
+});
 
 const server = http.createServer(app);
 
