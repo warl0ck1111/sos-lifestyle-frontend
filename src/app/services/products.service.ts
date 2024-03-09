@@ -32,6 +32,10 @@ export class ProductsService {
   searchProductByBarCode(barcode: string):Observable<Product> {
     return this.http.get<Product>(`${this.PRODUCT_URL}/barcode/${barcode}`, this.getHeaders());
   }
+
+  generateBarCode():Observable<string> {
+    return this.http.get<string>(`${this.PRODUCT_URL}/barcode`, this.getHeaders());
+  }
   //
   updateProduct(id: number, productRequest:ProductRequest) {
     return this.http.put(`${this.PRODUCT_URL}/${id}`, productRequest,this.getHeaders());

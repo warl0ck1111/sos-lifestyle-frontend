@@ -122,22 +122,22 @@ export class UsersComponent {
   lockUserAccount(row:any) {
 
     this.userService.lockUserAccount(row.email).subscribe((result:any)=>{
-      this.snackbar.open(`${row.email} account locked successfully`)
+      this.snackbar.open(`${row.email} account locked successfully`, 'dismiss')
       this.ngOnInit();
       location.reload();
 
     }, error => {
-      this.snackbar.open(`there was an error locking user account`)
+      this.snackbar.open(`there was an error locking user account`, 'dismiss')
     })
 
   }
 
   unlockUserAccount(row:any) {
     this.userService.unlockUserAccount(row.email).subscribe((result:any)=>{
-      this.snackbar.open(`${row.email} account unlocked successfully`)
+      this.snackbar.open(`${row.email} account unlocked successfully`, 'dismiss')
       this.ngOnInit();
     }, error => {
-      this.snackbar.open(`there was an error locking user account`)
+      this.snackbar.open(`there was an error locking user account`, 'dismiss')
     })
   }
 }

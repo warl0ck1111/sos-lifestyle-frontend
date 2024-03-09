@@ -1,12 +1,21 @@
-FROM node:18-alpine as build-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY .. .
-RUN npm run build
+# Stage 1: Build Angular application
+FROM node:latest AS builder
 
-# Stage 2: Serve the angular app with Nginx
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build --prod
+
+# Stage 2: Serve Angular application with NGINX
 FROM nginx:alpine
-COPY --from=build-stage /app/dist/sos-life-style-frontend /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-#COPY ./ssl /etc/nginx/ssl
+
+COPY --from=builder /app/dist/soslifestylefrontend /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

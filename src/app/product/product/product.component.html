@@ -11,6 +11,7 @@
                 <mat-icon matSuffix color="accent">search</mat-icon>
             </mat-form-field>
 
+
             <button style="margin-left: 8px" [ngbTooltip]="'Create New Product'" (click)="openDialog()" mat-fab color="accent">
                 <mat-icon>add</mat-icon>
             </button>
@@ -26,11 +27,10 @@
 
     <mat-card>
         <mat-card-header>
-            <mat-card-title style="align-items: center">Product List</mat-card-title>
+            <mat-card-title style="align-items: center">Product List <button  [ngbTooltip]="'Refresh Product List'" (click)="refreshProductList()" mat-icon-button><mat-icon>refresh</mat-icon> </button></mat-card-title>
 
-            <span  [ngbTooltip]="'Refresh Product List'" (click)="refreshProductList()"> &nbsp;
-               <mat-icon>refresh</mat-icon>
-           </span>
+
+
         </mat-card-header>
         <mat-card-content>
 

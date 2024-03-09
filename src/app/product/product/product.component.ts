@@ -655,6 +655,21 @@ export class CreateUpdateProductDialog {
         })
   }
 
+ generateBarcode() {
+
+    this.productService.generateBarCode().pipe(finalize(() => {
+      this.barcodeSearchIsLoading = false;
+    }))
+      .subscribe((result: any) => {
+          if (result != null) {
+            this.openSnackBar("new product barcode generated successfully", "Dismiss");
+          }
+        },
+        (error: any) => {
+          this.openSnackBar(error.message, "Dismiss");
+        })
+  }
+
 
   private initializeFormDataWithValues(product: Product) {
 

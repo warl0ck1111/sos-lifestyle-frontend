@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'sos-life-style-frontend'`, () => {
+  it(`should have as title 'soslifestylefrontend'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('sos-life-style-frontend');
+    expect(app.title).toEqual('soslifestylefrontend');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('sos-life-style-frontend app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('soslifestylefrontend app is running!');
   });
 });

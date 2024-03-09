@@ -18,33 +18,32 @@ export class UserProfileComponent {
 
 
   constructor(
-    private _fb: FormBuilder,
     private userService: UserService,
     private _dialogRef: MatDialogRef<UserProfileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private credentialService: CredentialsService,
     private snackbar: MatSnackBar
   ) {
-    this.empForm = this._fb.group({
-      firstName: '',
-      lastName: '',
-      email: '',
-      username: '',
-      phoneNumber: '',
-      dateOfBirth: '',
-      gender: '',
-      role: '',
+    this.empForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [Validators.required]),
+      dateOfBirth: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
+      role: new FormControl('', [Validators.required]),
 
 
     });
 
-    this.updateProfileForm = this._fb.group({
-      firstName: '',
-      lastName: '',
-      username: '',
-      phoneNumber: '',
-      dateOfBirth: '',
-      gender: '',
+    this.updateProfileForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [Validators.required]),
+      dateOfBirth: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
 
 
     });
@@ -118,9 +117,6 @@ export class UserProfileComponent {
     return this.empForm.get('gender') as FormControl;
   }
 
-  updateProfile() {
-
-  }
 
   private initializeUserProfileFormWithValues(credentials: AuthenticationResponse | null) {
     if (credentials) {
