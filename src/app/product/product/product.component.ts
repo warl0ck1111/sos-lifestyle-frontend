@@ -359,13 +359,13 @@ export class ProductComponent {
     let salesRequestFromCartItem = this.getSalesRequestFromCartItem();
     this.saleService.createSales(salesRequestFromCartItem).pipe(finalize(() => {
 
-    })).subscribe((result: any) => {
+    })).subscribe((result: Invoice) => {
 
 
         console.log("postSales/finished posting sales successfully")
 
 
-        let invoice = this.buildInvoice(cartItems);
+        let invoice = this.buildInvoice(cartItems, result.invoiceNo, result.cashier);
         PrintReceipt(invoice, 2) //todo chage hardcoded value
 
         this.initializeData();
@@ -396,9 +396,11 @@ export class ProductComponent {
     }
   }
 
-  buildInvoice(cartItems: CartItem[]): Invoice {
+  buildInvoice(cartItems: CartItem[], invoiceNo:string, cashier:string): Invoice {
     return {
-      cashier: this.getCashierName(),
+      saleDateTime:Date(),
+      invoiceNo: invoiceNo,
+      cashier: cashier,
       cartItems: cartItems,
       discount: 0.0,
       subTotal: this.getSubTotalFromCartItems(),

@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CartItem} from "../model/product";
 import {environment} from "../../environments/environment";
 import {SalesRequest} from "../model/sale";
+import {Observable} from "rxjs";
+import {Invoice} from "../model/invoice";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +21,8 @@ export class SalesService {
     return this.http.get(this.SALES_URL);
   }
 
-  createSales(salesRequest:SalesRequest) {
-    return this.http.post(`${this.SALES_URL}`, salesRequest,this.getHeaders());
+  createSales(salesRequest:SalesRequest):Observable<Invoice> {
+    return this.http.post<any>(`${this.SALES_URL}`, salesRequest,this.getHeaders());
   }
 
   private getHeaders(): { headers: HttpHeaders } {

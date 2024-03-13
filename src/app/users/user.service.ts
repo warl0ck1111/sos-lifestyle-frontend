@@ -31,6 +31,9 @@ export class UserService {
   resetPassword(resetPasswordRequest: any): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/users/reset_password`, resetPasswordRequest,this.getHeaders());
   }
+  resetUserPassword(email: string): Observable<void> { //resets users password to 'password'
+    return this.http.put<void>(`${this.baseUrl}/users/reset_user_password/${email}`,this.getHeaders());
+  }
 
   getUserProfile(userId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/users/${userId}/profile`,this.getHeaders());

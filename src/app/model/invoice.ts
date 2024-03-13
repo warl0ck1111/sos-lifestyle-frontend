@@ -7,4 +7,6 @@ export interface Invoice{
   discount:number;
   taxTotal:number;
   total:number;
+  invoiceNo:string;
+  saleDateTime:string;
 }
