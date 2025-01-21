@@ -135,7 +135,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
 
       this.http.post(`${this.TICKET_URL}`, ticketObject)
       .pipe(finalize(() => {
-        alert('Ticket created successfully!');
+        alert('Check mail for your ticket!');
           this.submitted = true;
 
       }))
@@ -150,7 +150,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
       })
 
     } else {
-      alert('Payment was not successful. Please try again.');
+      alert('Payment purchase not successful. Please try again.');
       console.log('Payment failed or not approved.');
     }
   }

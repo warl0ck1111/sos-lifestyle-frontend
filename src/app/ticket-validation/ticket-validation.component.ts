@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from "../../environments/environment";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-ticket-validation',
@@ -14,7 +15,20 @@ export class TicketValidationComponent {
   ticketInfo: any = null; // Holds the ticket data from the backend
   errorMessage: string = ''; // Holds any error message
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+
+
+
+  ngOnInit(): void {
+    // Capture the 'id' parameter from the URL
+    this.route.params.subscribe(params => {
+      this.ticketId = params['id'];
+      console.log('ticket ID:', this.ticketId);
+      this.validateTicket();
+    });
+
+
+  }
 
   validateTicket() {
     this.ticketInfo = null;

@@ -12,7 +12,8 @@ const routes: Routes = [
 
   {component:BookTicketComponent, path:"booking"},
 
-  {component:TicketValidationComponent, path:"validation"},
+  {component:TicketValidationComponent, path:"validate-ticket"},
+  {component:TicketValidationComponent, path:"validate-ticket/:id"},
   {component:TicketListComponent, path:"list"},
     // {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
     // // {path: 'users',
