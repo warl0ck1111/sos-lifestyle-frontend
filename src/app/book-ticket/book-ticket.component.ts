@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EmailService } from '../services/email.service';
-import { PaymentService } from '../services/payment.service';
-import { HttpClient } from '@angular/common/http';
-import { finalize } from 'rxjs';
-import { AjaxResponse } from '../models/ajax-response-model';
-import { environment } from '../../environments/environment';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {EmailService} from '../services/email.service';
+import {PaymentService} from '../services/payment.service';
+import {HttpClient} from '@angular/common/http';
+import {finalize} from 'rxjs';
+import {AjaxResponse} from '../models/ajax-response-model';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-book-ticket',
@@ -16,55 +16,35 @@ import { environment } from '../../environments/environment';
 })
 export class BookTicketComponent {
   apiUrl = environment.apiUrl;
-TICKET_URL: string = `${this.apiUrl}/api/tickets`;
-
-
+  ticketPrice = environment.ticketPrice;
+  eventName = environment.eventName;
+  TICKET_URL: string = `${this.apiUrl}/api/tickets`;
   isLoading = false;
 
   // Reactive form
   bookingForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required, Validators.pattern(/^\d{10}$/)]),
+    phone: new FormControl('', [Validators.required,]),
     noOfTickets: new FormControl('', [Validators.required, Validators.min(1)]),
   });
 
 
-
   ticketCode = 'Ticket#1234567890'; // Example ticket code
-  qrCodeDataUrl: string | undefined;  submitted = false;
+  qrCodeDataUrl: string | undefined;
+  submitted = false;
 
-  constructor(private http:HttpClient,
-    private paymentService: PaymentService, private emailService: EmailService,
-    ) {
+  constructor(private http: HttpClient,
+              private paymentService: PaymentService, private emailService: EmailService,
+  ) {
 
-    }
-    tickets: any[] = [];
+  }
 
-    downloadCSV() {
-      const csvRows = [];
-      csvRows.push('Ticket ID,Used');
-      this.tickets.forEach((ticket) => {
-        csvRows.push(`${ticket.ticketId},${ticket.used ? 'Yes' : 'No'}`);
-      });
-
-      const csvData = csvRows.join('\n');
-      const blob = new Blob([csvData], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.setAttribute('href', url);
-      a.setAttribute('download', 'attendees.csv');
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
+  tickets: any[] = [];
 
 
   onSubmit() {
     // Validate form before proceeding
-
-
 
 
     console.log(this.bookingForm);
@@ -85,7 +65,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
       merchant_code: merchantCode,
       pay_item_id: payItemId,
       txn_ref: transRef,
-      amount: '10000',
+      amount: this.ticketPrice * Number(this.bookingForm.controls['noOfTickets'].value),
       cust_id: 'Bashir-djknskjdnsjdksd',
       currency: 566,
       site_redirect_url: window.location.origin,
@@ -102,7 +82,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
 
   paymentCallback(response: any) {
     if (response && response.desc === 'Customer cancellation') {
-      alert('Payment was canceled by the user.');
+      // alert('Payment was canceled by the user.');
       return;
     }
 
@@ -121,9 +101,9 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
       const ticketObject = {
         ...response,
         ...formData,
-        ticketId:this.generateTicketId,
-        eventName:'SINGLES-EXPERIENCE',
-        qrCode:'',
+        ticketId: this.generateTicketId,
+        eventName: this.eventName,
+        qrCode: '',
         paymentDateAndTime: paymentDateAndTime, // Store payment date and time
         ticketUsed: false,                   // Default to false
         dateAndTimeTicketUsed: null,           // Default to null
@@ -132,22 +112,21 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
       console.log('Final Ticket Object:', ticketObject);
 
 
-
       this.http.post(`${this.TICKET_URL}`, ticketObject)
-      .pipe(finalize(() => {
-        alert('Check mail for your ticket!');
+        .pipe(finalize(() => {
+          alert('Thank you for your purchase, please Check mail for your ticket!');
           this.submitted = true;
 
-      }))
-      .subscribe((response: any) => {
+        }))
+        .subscribe((response: any) => {
 
 
-        // console.log(response);
+          // console.log(response);
 
-      }, (error: AjaxResponse<null>) => {
-        alert('Failed to create ticket. Please try again.');
-        // this.showAlert(error.message as string, "warning", "warning")
-      })
+        }, (error: AjaxResponse<null>) => {
+          alert('Failed to create ticket. Please try again.');
+          // this.showAlert(error.message as string, "warning", "warning")
+        })
 
     } else {
       alert('Payment purchase not successful. Please try again.');
@@ -198,7 +177,6 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
   // }
 
 
-
   generateQRCode(ticketCode: string) {
     // Use the QR code generation function from angularx-qrcode
     // Generate base64 URL (you can render it in the UI too if needed)
@@ -208,17 +186,9 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
   generateTicketId(): string {
     const timestamp = Date.now().toString();
     const randomString = Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
+      Math.random().toString(36).substring(2, 15);
     return `${timestamp}-${randomString}`;
-    }
-
-
-
-
-
-
-
-
+  }
 
 
   ticketId: string = '';
@@ -231,7 +201,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
   }
 
 
-  inValidateTicket(){
+  inValidateTicket() {
     console.log("inValidateTicket.....");
     this.updateTicketStatus("oqjsDj3jn5", true)
 

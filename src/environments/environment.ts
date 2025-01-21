@@ -6,6 +6,8 @@ export const environment = {
     production: false,
     serverUrl: 'http://localhost:8080',
   apiUrl: 'http://localhost:8080',
+  eventName: 'SINGLES-EXPERIENCE',
+  ticketPrice: 10000,
 
 
 
