@@ -5,9 +5,11 @@
 export const environment = {
     production: false,
     serverUrl: 'http://localhost:8080',
+  apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
 
 
-    get baseURL(): string {
+
+  get baseURL(): string {
         const parsedUrl = new URL(window.location.href);
         let baseUrl = parsedUrl.origin;
         return baseUrl;

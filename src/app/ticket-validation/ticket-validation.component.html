@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <h2>Ticket Validation</h2>
+  <form (submit)="validateTicket()">
+    <div class="form-group">
+      <label for="ticketId">Ticket ID</label>
+      <input
+        type="text"
+        id="ticketId"
+        class="form-control"
+        [(ngModel)]="ticketId"
+        placeholder="Enter Ticket ID"
+        required
+        name="ticketId"
+      />
+    </div>
+    <button class="btn btn-primary mt-3" type="submit">Validate</button>
+  </form>
+
+  <!-- Display Ticket Details -->
+  <div class="mt-4" *ngIf="ticketInfo">
+    <h4>Ticket Information</h4>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>ID:</strong> {{ ticketInfo.id }}</li>
+      <li class="list-group-item"><strong>Amount:</strong> {{ ticketInfo.amount }}</li>
+      <li class="list-group-item"><strong>Is Ticket Used:</strong> {{ ticketInfo.isTicketUsed ? 'Yes' : 'No' }}</li>
+      <li class="list-group-item"><strong>Payment Reference:</strong> {{ ticketInfo.payRef }}</li>
+      <li class="list-group-item"><strong>Event Name:</strong> {{ ticketInfo.eventName }}</li>
+      <li class="list-group-item"><strong>Owner Name:</strong> {{ ticketInfo.name }}</li>
+      <li class="list-group-item"><strong>Email:</strong> {{ ticketInfo.email }}</li>
+      <li class="list-group-item"><strong>Phone:</strong> {{ ticketInfo.phone }}</li>
+      <li class="list-group-item"><strong>Description:</strong> {{ ticketInfo.desc }}</li>
+      <li class="list-group-item"><strong>QR Code:</strong>
+        <img [src]="ticketInfo.qrCode" alt="QR Code" style="max-width: 150px;" />
+      </li>
+    </ul>
+  </div>
+
+  <!-- Error Message -->
+  <div class="mt-4" *ngIf="errorMessage">
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>

@@ -10,10 +10,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {AuthModule} from "./auth/auth.module";
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { MainComponent } from './main/main.component';
+import {MainComponent} from './main/main.component';
 import {HeaderComponent} from "./header/header.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -22,24 +22,36 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {JwtModule} from "@auth0/angular-jwt";
 import {MatDialogModule} from "@angular/material/dialog";
-import { CustomSideNavComponent } from './custom-side-nav/custom-side-nav.component';
+import {CustomSideNavComponent} from './custom-side-nav/custom-side-nav.component';
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
+import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
+import {TicketListComponent} from "./ticket-list/ticket-list.component";
+import {ErrorPageComponent} from "./error-page/error-page.component";
+import {BookTicketComponent} from "./book-ticket/book-ticket.component";
+import {TicketValidationComponent} from "./ticket-validation/ticket-validation.component";
+import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
 
 
 export function tokenGetter() {
   return localStorage.getItem("sos-lifestyle-app-accessToken");
 }
+
 @NgModule({
-    declarations: [
-        AppComponent,
-        PageNotFoundComponent,
-        MainComponent,
-        HeaderComponent,
-        CustomSideNavComponent,
-    ],
+  declarations: [
+    AppComponent,
+    PageNotFoundComponent,
+    MainComponent,
+    AdminDashboardComponent,
+    AppComponent,
+    TicketListComponent,
+    ErrorPageComponent,
+    BookTicketComponent,
+    TicketValidationComponent,
+    HeaderComponent,
+    CustomSideNavComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -72,10 +84,9 @@ export function tokenGetter() {
 
 
   ],
-    providers: [],
-    exports: [
-    ],
-    bootstrap: [AppComponent]
+  providers: [],
+  exports: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

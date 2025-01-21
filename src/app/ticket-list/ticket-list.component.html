@@ -1,0 +1,146 @@
+
+<div class="jumbotron">
+    <h1 class="display-4">Ticket </h1>
+    <p class="lead">Manage all your tickets in one place.</p>
+    <hr class="my-4">
+    <p class="lead">
+      <a routerLink="/create" class="btn btn-primary btn-lg" href="#" role="button">New Ticket&nbsp;<i
+        class="fa fa-plus-circle"></i></a>
+    </p>
+  </div>
+  <div class="col-md-12">
+
+    <!-- the toast view -->
+    <span style="
+    position:fixed;
+    float: right;
+    z-index: 100000;
+    margin-left: 70%;
+
+    " *ngIf="show" id="alertz" class="alert alert-{{style}} alert-dismissible fade show" role="alert">
+    <strong><span><i class="fa fa-{{alertIcon}}"></i></span>&nbsp;{{alertMsg}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </span>
+    <!-- the end toast view -->
+
+
+
+
+    <div class="center-text ">
+      <h2>Ticket List</h2>
+    </div>
+    <div class="container-fluid " id="content-body">
+      <div class="form-row">
+
+      </div>
+      <br>
+
+      <br>
+    <br>
+      <div>
+        <button (click)="refreshList()" class="btn btn-secondary"><i class="fas fa-refresh"></i> &nbsp; Refresh List</button><br><br>
+        <table class="table  table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Event</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Tickets</th>
+              <th>Ticket ID</th>
+              <th>Valid</th>
+              <th>Date Invalidated</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let ticket of tickets
+                let i = index" [class.strikeThrough]="ticket.isValid">
+
+              <td>{{ i + 1 }}</td>
+              <td>{{ ticket?.email || "N/A" }}</td>
+              <td>{{ ticket?.phone || "N/A" }}</td>
+              <td>{{ ticket?.eventName || "N/A" }}</td>
+              <td>{{ ticket?.amount || "N/A" }}</td>
+              <td>{{ (ticket?.paymentDateAndTime | date) || "N/A" }}</td>
+              <td>{{ ticket?.noOfTickets || "N/A" }}</td>
+
+              <td>{{ ticket?.id || "N/A" }}</td>
+              <td>{{ ticket.isValid ? "NO":"YES" }}</td>
+              <td>{{ (ticket.dateTimeOfInvalidation |date) ? "ticket.dateTimeOfInvalidation |date":"N/A" }}</td>
+              <td><button style="width: 12exs; " class="btn btn-success"
+                  (click)="updateTicketStatus(ticket)"><span>Edit&nbsp;<i class="fa fa-edit"></i></span></button>
+                <button (click)="deleteTicket(ticket)" style="width: 12exs; margin-left: 20px;"
+                  class="btn btn-danger">Delete &nbsp; <i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+
+
+        </table>
+
+
+        <div *ngIf="tickets?.length ==0"
+          class="alert alert-danger text-center alert-dismissible text-center fade show">
+          <strong></strong>No Record.
+          <button type="button" class="close" data-dismiss="alert"></button>
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+
+    <!-- the actual table being converted to xlxs -->
+    <!-- <table hidden id="myTable" class="table  table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Event</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Tickets</th>
+            <th>Ticket ID</th>
+            <th>Status</th>
+            <th>Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let ticket of tickets; let i = index">
+
+          <td>{{ ticket.name }}</td>
+            <td>{{ ticket.email }}</td>
+            <td>{{ ticket.phone }}</td>
+            <td>{{ ticket.eventName }}</td>
+            <td>{{ ticket.amount }}</td>
+            <td>{{ ticket.paymentDateAndTime | date: 'medium' }}</td>
+            <td>{{ ticket.noOfTickets }}</td>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.isValid ? 'Used' : 'Not Used' }}</td>
+            <td><button (click)="inValidateTicket()">InValidate</button></td>
+        </tr>
+      </tbody>
+    </table> -->
+
+  </div>
+
+
+
+
+
+
+
+
+
+

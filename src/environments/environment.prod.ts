@@ -4,7 +4,9 @@
 
 export const environment = {
     production: false,
-    serverUrl: 'https://birs.bo.gov.ng/stateirs/api',
+  apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
+
+  serverUrl: 'https://birs.bo.gov.ng/stateirs/api',
     crpEndPointServerUrl: 'http://41.207.248.189:8788/api',
     emailReturnBackUrl: 'https://birs.bo.gov.ng/',
     CID: '234927',
