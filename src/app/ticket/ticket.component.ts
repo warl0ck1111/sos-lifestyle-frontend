@@ -60,7 +60,7 @@
 //       name: ['', Validators.required],
 //       details: ['', Validators.required],
 //       date: ['', Validators.required],
-//       isValid: [false],
+//       ticketUsed: [false],
 //       title: ['', Validators.required],
 
 //     })
@@ -70,7 +70,7 @@
 //     this.ticketForm = this.fb.group({
 //       name: [this.ticket?.name, Validators.required],
 //       id: [this.ticket?.id, Validators.required],
-//       isValid: [this.ticket?.isValid],
+//       ticketUsed: [this.ticket?.ticketUsed],
 //       details: [this.ticket?.details, Validators.required],
 //       date: [this.ticket?.date, Validators.required],
 //       title: [this.ticket?.title, Validators.required],

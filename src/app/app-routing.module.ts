@@ -14,15 +14,15 @@ const routes: Routes = [
 
   {component:TicketValidationComponent, path:"validation"},
   {component:TicketListComponent, path:"list"},
-    {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
-    // {path: 'users',
-    //     canActivate: [AuthGuard],
-    //     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
-    // {
-    //     path: 'product',
-    //     canActivate: [AuthGuard],
-    //     loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
-    // },
+    // {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+    // // {path: 'users',
+    // //     canActivate: [AuthGuard],
+    // //     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
+    // // {
+    // //     path: 'product',
+    // //     canActivate: [AuthGuard],
+    // //     loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
+    // // },
     {path: '**', component: PageNotFoundComponent}
 ];
 

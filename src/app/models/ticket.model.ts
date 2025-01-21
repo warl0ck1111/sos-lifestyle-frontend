@@ -5,7 +5,7 @@ export class Ticket {
     phone?: boolean;
     noOfTickets?:number;
     timeOfPayent?:string;
-    isValid?:boolean;
+    ticketUsed?:boolean;
     dateTimeOfInvalidation?:string;
     eventName: any;
     amount: any;

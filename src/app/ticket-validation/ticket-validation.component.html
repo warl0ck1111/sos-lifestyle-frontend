@@ -22,17 +22,19 @@
     <ul class="list-group">
       <li class="list-group-item"><strong>ID:</strong> {{ ticketInfo.id }}</li>
       <li class="list-group-item"><strong>Amount:</strong> {{ ticketInfo.amount }}</li>
-      <li class="list-group-item"><strong>Is Ticket Used:</strong> {{ ticketInfo.isTicketUsed ? 'Yes' : 'No' }}</li>
+      <li class="list-group-item"><strong>Used:</strong> {{ ticketInfo.isTicketUsed ? 'Yes' : 'No' }}</li>
+      <li class="list-group-item"><strong>Time Used:</strong> {{ ticketInfo.dateAndTimeTicketUsed | date :'short' }}</li>
       <li class="list-group-item"><strong>Payment Reference:</strong> {{ ticketInfo.payRef }}</li>
       <li class="list-group-item"><strong>Event Name:</strong> {{ ticketInfo.eventName }}</li>
       <li class="list-group-item"><strong>Owner Name:</strong> {{ ticketInfo.name }}</li>
       <li class="list-group-item"><strong>Email:</strong> {{ ticketInfo.email }}</li>
       <li class="list-group-item"><strong>Phone:</strong> {{ ticketInfo.phone }}</li>
-      <li class="list-group-item"><strong>Description:</strong> {{ ticketInfo.desc }}</li>
       <li class="list-group-item"><strong>QR Code:</strong>
         <img [src]="ticketInfo.qrCode" alt="QR Code" style="max-width: 150px;" />
       </li>
     </ul>
+
+    <button (click)="invalidateTicket()">Invalidate Ticket</button>
   </div>
 
   <!-- Error Message -->

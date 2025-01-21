@@ -54,13 +54,13 @@
               <th>Ticket ID</th>
               <th>Valid</th>
               <th>Date Invalidated</th>
-              <th>Action</th>
+<!--              <th>Action</th>-->
             </tr>
           </thead>
           <tbody>
 
             <tr *ngFor="let ticket of tickets
-                let i = index" [class.strikeThrough]="ticket.isValid">
+                let i = index" [class.strikeThrough]="ticket.ticketUsed">
 
               <td>{{ i + 1 }}</td>
               <td>{{ ticket?.email || "N/A" }}</td>
@@ -71,13 +71,13 @@
               <td>{{ ticket?.noOfTickets || "N/A" }}</td>
 
               <td>{{ ticket?.id || "N/A" }}</td>
-              <td>{{ ticket.isValid ? "NO":"YES" }}</td>
+              <td>{{ (ticket.ticketUsed) ? "YES": "NO" }}</td>
               <td>{{ (ticket.dateTimeOfInvalidation |date) ? "ticket.dateTimeOfInvalidation |date":"N/A" }}</td>
-              <td><button style="width: 12exs; " class="btn btn-success"
-                  (click)="updateTicketStatus(ticket)"><span>Edit&nbsp;<i class="fa fa-edit"></i></span></button>
-                <button (click)="deleteTicket(ticket)" style="width: 12exs; margin-left: 20px;"
-                  class="btn btn-danger">Delete &nbsp; <i class="fa fa-trash"></i></button>
-              </td>
+<!--              <td><button style="width: 12exs; " class="btn btn-success"-->
+<!--                  (click)="updateTicketStatus(ticket)"><span>Edit&nbsp;<i class="fa fa-edit"></i></span></button>-->
+<!--                <button (click)="deleteTicket(ticket)" style="width: 12exs; margin-left: 20px;"-->
+<!--                  class="btn btn-danger">Delete &nbsp; <i class="fa fa-trash"></i></button>-->
+<!--              </td>-->
             </tr>
           </tbody>
 
@@ -127,7 +127,7 @@
             <td>{{ ticket.paymentDateAndTime | date: 'medium' }}</td>
             <td>{{ ticket.noOfTickets }}</td>
             <td>{{ ticket.id }}</td>
-            <td>{{ ticket.isValid ? 'Used' : 'Not Used' }}</td>
+            <td>{{ ticket.ticketUsed ? 'Used' : 'Not Used' }}</td>
             <td><button (click)="inValidateTicket()">InValidate</button></td>
         </tr>
       </tbody>

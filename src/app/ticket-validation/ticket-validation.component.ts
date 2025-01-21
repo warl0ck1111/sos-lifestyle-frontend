@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-ticket-validation',
@@ -24,14 +25,29 @@ export class TicketValidationComponent {
       return;
     }
 
-    const apiUrl = `http://localhost:8080/api/tickets/${this.ticketId}/validate`; // Replace with your actual endpoint URL
+    const apiUrl = `${environment.apiUrl}/api/tickets/${this.ticketId}/validate`; // Replace with your actual endpoint URL
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         this.ticketInfo = response; // Populate the ticket info
       },
       (error:any) => {
         this.errorMessage =
-          error.error?.message || 'Failed to validate the ticket. Please try again.';
+          error.error || 'Failed to validate the ticket. Please try again.';
+      }
+    );
+  }
+
+  invalidateTicket() {
+    const apiUrl = `${environment.apiUrl}/api/tickets/${this.ticketId}/in-validate`; // Replace with your actual endpoint URL
+
+    this.http.put(apiUrl,null).subscribe(
+      (response: any) => {
+        this.ticketInfo = response; // Populate the ticket info\
+        this.validateTicket();
+      },
+      (error:any) => {
+        this.errorMessage =
+          error.error || 'Failed to validate the ticket. Please try again.';
       }
     );
   }

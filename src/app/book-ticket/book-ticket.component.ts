@@ -125,7 +125,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
         eventName:'SINGLES-EXPERIENCE',
         qrCode:'',
         paymentDateAndTime: paymentDateAndTime, // Store payment date and time
-        isValid: false,                   // Default to false
+        ticketUsed: false,                   // Default to false
         dateAndTimeTicketUsed: null,           // Default to null
       };
 
@@ -223,7 +223,7 @@ TICKET_URL: string = `${this.apiUrl}/api/tickets`;
 
   ticketId: string = '';
   result: string | null = null;
-  isValid: boolean = false;
+  ticketUsed: boolean = false;
 
 
   validateTicket() {
