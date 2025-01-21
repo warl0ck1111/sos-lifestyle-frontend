@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -15,7 +15,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.scss']
 })
-export class SalesComponent {
+export class SalesComponent implements AfterViewInit{
 
 
 
@@ -24,6 +24,7 @@ export class SalesComponent {
 
   @ViewChild(MatPaginator) salesListPaginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   ngAfterViewInit() {
     this.salesListDataSource.sort = this.sort;
     this.salesListDataSource.paginator = this.salesListPaginator;
@@ -54,21 +55,21 @@ export class SalesComponent {
   }
 
 
-  getSales(): void {
-    this.salesService.getAllSales().pipe(finalize(() => {
-//do nothing for now todo
-    })).subscribe((result: any) => {
-        this.salesListDataSource.data = result;
-        console.log("getSales/finished getting sales successfully/result:"+JSON.stringify(result))
-        // this.openSnackBar("Success", "Dismiss")
+    getSales(): void {
+      this.salesService.getAllSales().pipe(finalize(() => {
+  //do nothing for now todo
+      })).subscribe((result: any) => {
+          this.salesListDataSource.data = result;
+          console.log("getSales/finished getting sales successfully/result:"+JSON.stringify(result))
+          // this.openSnackBar("Success", "Dismiss")
 
-      },
-      error => {
-        this.openSnackBar(error.message, "Dismiss")
-        console.log("getSales/there was an error getting sales report list")
+        },
+        error => {
+          this.openSnackBar(error.message, "Dismiss")
+          console.log("getSales/there was an error getting sales report list")
 
-      })
-  }
+        })
+    }
 
 
   openSnackBar(message: string, action: string) {

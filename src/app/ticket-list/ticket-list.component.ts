@@ -1,20 +1,23 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { timer } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {pipe, timer} from 'rxjs';
 
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
 // import * as XLSX from 'xlsx';
 
 import {
   finalize,
 } from 'rxjs/operators';
-import { Ticket } from '../models/ticket.model';
-import { AjaxResponse } from '../models/ajax-response-model';
-import { environment } from '../../environments/environment';
-
-
-
+import {Ticket} from '../models/ticket.model';
+import {AjaxResponse} from '../models/ajax-response-model';
+import {environment} from '../../environments/environment';
+import {MatTableDataSource} from "@angular/material/table";
+import {Sale} from "../model/sale";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort, Sort} from "@angular/material/sort";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {LiveAnnouncer} from "@angular/cdk/a11y";
 
 
 @Component({
@@ -26,117 +29,78 @@ import { environment } from '../../environments/environment';
 })
 export class TicketListComponent {
 
-  refreshList() {
-  console.log("Refreshing ticket list...");
- this.ngOnInit()
-}
+  apiUrl = environment.apiUrl;
+  TICKET_URL: string = `${this.apiUrl}/api/tickets`;
 
-inValidateTicket() {
-throw new Error('Method not implemented.');
-}
+  tickets:Ticket[] = [];
 
-apiUrl = environment.apiUrl;
-TICKET_URL: string = `${this.apiUrl}/api/tickets`;
+  displayedSaleListColumns: string[] = ['id','email','phone','eventName','amount','noOfTickets','paymentDateAndTime','ticketUsed','dateTimeOfInvalidation'];
+  ticketsListDataSource = new MatTableDataSource<Ticket>();
 
+  @ViewChild(MatPaginator) ticketsListPaginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.ticketsListDataSource.sort = this.sort;
+    this.ticketsListDataSource.paginator = this.ticketsListPaginator;
+  }
 
   constructor(private http: HttpClient,
-    private router: Router) {
+              private router: Router, private _snackBar: MatSnackBar,
+              private _liveAnnouncer: LiveAnnouncer,) {
+    this.getTickets();
 
-    }
+  }
 
-    ngOnInit(){
-      this.http.get<Ticket[]>(this.TICKET_URL).subscribe(response => {
-        this.tickets = response;
+
+  getTickets() {
+    this.http.get<Ticket[]>(this.TICKET_URL).pipe(finalize(() => {
+//do nothing for now todo
+    })).subscribe(response => {
+      this.tickets = response;
+        this.ticketsListDataSource.data = response;
+
+    },
+      error => {
+        this.openSnackBar(error.message, "Dismiss")
+        console.log("getTickets/there was an error getting tickets report list")
 
       })
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+
+
+  applySaleListFilter(event?: Event) {
+    if (!event) return
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.ticketsListDataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.ticketsListDataSource.paginator) {
+
+      this.ticketsListDataSource.paginator.firstPage();
+    }
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
 
 
-
-
-  tickets: Ticket[] = []
-
-  // importTickets: Ticket[] = this.tickets;
-  // exportTickets: Ticket[] = [];
-
-
-  spinnerEnabled = false;
-  keys?: string[] | null;
-  dataSheet: any = new Subject();
-  @ViewChild('inputFile') inputFile!: ElementRef;
-  isExcelFile!: boolean;
-
-
-  alertMsg!: string;
-  style!: string;
-  show: boolean = false;
-  interval: any;
-  alertIcon!: string;
-
-
-
-
-
-  gotoCreateTicket() {
-    this.router.navigate(['/create'])
-  }
-
-  gotoEditTicket(ticket: Ticket) {
-    sessionStorage.setItem('ticket', JSON.stringify(ticket))
-    this.router.navigate(["/edit"]);
-  }
-
-  deleteTicket(ticket: Ticket) {
-    // this.http.delete(`${this.DELETE_TICKETS_URL}${ticket.id}`)
-    //   .pipe(finalize(() => {
-    //     this.findAllTickets();
-    //   }))
-    //   .subscribe((response: any) => {
-
-    //     if (response.status == "OK") {
-    //       this.showAlert('Ticket Deleted Successfully', "warning", "info-circle")
-
-    //       this.tickets = response.data;
-
-    //     }
-
-    //     // console.log(response);
-
-    //   }, (error: AjaxResponse<null>) => {
-    //     this.showAlert(error.message as string, "warning", "warning")
-    //   })
-  }
-
-  exportData(tableId: string) {
-    // this.excelService.exportToFile("contacts", tableId);
-    // this.showAlert("Data Exported Succesfully", "info", "info-circle")
-
   }
 
 
-
-  showAlert(msg: string, style: string, icon: string) {
-    this.alertIcon = icon;
-    this.alertMsg = msg;
-    this.style = style || 'info';
-    this.show = true;
-    timer(5000).subscribe(() => (this.show = false));
-    return false;
+  refreshList() {
+    this.getTickets();
   }
-
-
-
-  // Method to update ticket status
-  updateTicketStatus(ticket:Ticket) {
-    console.log("updateTicketStatus: ticket");
-
-    // this.http.put(this.TICKET_URL).subscribe((response:Ticket[]) => {
-    //   this.tickets = response.data as Ticket[];
-    //   // console.log(response);
-
-    // })
-
-  }
-
-
 }

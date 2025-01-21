@@ -32,6 +32,9 @@ import {ErrorPageComponent} from "./error-page/error-page.component";
 import {BookTicketComponent} from "./book-ticket/book-ticket.component";
 import {TicketValidationComponent} from "./ticket-validation/ticket-validation.component";
 import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
+import {MatTableModule} from "@angular/material/table";
 
 
 export function tokenGetter() {
@@ -80,7 +83,10 @@ export function tokenGetter() {
     MatListModule,
     MatExpansionModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule
 
 
   ],
