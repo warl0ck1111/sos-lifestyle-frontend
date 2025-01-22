@@ -5,8 +5,8 @@ import {UsersComponent} from "./users/users.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
 
 const routes: Routes = [
-  {path:'', component:UsersComponent},
-  {path:'change-pwd', component:ChangePasswordComponent}
+  // {path:'', component:UsersComponent},
+  // {path:'change-pwd', component:ChangePasswordComponent}
 ];
 
 @NgModule({

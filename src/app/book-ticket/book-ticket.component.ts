@@ -49,23 +49,18 @@ export class BookTicketComponent {
 
     console.log(this.bookingForm);
 
-    // if (this.bookingForm.invalid) {
-    //   alert('Please fill all required fields correctly.');
-    //   return;
-    // }
+    if (this.bookingForm.invalid) {
+      alert('Please fill all required fields correctly.');
+      return;
+    }
 
-    console.log('Form data:', this.bookingForm.value);
-
-    // Payment details
-    const merchantCode = 'MX19329';
-    const payItemId = 'Default_Payable_MX19329';
     const transRef = this.randomReference();
 
     const paymentRequest = {
-      merchant_code: merchantCode,
-      pay_item_id: payItemId,
+      merchant_code: environment.merchantCode,
+      pay_item_id: environment.payItemId,
       txn_ref: transRef,
-      amount: this.ticketPrice * Number(this.bookingForm.controls['noOfTickets'].value),
+      amount: (this.ticketPrice * Number(this.bookingForm.controls['noOfTickets'].value)).toString(),
       cust_id: 'Bashir-djknskjdnsjdksd',
       currency: 566,
       site_redirect_url: window.location.origin,
@@ -81,6 +76,8 @@ export class BookTicketComponent {
   }
 
   paymentCallback(response: any) {
+    console.log(response)
+    console.log(JSON.stringify(response))
     if (response && response.desc === 'Customer cancellation') {
       // alert('Payment was canceled by the user.');
       return;

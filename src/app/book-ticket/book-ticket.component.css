@@ -22,6 +22,11 @@ header {
     justify-content: center;
 }
 
+
+span>img{
+  width: 200px;
+  height: 200px;
+}
 .hero-text {
     color: white;
     text-align: center;
@@ -53,7 +58,7 @@ header {
     background-color: #310d48;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
 }
 
 .booking-form h2 {
@@ -150,4 +155,5 @@ footer {
         font-size: 0.9rem;
         padding: 8px;
     }
+
 }

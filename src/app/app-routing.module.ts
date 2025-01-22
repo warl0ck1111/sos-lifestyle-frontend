@@ -1,10 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
-import {AuthGuard} from "./guards/auth.guard";
 import { TicketValidationComponent } from './ticket-validation/ticket-validation.component';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
 import { BookTicketComponent } from './book-ticket/book-ticket.component';
 const routes: Routes = [
 
