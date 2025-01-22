@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 })
 export class PaymentService {
 
-  
+
 constructor() { }
 
 checkout(paymentRequest:PaymentRequest) {

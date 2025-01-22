@@ -3,43 +3,36 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
+  production: false,
+  mode: 'LIVE',
   apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
   eventName: 'SINGLES-EXPERIENCE',
-  ticketPrice: 10000,
+  ticketPrice: 1000000,
   merchantCode: 'MX153157',
   payItemId: 'Default_Payable_MX153157',
   DataRef: 'NhVKGYH0wFp02pnKwD/bG53oZHiKZxUAZhh6ue3U+64RVPiF93bOoSZhrun65+JU',
   clientId: 'IKIA2D8D85D778687535AAE25249C80C9D8FF43D42E1',
   secretKey: 'SVLKn5t5oZFaIO2',
   merchantId: '40771312583345',
-  serverUrl: 'https://birs.bo.gov.ng/stateirs/api',
-    crpEndPointServerUrl: 'http://41.207.248.189:8788/api',
-    emailReturnBackUrl: 'https://birs.bo.gov.ng/',
-    CID: '234927',
+  crpEndPointServerUrl: 'http://41.207.248.189:8788/api',
+  emailReturnBackUrl: 'https://birs.bo.gov.ng/',
+  CID: '234927',
+  fileUploadMaxSize: 1048576,
+  allowedUploadExtentions: ['pdf', 'docx', 'doc', 'png', 'jpg', 'jpeg'],
+  remitaFinalizeUrl: 'https://login.remita.net/remita/ecomm/finalize.reg',
 
+  get baseURL(): string {
+    const parsedUrl = new URL(window.location.href);
+    let baseUrl = parsedUrl.origin;
+    return baseUrl;
+  }
 
-     //serverUrl: 'http://41.207.248.189:2000/api',
-    // crpEndPointServerUrl: 'http://41.207.248.189:8788/api',
-
-
-    // emailReturnBackUrl:'https://birs.bo.gov.ng/stateirs/',
-    fileUploadMaxSize: 1048576,
-    allowedUploadExtentions:['pdf','docx','doc','png','jpg','jpeg'],
-    remitaFinalizeUrl:'https://login.remita.net/remita/ecomm/finalize.reg',
-
-    get baseURL(): string {
-        const parsedUrl = new URL(window.location.href);
-        let baseUrl = parsedUrl.origin;
-        return baseUrl;
-    }
-
-    // get baseURL(): string {
-    //     const parsedUrl = new URL(window.location.href);
-
-    //     let baseUrl = parsedUrl.origin;
-    //     return baseUrl;
-    //   }
+  // get baseURL(): string {
+  //     const parsedUrl = new URL(window.location.href);
+  //
+  //     let baseUrl = parsedUrl.origin;
+  //     return baseUrl;
+  //   }
 };
 
 /*

@@ -42,7 +42,7 @@ var WebSocketPrint = function(serverURL, strPrinterName, request, callback){
 	var webSocketInit = function(uri){
 		_websocket = new WebSocket(uri);
 		_websocket.onopen = function(event){
-			console.log('open : ' + uri);
+			// console.log('open : ' + uri);
 		};
 		_websocket.onerror = function(event) {
 		      if (_websocket.readyState == 3) {
@@ -129,7 +129,7 @@ function checkResult(method, strPrinterName, requestId, responseId, _callback) {
 	if (window.XMLHttpRequest) {
 		xmlHttpCheck = new XMLHttpRequest();
 	}
-	
+
 	xmlHttpCheck.open(method, requestURL, true);
 	xmlHttpCheck.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	xmlHttpCheck.send(inquiryData);

@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {EmailService} from '../services/email.service';
-import {PaymentService} from '../services/payment.service';
 import {HttpClient} from '@angular/common/http';
-import {finalize} from 'rxjs';
+import {finalize, of} from 'rxjs';
 import {AjaxResponse} from '../models/ajax-response-model';
 import {environment} from '../../environments/environment';
+import {PaymentRequest} from "../models/payment.request.model";
+import {PaymentService} from "../services/payment.service";
 
 @Component({
   selector: 'app-book-ticket',
@@ -19,7 +19,6 @@ export class BookTicketComponent {
   ticketPrice = environment.ticketPrice;
   eventName = environment.eventName;
   TICKET_URL: string = `${this.apiUrl}/api/tickets`;
-  isLoading = false;
 
   // Reactive form
   bookingForm = new FormGroup({
@@ -29,24 +28,17 @@ export class BookTicketComponent {
     noOfTickets: new FormControl('', [Validators.required, Validators.min(1)]),
   });
 
-
-  ticketCode = 'Ticket#1234567890'; // Example ticket code
-  qrCodeDataUrl: string | undefined;
   submitted = false;
 
   constructor(private http: HttpClient,
-              private paymentService: PaymentService, private emailService: EmailService,
+              private paymentService: PaymentService,
   ) {
 
   }
 
-  tickets: any[] = [];
-
 
   onSubmit() {
     // Validate form before proceeding
-
-
     console.log(this.bookingForm);
 
     if (this.bookingForm.invalid) {
@@ -59,16 +51,18 @@ export class BookTicketComponent {
     const paymentRequest = {
       merchant_code: environment.merchantCode,
       pay_item_id: environment.payItemId,
+      pay_item_name: this.eventName,
       txn_ref: transRef,
-      amount: (this.ticketPrice * Number(this.bookingForm.controls['noOfTickets'].value)).toString(),
-      cust_id: 'Bashir-djknskjdnsjdksd',
+      cust_email: this.bookingForm?.controls['email']?.value,
+      cust_name: this.bookingForm?.controls['name']?.value,
+      cust_mobile_no: this.bookingForm?.controls['phone']?.value,
+      cust_id: this.bookingForm?.controls['email']?.value,
+      amount: (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString(),
       currency: 566,
       site_redirect_url: window.location.origin,
       onComplete: (response: any) => this.paymentCallback(response),
-      mode: 'TEST',
+      mode: environment.mode,
     };
-
-    this.isLoading = true;
 
     // Call the payment service
     this.paymentService.checkout(paymentRequest)
@@ -141,45 +135,6 @@ export class BookTicketComponent {
     return `REF-${timestamp}-${result}`;
   }
 
-
-  // sendTicketEmail() {
-  //   const emailData = {
-  //     to: 'bashirokala@hotmail.com',
-  //     subject: 'Your Ticket Details',
-  //     text: 'Thank you for booking. Your ticket is confirmed.',
-  //     html: `
-  //       <h1>Ticket Details</h1>
-  //       <p>Your ticket has been successfully booked!</p>
-  //       <h2>Your QR Code</h2>
-  //       <img src="${this.qrCodeDataUrl}" alt="Ticket QR Code" />
-  //     `,
-  //   };
-
-  //   // Use the QR code module to generate the QR code data URL
-  //   // this.generateQRCode(this.ticketCode);
-
-  //   // // Send the email after QR code URL is generated
-  //   // if (this.qrCodeDataUrl) {
-  //   //   this.emailService.sendEmail(emailData).subscribe({
-  //   //     next: (response) => {
-  //   //       console.log('Email sent successfully:', response);
-  //   //       alert('Email sent successfully!');
-  //   //     },
-  //   //     error: (error) => {
-  //   //       console.error('Error sending email:', error);
-  //   //       alert('Failed to send email.');
-  //   //     },
-  //   //   });
-  //   // }
-  // }
-
-
-  generateQRCode(ticketCode: string) {
-    // Use the QR code generation function from angularx-qrcode
-    // Generate base64 URL (you can render it in the UI too if needed)
-    this.qrCodeDataUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(ticketCode)}&size=150x150`;
-  }
-
   generateTicketId(): string {
     const timestamp = Date.now().toString();
     const randomString = Math.random().toString(36).substring(2, 15) +
@@ -187,26 +142,5 @@ export class BookTicketComponent {
     return `${timestamp}-${randomString}`;
   }
 
-
-  ticketId: string = '';
-  result: string | null = null;
-  ticketUsed: boolean = false;
-
-
-  validateTicket() {
-    console.log("validateTicket")
-  }
-
-
-  inValidateTicket() {
-    console.log("inValidateTicket.....");
-    this.updateTicketStatus("oqjsDj3jn5", true)
-
-  }
-
-  // Method to update ticket status
-  updateTicketStatus(ticketId: string, newStatus: boolean) {
-    console.log("updateTicketStatus")
-  }
 
 }

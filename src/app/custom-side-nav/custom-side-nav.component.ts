@@ -21,11 +21,11 @@ export class CustomSideNavComponent {
     constructor(private credentialService:CredentialsService,
                 private authService:AuthService
                 ) {
-      console.log("CustomSideNavComponent/constructor/called")
+      // console.log("CustomSideNavComponent/constructor/called")
         let firstName =credentialService.credentials?.firstName
       let lastName =credentialService.credentials?.lastName
       this.role =`${credentialService.credentials?.role}`
-      console.log("CustomSideNavComponent/constructor/role"+ this.role)
+      // console.log("CustomSideNavComponent/constructor/role"+ this.role)
       this.fullName = `${firstName} ${lastName}`
     }
     sideNavCollapsed = signal(false);

@@ -88,7 +88,7 @@ export class CreateProductComponent {
     //if property doesnt match then do this
     // this.user.Name = this.userForm.get('name').value;
     let productRequest: ProductRequest = this.buildProductRequest();
-    console.log("createProduct/productRequest:" + JSON.stringify(productRequest))
+    // console.log("createProduct/productRequest:" + JSON.stringify(productRequest))
     this.productService.createProduct(productRequest).pipe(finalize(() => {
 
     })).subscribe((result: any) => {

@@ -3,11 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
-    serverUrl: 'http://localhost:8080',
+  production: false,
+  mode: 'LIVE',
   apiUrl: 'http://localhost:8080',
   eventName: 'SINGLES-EXPERIENCE',
-  ticketPrice: 10000,
+  ticketPrice: 5000,
   merchantCode: 'MX153157',
   payItemId: 'Default_Payable_MX153157',
   DataRef: 'NhVKGYH0wFp02pnKwD/bG53oZHiKZxUAZhh6ue3U+64RVPiF93bOoSZhrun65+JU',
@@ -16,12 +16,11 @@ export const environment = {
   merchantId: '40771312583345',
 
 
-
   get baseURL(): string {
-        const parsedUrl = new URL(window.location.href);
-        let baseUrl = parsedUrl.origin;
-        return baseUrl;
-    }
+    const parsedUrl = new URL(window.location.href);
+    let baseUrl = parsedUrl.origin;
+    return baseUrl;
+  }
 };
 
 /*

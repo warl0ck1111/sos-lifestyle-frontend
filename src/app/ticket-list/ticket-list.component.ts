@@ -1,19 +1,13 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {pipe, timer} from 'rxjs';
-
-import {Subject} from 'rxjs';
-// import * as XLSX from 'xlsx';
 
 import {
   finalize,
 } from 'rxjs/operators';
 import {Ticket} from '../models/ticket.model';
-import {AjaxResponse} from '../models/ajax-response-model';
 import {environment} from '../../environments/environment';
 import {MatTableDataSource} from "@angular/material/table";
-import {Sale} from "../model/sale";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, Sort} from "@angular/material/sort";
 import {MatSnackBar} from "@angular/material/snack-bar";
