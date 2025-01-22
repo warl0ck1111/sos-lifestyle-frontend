@@ -29,8 +29,8 @@ export class CredentialsService {
      * @return True if the user is authenticated.
      */
     isAuthenticated(): boolean {
-        console.log("CredentialsService/isAuthenticated:"+JSON.stringify(this.credentials))
-        console.log("CredentialsService/isAuthenticated/of:"+JSON.stringify(of(!!this.credentials).subscribe()))
+        // console.log("CredentialsService/isAuthenticated:"+JSON.stringify(this.credentials))
+        // console.log("CredentialsService/isAuthenticated/of:"+JSON.stringify(of(!!this.credentials).subscribe()))
 
         return !!this._credentials
     }

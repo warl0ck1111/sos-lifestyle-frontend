@@ -17,8 +17,8 @@ export class MainComponent implements OnInit{
               private router:Router,
               public credentialService:CredentialsService,
               private _formBuilder: FormBuilder) {
-    console.log("MainComponent/constructor/this.authService.isUserLoggedIn$.value:"+JSON.stringify(this.authService.isUserLoggedIn$.value))
-    console.log("MainComponent/constructor/has been called ")
+    // console.log("MainComponent/constructor/this.authService.isUserLoggedIn$.value:"+JSON.stringify(this.authService.isUserLoggedIn$.value))
+    // console.log("MainComponent/constructor/has been called ")
 
   }
 
@@ -32,17 +32,17 @@ export class MainComponent implements OnInit{
 
 
   ngOnInit() {
-    console.log("MainComponent/ngOnInit/has been called ")
+    // console.log("MainComponent/ngOnInit/has been called ")
 
     this.userIsLoggedIn=this.credentialService.isAuthenticated()
 
-    console.log("mainComponent/ngOnInit/credentialService.isAuthenticated():"+JSON.stringify(this.credentialService.isAuthenticated()))
+    // console.log("mainComponent/ngOnInit/credentialService.isAuthenticated():"+JSON.stringify(this.credentialService.isAuthenticated()))
 
 
   }
 
   ngAfterViewInit(){
-    console.log("MainComponent/ngAfterViewInit/has been called ")
+    // console.log("MainComponent/ngAfterViewInit/has been called ")
   }
 
   logout() {
