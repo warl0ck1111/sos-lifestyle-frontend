@@ -4,8 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {finalize, of} from 'rxjs';
 import {AjaxResponse} from '../models/ajax-response-model';
 import {environment} from '../../environments/environment';
-import {PaymentRequest} from "../models/payment.request.model";
 import {PaymentService} from "../services/payment.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-book-ticket',
@@ -29,11 +29,34 @@ export class BookTicketComponent {
   });
 
   submitted = false;
+  queryParams: any = {};
 
   constructor(private http: HttpClient,
               private paymentService: PaymentService,
-  ) {
+              private activatedRoute: ActivatedRoute) {}
 
+  ngOnInit(): void {
+    // Access query parameters
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.queryParams = params; // Capture all query params
+      console.log('Query Parameters:', params);
+//      site_redirect_url: `https://partyreadyng.com?amount=${amount}&cust_id=${cust_id}&cust_mobile_no=${cust_mobile_no}&cust_email=${cust_email}&cust_name=${cust_name}&txn_ref=${transRef}`,
+      // Access specific query parameters
+      const request = {
+        amount: params['amount'],
+        cust_id: params['cust_id'],
+        cust_mobile_no: params['cust_mobile_no'],
+        cust_email:params['cust_email'],
+        cust_name:params['cust_name'],
+        txn_ref:params['txn_ref'],
+        desc : 'Approved by Financial Institution'
+      }
+      if (request){
+        this.createticket(request);
+      }
+
+      console.log(`Parameter request: ${request}`);
+    });
   }
 
 
@@ -47,19 +70,23 @@ export class BookTicketComponent {
     }
 
     const transRef = this.randomReference();
-
+    let amount = (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString();
+      let cust_email= this.bookingForm?.controls['email']?.value;
+      let cust_name= this.bookingForm?.controls['name']?.value;
+      let cust_mobile_no= this.bookingForm?.controls['phone']?.value;
+      let cust_id= this.bookingForm?.controls['email']?.value;
     const paymentRequest = {
       merchant_code: environment.merchantCode,
       pay_item_id: environment.payItemId,
       pay_item_name: this.eventName,
       txn_ref: transRef,
-      cust_email: this.bookingForm?.controls['email']?.value,
-      cust_name: this.bookingForm?.controls['name']?.value,
-      cust_mobile_no: this.bookingForm?.controls['phone']?.value,
-      cust_id: this.bookingForm?.controls['email']?.value,
-      amount: (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString(),
+      cust_email: cust_email,
+      cust_name: cust_name,
+      cust_mobile_no: cust_mobile_no,
+      cust_id: cust_id,
+      amount: amount,
       currency: 566,
-      site_redirect_url: "https://partyreadyng.com",
+      site_redirect_url: `https://partyreadyng.com?amount=${amount}&cust_id=${cust_id}&cust_mobile_no=${cust_mobile_no}&cust_email=${cust_email}&cust_name=${cust_name}&txn_ref=${transRef}`,
       onComplete: (response: any) => this.paymentCallback(response),
       mode: environment.mode,
     };
@@ -70,7 +97,7 @@ export class BookTicketComponent {
   }
 
   paymentCallback(response: any) {
-    console.log(response)
+    console.log("paymentCallback/"+response)
     console.log(JSON.stringify(response))
     if (response && response.desc === 'Customer cancellation') {
       // alert('Payment was canceled by the user.');
@@ -147,4 +174,30 @@ export class BookTicketComponent {
   }
 
 
+  private createticket(request: {
+    amount: any;
+    cust_email: any;
+    cust_name: any;
+    cust_id: any;
+    txn_ref: any;
+    cust_mobile_no: any;
+    desc: string
+  }) {
+    console.log("createticket/"+ JSON.stringify(request))
+    this.http.post(`${this.TICKET_URL}`, request)
+      .pipe(finalize(() => {
+        alert('Thank you for your purchase, please Check mail for your ticket!');
+        this.submitted = true;
+
+      }))
+      .subscribe((response: any) => {
+
+
+        // console.log(response);
+
+      }, (error: AjaxResponse<null>) => {
+        alert('Failed to create ticket. Please try again.');
+        // this.showAlert(error.message as string, "warning", "warning")
+      })
+  }
 }
