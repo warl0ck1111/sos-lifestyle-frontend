@@ -105,7 +105,7 @@ export class BookTicketComponent {
 
       this.http.post(`${this.TICKET_URL}`, ticketObject)
         .pipe(finalize(() => {
-          // alert('Thank you for your purchase');
+          alert('Thank you for your purchase');
           this.submitted = true;
 
         }))
@@ -115,7 +115,7 @@ export class BookTicketComponent {
           // console.log(response);
 
         }, (error: AjaxResponse<null>) => {
-          alert('Failed to create ticket. Please try again.');
+          alert('Failed to create ticket. Please pls contact admin with your receipt.');
           // this.showAlert(error.message as string, "warning", "warning")
         })
 

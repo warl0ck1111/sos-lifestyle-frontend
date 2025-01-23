@@ -24,8 +24,8 @@ header {
 
 
 span>img{
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
 }
 .hero-text {
     color: white;
@@ -65,7 +65,7 @@ span>img{
 }
 
 .form-group {
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;*/
 }
 
 .form-group label {
