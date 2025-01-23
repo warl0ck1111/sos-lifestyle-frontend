@@ -119,7 +119,11 @@ export class BookTicketComponent {
           // this.showAlert(error.message as string, "warning", "warning")
         })
 
-    } else {
+    }
+    else if(response.desc){
+      alert(response.desc)
+    }
+    else {
       alert('Payment purchase not successful. Please try again.');
       console.log('Payment failed or not approved.');
     }

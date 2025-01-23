@@ -5,3 +5,20 @@
     margin-top: 100px;
     background-color: #e2e2e2;
   }
+
+.container {
+  padding: 20px;
+  max-width: 99vw;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: #333333
+
+
+}
+
+.booking-form {
+  background-color: #310d48;
+  padding: 20px;
+  border-radius: 8px;
+  /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+}

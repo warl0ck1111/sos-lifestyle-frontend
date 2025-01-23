@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from "../../environments/environment";
 import {ActivatedRoute} from "@angular/router";
+import {Ticket} from "../models/ticket.model";
 
 @Component({
   selector: 'app-ticket-validation',
@@ -12,7 +13,7 @@ import {ActivatedRoute} from "@angular/router";
 export class TicketValidationComponent {
 
   ticketId: string = '';
-  ticketInfo: any = null; // Holds the ticket data from the backend
+  ticketInfo: Ticket = new Ticket(); // Holds the ticket data from the backend
   errorMessage: string = ''; // Holds any error message
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
@@ -31,7 +32,7 @@ export class TicketValidationComponent {
   }
 
   validateTicket() {
-    this.ticketInfo = null;
+    this.ticketInfo = new Ticket();
     this.errorMessage = '';
 
     if (!this.ticketId) {

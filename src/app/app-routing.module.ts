@@ -8,11 +8,11 @@ const routes: Routes = [
 
   {component:BookTicketComponent, path:""},
 
-  {component:BookTicketComponent, path:"booking"},
+  {component:BookTicketComponent, path:"bookings"},
 
   {component:TicketValidationComponent, path:"validate-ticket"},
   {component:TicketValidationComponent, path:"validate-ticket/:id"},
-  {component:TicketListComponent, path:"list"},
+  {component:TicketListComponent, path:"booking-list"},
     // {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
     // // {path: 'users',
     // //     canActivate: [AuthGuard],
