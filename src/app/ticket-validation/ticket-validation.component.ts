@@ -53,17 +53,24 @@ export class TicketValidationComponent {
   }
 
   invalidateTicket() {
-    const apiUrl = `${environment.apiUrl}/api/tickets/${this.ticketId}/in-validate`; // Replace with your actual endpoint URL
+    let result = confirm("Are you sure you want to invalidate ticket?");
+    if (result) {
 
-    this.http.put(apiUrl,null).subscribe(
-      (response: any) => {
-        this.ticketInfo = response; // Populate the ticket info\
-        this.validateTicket();
-      },
-      (error:any) => {
-        this.errorMessage =
-          error.error || 'Failed to validate the ticket. Please try again.';
-      }
-    );
+      const apiUrl = `${environment.apiUrl}/api/tickets/${this.ticketId}/in-validate`; // Replace with your actual endpoint URL
+
+      this.http.put(apiUrl, null).subscribe(
+        (response: any) => {
+          this.ticketInfo = response; // Populate the ticket info\
+          this.validateTicket();
+        },
+        (error: any) => {
+          this.errorMessage =
+            error.error || 'Failed to validate the ticket. Please try again.';
+        }
+      );
+    }else{
+     //do nothing
+      return
+    }
   }
 }

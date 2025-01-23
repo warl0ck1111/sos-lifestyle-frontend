@@ -13,7 +13,7 @@
         name="ticketId"
       />
     </div>
-    <button class="btn btn-primary mt-3" type="submit">Validate</button>
+    <button class="btn btn btn-secondary mt-3" type="submit">Validate</button>
   </form>
 
   <!-- Display Ticket Details -->
@@ -21,9 +21,10 @@
     <h4>Ticket Information</h4>
     <ul class="list-group">
       <li class="list-group-item"><strong>ID:</strong> {{ ticketInfo.id }}</li>
+      <li class="list-group-item"><strong>Quantity:</strong> {{ ticketInfo.noOfTickets }}</li>
       <li class="list-group-item"><strong>Amount:</strong> {{ ticketInfo.amount }}</li>
       <li class="list-group-item"><strong>Used:</strong> {{ ticketInfo.ticketUsed ? 'Yes' : 'No' }}</li>
-      <li class="list-group-item"><strong>Time Used:</strong> {{ ticketInfo.dateAndTimeTicketUsed | date :'short' }}</li>
+      <li class="list-group-item"><strong>Time Used:</strong> {{ ticketInfo.dateAndTimeTicketUsed ? (ticketInfo.dateAndTimeTicketUsed | date :'short') : "N/A" }}</li>
       <li class="list-group-item"><strong>Payment Reference:</strong> {{ ticketInfo.payRef }}</li>
       <li class="list-group-item"><strong>Event Name:</strong> {{ ticketInfo.eventName }}</li>
       <li class="list-group-item"><strong>Owner Name:</strong> {{ ticketInfo.name }}</li>
@@ -33,8 +34,7 @@
 <!--        <img [src]="ticketInfo.qrCode" alt="QR Code" style="max-width: 150px;" />-->
 <!--      </li>-->
     </ul>
-
-    <button (click)="invalidateTicket()">Invalidate Ticket</button>
+    <button *ngIf="!ticketInfo.ticketUsed" (click)="invalidateTicket()" class="btn btn-primary mt-3" type="submit">Invalidate Ticket</button>
   </div>
 
   <!-- Error Message -->
