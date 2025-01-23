@@ -59,7 +59,7 @@ export class BookTicketComponent {
       cust_id: this.bookingForm?.controls['email']?.value,
       amount: (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString(),
       currency: 566,
-      site_redirect_url: window.location.origin,
+      site_redirect_url: "https://patryreadyng.com",
       onComplete: (response: any) => this.paymentCallback(response),
       mode: environment.mode,
     };
