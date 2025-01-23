@@ -45,21 +45,16 @@ export class BookTicketComponent {
     }
 
     const transRef = this.randomReference();
-    let amount = (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString();
-      let cust_email= this.bookingForm?.controls['email']?.value;
-      let cust_name= this.bookingForm?.controls['name']?.value;
-      let cust_mobile_no= this.bookingForm?.controls['phone']?.value;
-      let cust_id= this.bookingForm?.controls['email']?.value;
     const paymentRequest = {
       merchant_code: environment.merchantCode,
       pay_item_id: environment.payItemId,
-      pay_item_name: this.eventName,
+      pay_item_name: environment.eventName,
       txn_ref: transRef,
-      cust_email: cust_email,
-      cust_name: cust_name,
-      cust_mobile_no: cust_mobile_no,
-      cust_id: cust_id,
-      amount: amount,
+      cust_email: this.bookingForm?.controls['email']?.value,
+      cust_name: this.bookingForm?.controls['name']?.value,
+      cust_mobile_no: this.bookingForm?.controls['phone']?.value,
+      cust_id: this.bookingForm?.controls['email']?.value,
+      amount: (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString(),
       currency: 566,
       site_redirect_url: `https://partyreadyng.com`,
       onComplete: (response: any) => this.paymentCallback(response),
@@ -146,31 +141,4 @@ export class BookTicketComponent {
     return `${timestamp}-${randomString}`;
   }
 
-
-  private createticket(request: {
-    amount: any;
-    cust_email: any;
-    cust_name: any;
-    cust_id: any;
-    txn_ref: any;
-    cust_mobile_no: any;
-    desc: string
-  }) {
-    console.log("createticket/"+ JSON.stringify(request))
-    this.http.post(`${this.TICKET_URL}`, request)
-      .pipe(finalize(() => {
-        alert('Thank you for your purchase, please Check mail for your ticket!');
-        this.submitted = true;
-
-      }))
-      .subscribe((response: any) => {
-
-
-        // console.log(response);
-
-      }, (error: AjaxResponse<null>) => {
-        alert('Failed to create ticket. Please try again.');
-        // this.showAlert(error.message as string, "warning", "warning")
-      })
-  }
 }
