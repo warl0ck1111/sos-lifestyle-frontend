@@ -32,32 +32,7 @@ export class BookTicketComponent {
   queryParams: any = {};
 
   constructor(private http: HttpClient,
-              private paymentService: PaymentService,
-              private activatedRoute: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    // Access query parameters
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.queryParams = params; // Capture all query params
-      console.log('Query Parameters:', params);
-//      site_redirect_url: `https://partyreadyng.com?amount=${amount}&cust_id=${cust_id}&cust_mobile_no=${cust_mobile_no}&cust_email=${cust_email}&cust_name=${cust_name}&txn_ref=${transRef}`,
-      // Access specific query parameters
-      const request = {
-        amount: params['amount'],
-        cust_id: params['cust_id'],
-        cust_mobile_no: params['cust_mobile_no'],
-        cust_email:params['cust_email'],
-        cust_name:params['cust_name'],
-        txn_ref:params['txn_ref'],
-        desc : 'Approved by Financial Institution'
-      }
-      if (request){
-        this.createticket(request);
-      }
-
-      console.log(`Parameter request: ${request}`);
-    });
-  }
+              private paymentService: PaymentService) {}
 
 
   onSubmit() {
@@ -86,7 +61,7 @@ export class BookTicketComponent {
       cust_id: cust_id,
       amount: amount,
       currency: 566,
-      site_redirect_url: `https://partyreadyng.com?amount=${amount}&cust_id=${cust_id}&cust_mobile_no=${cust_mobile_no}&cust_email=${cust_email}&cust_name=${cust_name}&txn_ref=${transRef}`,
+      site_redirect_url: `https://partyreadyng.com`,
       onComplete: (response: any) => this.paymentCallback(response),
       mode: environment.mode,
     };
@@ -132,7 +107,7 @@ export class BookTicketComponent {
 
       this.http.post(`${this.TICKET_URL}`, ticketObject)
         .pipe(finalize(() => {
-          alert('Thank you for your purchase, please Check mail for your ticket!');
+          // alert('Thank you for your purchase');
           this.submitted = true;
 
         }))
@@ -151,7 +126,7 @@ export class BookTicketComponent {
       alert(response.desc)
     }
     else {
-      alert('Payment purchase not successful. Please try again.');
+      alert('Payment not successful. Please try again.');
       console.log('Payment failed or not approved.');
     }
   }
