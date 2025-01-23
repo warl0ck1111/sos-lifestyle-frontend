@@ -23,16 +23,23 @@ export const environment = {
 
 
 
-  mode: 'TEST',
+  mode: 'LIVE',
   apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
   eventName: 'SINGLES-EXPERIENCE',
   ticketPrice: 5000,
-  merchantCode: 'MX21696',
-  payItemId: '4177785',
+  merchantCode: 'MX153157',
+  payItemId: 'Default_Payable_MX153157',
   DataRef: 'NhVKGYH0wFp02pnKwD/bG53oZHiKZxUAZhh6ue3U+64RVPiF93bOoSZhrun65+JU',
-  clientId: 'IKIA3B827951EA3EC2E193C51DA1D22988F055FD27DE',
-  secretKey: 'ajkdpGiF6PHVrwK',
+  clientId: 'IKIA2D8D85D778687535AAE25249C80C9D8FF43D42E1',
+  secretKey: 'SVLKn5t5oZFaIO2',
   merchantId: '40771312583345',
+  crpEndPointServerUrl: 'http://41.207.248.189:8788/api',
+  emailReturnBackUrl: 'https://birs.bo.gov.ng/',
+  CID: '234927',
+  fileUploadMaxSize: 1048576,
+  allowedUploadExtentions: ['pdf', 'docx', 'doc', 'png', 'jpg', 'jpeg'],
+  remitaFinalizeUrl: 'https://login.remita.net/remita/ecomm/finalize.reg',
+
 
   get baseURL(): string {
     const parsedUrl = new URL(window.location.href);
