@@ -26,7 +26,7 @@ export const environment = {
   mode: 'LIVE',
   apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
   eventName: 'SINGLES EXPERIENCE',
-  ticketPrice: 1000000,
+  ticketPrice: 5000,
   merchantCode: 'MX153157',
   payItemId: 'Default_Payable_MX153157',
   DataRef: 'NhVKGYH0wFp02pnKwD/bG53oZHiKZxUAZhh6ue3U+64RVPiF93bOoSZhrun65+JU',
