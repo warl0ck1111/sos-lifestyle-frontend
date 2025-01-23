@@ -65,14 +65,12 @@ export class BookTicketComponent {
       onComplete: (response: any) => this.paymentCallback(response),
       mode: environment.mode,
     };
-
-    // Call the payment service
     this.paymentService.checkout(paymentRequest)
 
   }
 
   paymentCallback(response: any) {
-    console.log("paymentCallback/"+response)
+    console.log("paymentCallback/" + response)
     console.log(JSON.stringify(response))
     if (response && response.desc === 'Customer cancellation') {
       // alert('Payment was canceled by the user.');
