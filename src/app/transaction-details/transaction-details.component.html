@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Transaction Details</h2>
+  <form (ngSubmit)="fetchTransactionDetails()">
+    <div class="form-group">
+      <label for="reference">Transaction Reference</label>
+      <input
+        type="text"
+        id="reference"
+        class="form-control"
+        [(ngModel)]="transactionReference"
+        name="reference"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Get Details</button>
+  </form>
+
+  <div *ngIf="transaction" class="transaction-details mt-4">
+    <h3>Transaction Information</h3>
+    <p><strong>Reference:</strong> {{ transaction.reference }}</p>
+    <p><strong>Amount:</strong> {{ transaction.amount | currency }}</p>
+    <p><strong>Date:</strong> {{ transaction.date | date }}</p>
+    <p><strong>Status:</strong> {{ transaction.status }}</p>
+  </div>
+</div>

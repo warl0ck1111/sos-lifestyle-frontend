@@ -35,6 +35,7 @@ import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.compone
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 
 
 export function tokenGetter() {
@@ -54,6 +55,7 @@ export function tokenGetter() {
     TicketValidationComponent,
     HeaderComponent,
     CustomSideNavComponent,
+    TransactionDetailsComponent,
   ],
   imports: [
     BrowserModule,

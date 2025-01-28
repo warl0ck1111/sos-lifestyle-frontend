@@ -4,7 +4,11 @@
     <p>Sat Feb 15, 2025 | Sol Beach, Elegushi Beach</p>
     </div> -->
 
-    <div class="container">
+    <div *ngIf="!isBuyTicketsButtonClicked" class="container-secondary">
+      <button (click)="buyTicketButtonClicked()">Buy tickets</button>
+    </div>
+
+    <div *ngIf="isBuyTicketsButtonClicked" class="container">
     <div class="booking-form">
             <span><img src="https://i.ibb.co/y4zcwxY/logo-in-png-removebg-preview.png" alt="logo-in-png-removebg-preview" border="0"></span>
 
@@ -50,5 +54,5 @@
 </div>
 
 <footer>
-  <p>© 2025 Partyriders. All rights reserved.</p>
+  <p>© 2025 PartyreadyNG. All rights reserved.</p>
 </footer>

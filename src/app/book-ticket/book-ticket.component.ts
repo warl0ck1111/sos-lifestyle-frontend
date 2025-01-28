@@ -5,7 +5,6 @@ import {finalize, of} from 'rxjs';
 import {AjaxResponse} from '../models/ajax-response-model';
 import {environment} from '../../environments/environment';
 import {PaymentService} from "../services/payment.service";
-import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-book-ticket',
@@ -30,6 +29,22 @@ export class BookTicketComponent {
 
   submitted = false;
   queryParams: any = {};
+  isBuyTicketsButtonClicked: boolean = false;
+  paymentRequest?: {
+    merchant_code: string;
+    amount: string;
+    site_redirect_url: string;
+    onComplete: (response: any) => void;
+    txn_ref: string;
+    mode: string;
+    cust_email: string | null | undefined;
+    pay_item_name: string;
+    cust_name: string | null | undefined;
+    currency: number;
+    pay_item_id: string;
+    cust_id: string | null | undefined;
+    cust_mobile_no: string | null | undefined
+  };
 
   constructor(private http: HttpClient,
               private paymentService: PaymentService) {}
@@ -45,7 +60,7 @@ export class BookTicketComponent {
     }
 
     const transRef = this.randomReference();
-    const paymentRequest = {
+    this.paymentRequest = {
       merchant_code: environment.merchantCode,
       pay_item_id: environment.payItemId,
       pay_item_name: environment.eventName,
@@ -60,7 +75,7 @@ export class BookTicketComponent {
       onComplete: (response: any) => this.paymentCallback(response),
       mode: environment.mode,
     };
-    this.paymentService.checkout(paymentRequest)
+    this.paymentService.checkout(this.paymentRequest)
 
   }
 
@@ -69,6 +84,10 @@ export class BookTicketComponent {
     console.log(JSON.stringify(response))
     if (response && response.desc === 'Customer cancellation') {
       // alert('Payment was canceled by the user.');
+      return;
+    }
+    if (response && response.resp ==="Z6"){
+      //user canceled the payment process
       return;
     }
 
@@ -86,6 +105,7 @@ export class BookTicketComponent {
 
       const ticketObject = {
         ...response,
+        ...this.paymentRequest,
         ...formData,
         ticketId: this.generateTicketId,
         eventName: this.eventName,
@@ -141,4 +161,7 @@ export class BookTicketComponent {
     return `${timestamp}-${randomString}`;
   }
 
+  buyTicketButtonClicked() {
+    this.isBuyTicketsButtonClicked = !this.isBuyTicketsButtonClicked;
+  }
 }

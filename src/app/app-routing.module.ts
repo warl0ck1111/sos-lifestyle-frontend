@@ -4,6 +4,7 @@ import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import { TicketValidationComponent } from './ticket-validation/ticket-validation.component';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { BookTicketComponent } from './book-ticket/book-ticket.component';
+import {TransactionDetailsComponent} from "./transaction-details/transaction-details.component";
 const routes: Routes = [
 
   {component:BookTicketComponent, path:""},
@@ -13,7 +14,9 @@ const routes: Routes = [
   {component:TicketValidationComponent, path:"validate-ticket"},
   {component:TicketValidationComponent, path:"validate-ticket/:id"},
   {component:TicketListComponent, path:"booking-list"},
-    // {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  { path: 'transaction-details', component: TransactionDetailsComponent },
+
+  // {path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
     // // {path: 'users',
     // //     canActivate: [AuthGuard],
     // //     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
