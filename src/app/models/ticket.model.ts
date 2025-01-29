@@ -10,6 +10,7 @@ export class Ticket {
     paymentDateAndTime?: string|Date;
     payRef?: string;
   dateAndTimeTicketUsed?: string;
+  ticketType?:string;
   eventLocation?:string;
   eventDate?:string
   eventStartTime?:string
