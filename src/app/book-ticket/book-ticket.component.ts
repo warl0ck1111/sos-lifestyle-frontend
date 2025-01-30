@@ -22,8 +22,8 @@ export class BookTicketComponent {
 
   selectedTicketTypePrice: number = 0;
   totalAmount: number = 0;
-  ticketLimit: number =1000;
-  isEarlyBirdFinished=false
+  ticketLimit: number = 1000;
+  isEarlyBirdFinished = false
 
   // Reactive form
   bookingForm = new FormGroup({
@@ -57,16 +57,16 @@ export class BookTicketComponent {
 
   }
 
-  ticketTypeCounts!:TicketCount[];
+  ticketTypeCounts!: TicketCount[];
 
-  ngOnInit(){
+  ngOnInit() {
     this.getTicketTYpeCount();
-this.getEarlyBirdCount();
+    this.getEarlyBirdCount();
   }
 
   getIndividualTicketCount(ticketType: string): any {
     let ticket = this.ticketTypeCounts.find(t => {
-      console.log("getIndividualTicketCount/"+JSON.stringify(t))
+      console.log("getIndividualTicketCount/" + JSON.stringify(t))
       return t.ticketType === ticketType
     });
     // console.log("getIndividualTicketCount2/"+JSON.stringify(ticket))
@@ -76,13 +76,13 @@ this.getEarlyBirdCount();
     return ticket ? ticket.ticketCount : 0;
   }
 
-  getTicketTYpeCount(){
+  getTicketTYpeCount() {
     this.http.get<TicketCount[]>(this.TICKET_COUNT_URL).pipe(finalize(() => {
       //do nothing for now todo
     })).subscribe((result: any) => {
 
         this.ticketTypeCounts = result;
-        console.log("getTicketTYpeCount/finished getting getTicketTYpeCount successfully/result:"+JSON.stringify(result))
+        console.log("getTicketTYpeCount/finished getting getTicketTYpeCount successfully/result:" + JSON.stringify(result))
         // // this.openSnackBar("Success", "Dismiss")
 
       },
@@ -92,12 +92,13 @@ this.getEarlyBirdCount();
 
       })
   }
- getEarlyBirdCount(){
+
+  getEarlyBirdCount() {
     this.http.get<TicketCount[]>(`${this.TICKET_COUNT_URL}/remaining?eventName=${environment.eventName}&ticketType=EARLY_BIRDS`).pipe(finalize(() => {
       //do nothing for now todo
     })).subscribe((result: any) => {
-        console.log("getEarlyBirdCount/"+ result.count )
-      this.isEarlyBirdFinished = result.count == 0;
+        console.log("getEarlyBirdCount/" + result.count)
+        this.isEarlyBirdFinished = result.count == 0;
       },
       error => {
         // this.openSnackBar(error.message, "Dismiss")
@@ -226,8 +227,8 @@ this.getEarlyBirdCount();
   }
 
   selectTicket(ticketType: any) {
-    console.log("selectTicket:event:"+ ticketType)
-    console.log("selectTicket:event:"+ JSON.stringify(ticketType))
+    console.log("selectTicket:event:" + ticketType)
+    console.log("selectTicket:event:" + JSON.stringify(ticketType))
     if (ticketType === "EARLY_BIRDS") {
       this.selectedTicketTypePrice = environment.earlyBirdsTicketPrice
     } else if (ticketType === "STANDARD") {
@@ -236,13 +237,13 @@ this.getEarlyBirdCount();
       this.selectedTicketTypePrice = environment.VIPTicketPrice
     }
 
-    this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value );
+    this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value);
 
     console.log(`Selected: ${ticketType}, Price: ₦${this.selectedTicketTypePrice}`);
   }
 
   getAmount(event?: Event) {
-    if (event){
+    if (event) {
 
       const inputElement = event.target as HTMLInputElement;
       let value = Number(inputElement.value);
@@ -258,7 +259,7 @@ this.getEarlyBirdCount();
 
     console.log("getAmount/")
 
-    this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value );
+    this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value);
     return (this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString();
   }
 

@@ -30,9 +30,9 @@
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <label class="input-group-text" for="inputGroupSelect01">Price: ₦{{ totalAmount }}</label>
+          <label class="input-group-text" for="inputGroupSelect01">Price: ₦{{ totalAmount / 100 }}</label>
         </div>
-        <select class="custom-select" id="inputGroupSelect01" (change)="selectTicket($any($event.target).value)">
+        <select formControlName="ticketType"  class="custom-select" id="inputGroupSelect01" (change)="selectTicket($any($event.target).value)">
           <option selected value="">Select category</option>
           <option [disabled]="isEarlyBirdFinished" value="EARLY_BIRDS">Early Birds {{ getIndividualTicketCount('EARLY_BIRDS') }} left</option>
           <option  [disabled]="!isEarlyBirdFinished" value="STANDARD">Standard</option>
