@@ -73,7 +73,7 @@ this.getEarlyBirdCount();
     if (ticket instanceof TicketCount) {
       this.ticketLimit = ticket.ticketCount;
     }
-    return ticket ? ticket.ticketCount : "Infinity";
+    return ticket ? ticket.ticketCount : 0;
   }
 
   getTicketTYpeCount(){
@@ -96,7 +96,8 @@ this.getEarlyBirdCount();
     this.http.get<TicketCount[]>(`${this.TICKET_COUNT_URL}/remaining?eventName=${environment.eventName}&ticketType=EARLY_BIRDS`).pipe(finalize(() => {
       //do nothing for now todo
     })).subscribe((result: any) => {
-      if(result.count ==0) this.bookingForm.get("ticketType")?.disable();
+        console.log("getEarlyBirdCount/"+ result.count )
+      this.isEarlyBirdFinished = result.count == 0;
       },
       error => {
         // this.openSnackBar(error.message, "Dismiss")
@@ -107,6 +108,7 @@ this.getEarlyBirdCount();
 
   onSubmit() {
     // Validate form before proceeding
+
     console.log(this.bookingForm);
 
     if (this.bookingForm.invalid) {
@@ -223,8 +225,9 @@ this.getEarlyBirdCount();
     this.isBuyTicketsButtonClicked = !this.isBuyTicketsButtonClicked;
   }
 
-  selectTicket(ticketType: string) {
-
+  selectTicket(ticketType: any) {
+    console.log("selectTicket:event:"+ ticketType)
+    console.log("selectTicket:event:"+ JSON.stringify(ticketType))
     if (ticketType === "EARLY_BIRDS") {
       this.selectedTicketTypePrice = environment.earlyBirdsTicketPrice
     } else if (ticketType === "STANDARD") {

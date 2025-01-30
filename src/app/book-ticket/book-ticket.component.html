@@ -27,25 +27,18 @@
     <label for="email">Email Address</label>
     <input type="email" id="email" formControlName="email" placeholder="Enter your email address" required>
     </div>
-<div class="row form-group">
 
-  <div class="col form-check form-check-inline" (click)="selectTicket('EARLY_BIRDS')">
-    <input [disabled]="isEarlyBirdFinished" class="form-check-input" type="radio" formControlName="ticketType" id="inlineRadio1" [value]="'EARLY_BIRDS'">
-    <label class="form-check-label" for="inlineRadio1">
-      <span>Early-Bird</span> <br><span style="color: red">{{ getIndividualTicketCount('EARLY_BIRDS') }} Left</span>
-    </label>
-  </div>
-
-  <div class="col form-check form-check-inline" (click)="selectTicket('STANDARD')">
-    <input [disabled]="true" class="form-check-input" type="radio" formControlName="ticketType" id="inlineRadio2" [value]="'STANDARD'">
-    <label class="form-check-label" for="inlineRadio2">Standard</label>
-  </div>
-
-  <div class="col form-check form-check-inline" (click)="selectTicket('VIP')">
-    <input class="form-check-input" type="radio" formControlName="ticketType" id="inlineRadio3" [value]="'VIP'">
-    <label class="form-check-label" for="inlineRadio3">VIP</label>
-  </div>
-</div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Price: ₦{{ totalAmount }}</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01" (change)="selectTicket($any($event.target).value)">
+          <option selected value="">Select category</option>
+          <option [disabled]="isEarlyBirdFinished" value="EARLY_BIRDS">Early Birds {{ getIndividualTicketCount('EARLY_BIRDS') }} left</option>
+          <option  [disabled]="!isEarlyBirdFinished" value="STANDARD">Standard</option>
+          <option value="VIP">VIP</option>
+        </select>
+      </div>
 
       <div class="form-group">
     <label for="tickets">Number of Tickets</label>
@@ -54,7 +47,7 @@
 
 
     <div class="form-group">
-      {{totalAmount}}
+
     <button type="submit" >Book Now</button>
     </div>
 
