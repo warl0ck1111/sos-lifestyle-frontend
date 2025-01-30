@@ -97,4 +97,24 @@ export class TicketListComponent {
   refreshList() {
     this.getTickets();
   }
+
+
+
+
+
+
+
+  name: string = '';
+  phone: string = '';
+  email: string = '';
+  ticketQuantity: number = 1;
+  selectedTicketType: string = '';
+  selectedTicketPrice: number = 0;
+
+  selectTicket(type: string, price: number) {
+    this.selectedTicketType = type;
+    this.selectedTicketPrice = price;
+    console.log(`Selected: ${type}, Price: ₦${price}`);
+  }
+
 }

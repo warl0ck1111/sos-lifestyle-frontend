@@ -22,3 +22,25 @@
   border-radius: 8px;
   /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
 }
+
+
+
+
+
+
+
+
+.card {
+  max-width: 400px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.ticket-option {
+  cursor: pointer;
+  transition: 0.3s;
+}
+.ticket-option:hover, .ticket-option.selected {
+  border: 2px solid #007bff;
+  background-color: #eaf2ff;
+}

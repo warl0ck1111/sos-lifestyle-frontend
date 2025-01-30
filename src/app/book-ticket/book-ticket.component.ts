@@ -5,6 +5,7 @@ import {finalize, of} from 'rxjs';
 import {AjaxResponse} from '../models/ajax-response-model';
 import {environment} from '../../environments/environment';
 import {PaymentService} from "../services/payment.service";
+import {TicketCount} from "../models/ticket-count";
 
 @Component({
   selector: 'app-book-ticket',
@@ -15,20 +16,25 @@ import {PaymentService} from "../services/payment.service";
 })
 export class BookTicketComponent {
   apiUrl = environment.apiUrl;
-  ticketPrice = environment.ticketPrice;
   eventName = environment.eventName;
   TICKET_URL: string = `${this.apiUrl}/api/tickets`;
+  TICKET_COUNT_URL: string = `${this.apiUrl}/api/tickets-count`;
+
+  selectedTicketTypePrice: number = 0;
+  totalAmount: number = 0;
+  ticketLimit: number =1000;
+  isEarlyBirdFinished=false
 
   // Reactive form
   bookingForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required,]),
-    noOfTickets: new FormControl('', [Validators.required, Validators.min(1)]),
+    noOfTickets: new FormControl('1', [Validators.required, Validators.min(1)]),
+    ticketType: new FormControl('', Validators.required)
   });
 
   submitted = false;
-  queryParams: any = {};
   isBuyTicketsButtonClicked: boolean = false;
   paymentRequest?: {
     merchant_code: string;
@@ -47,8 +53,57 @@ export class BookTicketComponent {
   };
 
   constructor(private http: HttpClient,
-              private paymentService: PaymentService) {}
+              private paymentService: PaymentService) {
 
+  }
+
+  ticketTypeCounts!:TicketCount[];
+
+  ngOnInit(){
+    this.getTicketTYpeCount();
+this.getEarlyBirdCount();
+  }
+
+  getIndividualTicketCount(ticketType: string): any {
+    let ticket = this.ticketTypeCounts.find(t => {
+      console.log("getIndividualTicketCount/"+JSON.stringify(t))
+      return t.ticketType === ticketType
+    });
+    // console.log("getIndividualTicketCount2/"+JSON.stringify(ticket))
+    if (ticket instanceof TicketCount) {
+      this.ticketLimit = ticket.ticketCount;
+    }
+    return ticket ? ticket.ticketCount : "Infinity";
+  }
+
+  getTicketTYpeCount(){
+    this.http.get<TicketCount[]>(this.TICKET_COUNT_URL).pipe(finalize(() => {
+      //do nothing for now todo
+    })).subscribe((result: any) => {
+
+        this.ticketTypeCounts = result;
+        console.log("getTicketTYpeCount/finished getting getTicketTYpeCount successfully/result:"+JSON.stringify(result))
+        // // this.openSnackBar("Success", "Dismiss")
+
+      },
+      error => {
+        // this.openSnackBar(error.message, "Dismiss")
+        console.log("getTicketTYpeCount/there was an error getting getTicketTYpeCount list")
+
+      })
+  }
+ getEarlyBirdCount(){
+    this.http.get<TicketCount[]>(`${this.TICKET_COUNT_URL}/remaining?eventName=${environment.eventName}&ticketType=EARLY_BIRDS`).pipe(finalize(() => {
+      //do nothing for now todo
+    })).subscribe((result: any) => {
+      if(result.count ==0) this.bookingForm.get("ticketType")?.disable();
+      },
+      error => {
+        // this.openSnackBar(error.message, "Dismiss")
+        console.log("getTicketTYpeCount/there was an error getting getTicketTYpeCount list")
+
+      })
+  }
 
   onSubmit() {
     // Validate form before proceeding
@@ -69,7 +124,7 @@ export class BookTicketComponent {
       cust_name: this.bookingForm?.controls['name']?.value,
       cust_mobile_no: this.bookingForm?.controls['phone']?.value,
       cust_id: this.bookingForm?.controls['email']?.value,
-      amount: (environment.ticketPrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString(),
+      amount: this.getAmount(),
       currency: 566,
       site_redirect_url: `https://partyreadyng.com`,
       onComplete: (response: any) => this.paymentCallback(response),
@@ -86,7 +141,7 @@ export class BookTicketComponent {
       // alert('Payment was canceled by the user.');
       return;
     }
-    if (response && response.resp ==="Z6"){
+    if (response && response.resp === "Z6") {
       //user canceled the payment process
       return;
     }
@@ -99,6 +154,7 @@ export class BookTicketComponent {
         email: this.bookingForm.controls['email'].value,
         name: this.bookingForm.controls['name'].value,
         noOfTickets: this.bookingForm.controls['noOfTickets'].value,
+        ticketType: this.bookingForm.controls['ticketType'].value
       };
 
       const paymentDateAndTime = new Date().toISOString(); // ISO format for timestamps
@@ -107,8 +163,11 @@ export class BookTicketComponent {
         ...response,
         ...this.paymentRequest,
         ...formData,
-        ticketId: this.generateTicketId,
+        ticketId: this.generateTicketId(),
         eventName: this.eventName,
+        eventLocation: environment.eventLocation,
+        eventStartTime: environment.eventStartTime,
+        eventDate: environment.eventDate,
         qrCode: '',
         paymentDateAndTime: paymentDateAndTime, // Store payment date and time
         ticketUsed: false,                   // Default to false
@@ -120,6 +179,7 @@ export class BookTicketComponent {
 
       this.http.post(`${this.TICKET_URL}`, ticketObject)
         .pipe(finalize(() => {
+          this.getTicketTYpeCount()
           alert('Thank you for your purchase');
           this.submitted = true;
 
@@ -134,11 +194,9 @@ export class BookTicketComponent {
           // this.showAlert(error.message as string, "warning", "warning")
         })
 
-    }
-    else if(response.desc){
+    } else if (response.desc) {
       alert(response.desc)
-    }
-    else {
+    } else {
       alert('Payment not successful. Please try again.');
       console.log('Payment failed or not approved.');
     }
@@ -164,4 +222,41 @@ export class BookTicketComponent {
   buyTicketButtonClicked() {
     this.isBuyTicketsButtonClicked = !this.isBuyTicketsButtonClicked;
   }
+
+  selectTicket(ticketType: string) {
+
+    if (ticketType === "EARLY_BIRDS") {
+      this.selectedTicketTypePrice = environment.earlyBirdsTicketPrice
+    } else if (ticketType === "STANDARD") {
+      this.selectedTicketTypePrice = environment.standardTicketPrice
+    } else if (ticketType === "VIP") {
+      this.selectedTicketTypePrice = environment.VIPTicketPrice
+    }
+
+    this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value );
+
+    console.log(`Selected: ${ticketType}, Price: ₦${this.selectedTicketTypePrice}`);
+  }
+
+  getAmount(event?: Event) {
+    if (event){
+
+      const inputElement = event.target as HTMLInputElement;
+      let value = Number(inputElement.value);
+
+      if (value <= 0 || isNaN(value)) {
+        this.bookingForm?.controls['noOfTickets'].setValue("1");
+        // this.noOfTickets = 1; // Default to 1 if 0 or negative
+        inputElement.value = '1'; // Update input field
+      } else {
+        this.bookingForm?.controls['noOfTickets'].setValue(value.toString());
+      }
+    }
+
+    console.log("getAmount/")
+
+    this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value );
+    return (this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString();
+  }
+
 }

@@ -27,13 +27,38 @@
     <label for="email">Email Address</label>
     <input type="email" id="email" formControlName="email" placeholder="Enter your email address" required>
     </div>
-    <div class="form-group">
+<div class="row form-group">
+
+  <div class="col form-check form-check-inline" (click)="selectTicket('EARLY_BIRDS')">
+    <input [disabled]="isEarlyBirdFinished" class="form-check-input" type="radio" formControlName="ticketType" id="inlineRadio1" [value]="'EARLY_BIRDS'">
+    <label class="form-check-label" for="inlineRadio1">
+      <span>Early-Bird</span> <br><span style="color: red">{{ getIndividualTicketCount('EARLY_BIRDS') }} Left</span>
+    </label>
+  </div>
+
+  <div class="col form-check form-check-inline" (click)="selectTicket('STANDARD')">
+    <input [disabled]="true" class="form-check-input" type="radio" formControlName="ticketType" id="inlineRadio2" [value]="'STANDARD'">
+    <label class="form-check-label" for="inlineRadio2">Standard</label>
+  </div>
+
+  <div class="col form-check form-check-inline" (click)="selectTicket('VIP')">
+    <input class="form-check-input" type="radio" formControlName="ticketType" id="inlineRadio3" [value]="'VIP'">
+    <label class="form-check-label" for="inlineRadio3">VIP</label>
+  </div>
+</div>
+
+      <div class="form-group">
     <label for="tickets">Number of Tickets</label>
-    <input type="number" id="tickets" formControlName="noOfTickets" min="1" placeholder="Enter number of tickets" required>
+    <input type="number" id="tickets" formControlName="noOfTickets"  (input)="getAmount($event)" [min]=1 [max]=ticketLimit placeholder="Enter number of tickets" required>
     </div>
+
+
     <div class="form-group">
+      {{totalAmount}}
     <button type="submit" >Book Now</button>
     </div>
+
+
     </form>
 
     </div>
@@ -54,5 +79,5 @@
 </div>
 
 <footer>
-  <p>© 2025 PartyreadyNG. All rights reserved.</p>
+  <p>© 2025 Party Ready NG. All rights reserved.</p>
 </footer>

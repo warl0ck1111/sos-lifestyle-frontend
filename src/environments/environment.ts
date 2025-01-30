@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  mode: 'TEST',
-  earlyBirdsTicketPrice: 8000,
-  standardTicketPrice: 1000,
+  mode: 'LIVE',
+  earlyBirdsTicketPrice: 800000,
+  standardTicketPrice: 1000000,
+  VIPTicketPrice: 3000000,
   apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
-  eventName: 'SINGLES-EXPERIENCE',
-  ticketPrice: 5000,
+  eventName: 'SINGLES_EXPERIENCE',
   merchantCode: 'MX153682',
   payItemId: 'Default_Payable_MX153682',
   DataRef: 'c0etLdXvIrsfYqgtJSMlvuTL0ybiadm0WdNla+LZKPvX5DYPE2aaRuB3qW5CN7t3',
@@ -44,6 +44,7 @@ export const environment = {
   allowedUploadExtentions: ['pdf', 'docx', 'doc', 'png', 'jpg', 'jpeg'],
   remitaFinalizeUrl: 'https://login.remita.net/remita/ecomm/finalize.reg'
   ,
+
 
 
   get baseURL(): string {

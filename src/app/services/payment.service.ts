@@ -11,7 +11,7 @@ export class PaymentService {
 constructor() { }
 
 checkout(paymentRequest:PaymentRequest) {
-
+  console.log("checkout/PaymentRequest:"+ JSON.stringify(paymentRequest))
 return of(window.webpayCheckout(paymentRequest));
 }
 

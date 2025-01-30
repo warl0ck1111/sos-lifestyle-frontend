@@ -6,8 +6,10 @@ export const environment = {
   production: false,
   mode: 'LIVE',
   apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
-  eventName: 'SINGLES EXPERIENCE',
-  ticketPrice: 5000,
+  eventName: 'SINGLES_EXPERIENCE',
+  VIPTicketPrice: 3000000,
+  earlyBirdsTicketPrice: 800000,
+  standardTicketPrice: 1000000,
   merchantCode: 'MX153682',
   payItemId: 'Default_Payable_MX153682',
   DataRef: 'c0etLdXvIrsfYqgtJSMlvuTL0ybiadm0WdNla+LZKPvX5DYPE2aaRuB3qW5CN7t3',
@@ -21,6 +23,9 @@ export const environment = {
   allowedUploadExtentions: ['pdf', 'docx', 'doc', 'png', 'jpg', 'jpeg'],
   remitaFinalizeUrl: 'https://login.remita.net/remita/ecomm/finalize.reg',
 
+  eventDate: "Feb 15, 2025",
+  eventLocation: "Sol Beach, Elegushi Beach, Gate 2",
+  eventStartTime: "4PM",
   get baseURL(): string {
     const parsedUrl = new URL(window.location.href);
     let baseUrl = parsedUrl.origin;
