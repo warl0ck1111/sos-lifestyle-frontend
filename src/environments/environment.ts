@@ -26,7 +26,7 @@ export const environment = {
 
   eventDate: "Feb 15, 2025",
   eventLocation: "Sol Beach, Elegushi Beach, Gate 2",
-  eventStartTime: "4PM",
+  eventStartTime: "2PM",
   // mode: 'LIVE',
   // apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
   // eventName: 'SINGLES EXPERIENCE',
