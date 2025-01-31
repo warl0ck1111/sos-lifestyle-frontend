@@ -186,14 +186,14 @@ export class BookTicketComponent {
       this.http.post(`${this.TICKET_URL}`, ticketObject)
         .pipe(finalize(() => {
           this.getTicketTYpeCount()
-          alert('Thank you for your purchase');
-          this.submitted = true;
+
 
         }))
         .subscribe((response: any) => {
 
 
-          // console.log(response);
+          alert('Thank you for your purchase');
+          this.submitted = true;
 
         }, (error: AjaxResponse<null>) => {
           alert('Failed to create ticket. Please pls contact admin with your receipt.');
