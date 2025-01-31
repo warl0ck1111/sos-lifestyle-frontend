@@ -26,6 +26,7 @@
       <li class="list-group-item"><strong>Used:</strong> {{ ticketInfo.ticketUsed ? 'Yes' : 'No' }}</li>
       <li class="list-group-item"><strong>Time Used:</strong> {{ ticketInfo.dateAndTimeTicketUsed ? (ticketInfo.dateAndTimeTicketUsed | date :'short') : "N/A" }}</li>
       <li class="list-group-item"><strong>Payment Reference:</strong> {{ ticketInfo.payRef }}</li>
+      <li class="list-group-item"><strong>Ticket Type:</strong> {{ ticketInfo.ticketType }}</li>
       <li class="list-group-item"><strong>Event Name:</strong> {{ ticketInfo.eventName }}</li>
       <li class="list-group-item"><strong>Owner Name:</strong> {{ ticketInfo.name }}</li>
       <li class="list-group-item"><strong>Email:</strong> {{ ticketInfo.email }}</li>

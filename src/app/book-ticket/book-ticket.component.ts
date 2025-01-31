@@ -22,7 +22,7 @@ export class BookTicketComponent {
 
   selectedTicketTypePrice: number = 0;
   totalAmount: number = 0;
-  ticketLimit: number = 1000;
+  ticketLimit!: number;
   isEarlyBirdFinished = false
 
   // Reactive form
@@ -65,15 +65,18 @@ export class BookTicketComponent {
   }
 
   getIndividualTicketCount(ticketType: string): any {
-    let ticket = this.ticketTypeCounts.find(t => {
-      console.log("getIndividualTicketCount/" + JSON.stringify(t))
-      return t.ticketType === ticketType
-    });
-    // console.log("getIndividualTicketCount2/"+JSON.stringify(ticket))
-    if (ticket instanceof TicketCount) {
-      this.ticketLimit = ticket.ticketCount;
-    }
-    return ticket ? ticket.ticketCount : 0;
+
+      let ticket = this.ticketTypeCounts.find(t => {
+        console.log("getIndividualTicketCount/" + JSON.stringify(t))
+        return t.ticketType === ticketType
+      });
+      // console.log("getIndividualTicketCount2/"+JSON.stringify(ticket))
+      if (ticket instanceof TicketCount) {
+        this.ticketLimit = ticket.ticketCount;
+      }
+      return ticket ? ticket.ticketCount : 0;
+
+
   }
 
   getTicketTYpeCount() {
@@ -127,7 +130,7 @@ export class BookTicketComponent {
       cust_name: this.bookingForm?.controls['name']?.value,
       cust_mobile_no: this.bookingForm?.controls['phone']?.value,
       cust_id: this.bookingForm?.controls['email']?.value,
-      amount: this.getAmount(),
+      amount: this.totalAmount.toString(),
       currency: 566,
       site_redirect_url: `https://partyreadyng.com`,
       onComplete: (response: any) => this.paymentCallback(response),
@@ -263,4 +266,10 @@ export class BookTicketComponent {
     return (this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value)).toString();
   }
 
+  getTicketInputLimit() {
+    if (this.bookingForm.controls.ticketType.value==="ticketType"){
+      return this.ticketLimit
+    }
+    return undefined;
+  }
 }
