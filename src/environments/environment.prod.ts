@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   mode: 'LIVE',
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
   eventName: 'SINGLES_EXPERIENCE',
   VIPTicketPrice: 30000,
   earlyBirdsTicketPrice: 8000,

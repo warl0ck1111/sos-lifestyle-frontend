@@ -8,7 +8,7 @@ export const environment = {
   earlyBirdsTicketPrice: 8000,
   standardTicketPrice: 10000,
   VIPTicketPrice: 30000,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'https://party-riders-backend-ea7605095392.herokuapp.com',
   eventName: 'SINGLES_EXPERIENCE',
   merchantCode: 'MX153682',
   payItemId: 'Default_Payable_MX153682',
