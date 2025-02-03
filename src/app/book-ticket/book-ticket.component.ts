@@ -238,6 +238,8 @@ export class BookTicketComponent {
       this.selectedTicketTypePrice = environment.standardTicketPrice
     } else if (ticketType === "VIP") {
       this.selectedTicketTypePrice = environment.VIPTicketPrice
+    }else{
+      this.selectedTicketTypePrice = 0
     }
 
     this.totalAmount = this.selectedTicketTypePrice * Number(this.bookingForm?.controls['noOfTickets']?.value);
@@ -252,9 +254,11 @@ export class BookTicketComponent {
       let value = Number(inputElement.value);
 
       if (value <= 0 || isNaN(value)) {
-        this.bookingForm?.controls['noOfTickets'].setValue("1");
+        // this.bookingForm?.controls['noOfTickets'].setValue("0");
         // this.noOfTickets = 1; // Default to 1 if 0 or negative
-        inputElement.value = '1'; // Update input field
+        // inputElement.value = '0'; // Update input field
+        this.totalAmount = 0;
+        return "0";
       } else {
         this.bookingForm?.controls['noOfTickets'].setValue(value.toString());
       }
