@@ -19,15 +19,22 @@
     <label for="name">Full Name</label>
     <input type="text" id="name" formControlName="name" placeholder="Enter your full name" required>
     </div>
-    <div class="form-group">
-    <label for="phone">Phone</label>
-    <input type="text" id="phone" formControlName="phone" placeholder="Enter your phone number" required>
-    </div>
+
+      <label for="phone"><b>Phone</b></label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">+234</span>
+        </div>
+        <input type="text" id="phone"  required class="form-control"  formControlName="phone" placeholder="08012345678" aria-label="phone" aria-describedby="basic-addon1">
+      </div>
+
+
     <div class="form-group">
     <label for="email">Email Address</label>
-    <input type="email" id="email" formControlName="email" placeholder="Enter your email address" required>
+    <input type="email" id="email" formControlName="email" placeholder="example@email.com" required>
     </div>
 
+      <label for="email"><b>Ticket Type</b></label>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <label class="input-group-text" for="inputGroupSelect01">Price: ₦{{ totalAmount / 100 }}</label>
